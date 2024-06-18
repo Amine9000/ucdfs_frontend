@@ -11,7 +11,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useFileData } from "@/hooks/useFileData";
 import { useScreen } from "@/hooks/useScreen";
-import { getProccessedDataFile } from "@/lib/axios/fileData";
+import { getProccessedDataFile } from "@/lib/axios/studentsData";
 import { setStateType } from "@/types/setState";
 import { useState } from "react";
 

@@ -5,7 +5,7 @@ import { FileDialog } from "./FIleDialog";
 import { useState } from "react";
 import { MessageDialog } from "./MessageDialog";
 import { MessageType } from "@/types/Message";
-import { getEtapes } from "@/lib/axios/fileData";
+import { getEtapes } from "@/lib/axios/studentsData";
 import { useFileData } from "@/hooks/useFileData";
 
 const fileUploadedMessage: MessageType = {

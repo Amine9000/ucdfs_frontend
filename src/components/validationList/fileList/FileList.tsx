@@ -1,7 +1,7 @@
 import { FileDataItem } from "@/types/FileDataItem";
 import { FileTable } from "./FileTable";
 import { useEffect, useState } from "react";
-import { getEtapes } from "@/lib/axios/fileData";
+import { getEtapes } from "@/lib/axios/studentsData";
 
 export function FileList() {
   const [data, setData] = useState<FileDataItem[]>([]);

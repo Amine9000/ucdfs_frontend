@@ -5,7 +5,7 @@ import { FileContentOptions } from "./FileContentOptions";
 import { FileInputs } from "./FileInputs";
 import { useFileData } from "@/hooks/useFileData";
 import { useEffect, useState } from "react";
-import { getStudentsByEtape } from "@/lib/axios/fileData";
+import { getStudentsByEtape } from "@/lib/axios/studentsData";
 import { DownloadDialog } from "./DownloadDialog";
 
 export function FileDataNavbar() {

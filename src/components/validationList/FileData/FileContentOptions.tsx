@@ -5,7 +5,7 @@ import { useFileData } from "@/hooks/useFileData";
 import {
   getStudentsByEtape,
   getStudentsValidationByEtape,
-} from "@/lib/axios/fileData";
+} from "@/lib/axios/studentsData";
 import { useEffect, useState } from "react";
 
 export function FileContentOptions() {
