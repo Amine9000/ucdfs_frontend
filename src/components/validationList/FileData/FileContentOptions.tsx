@@ -2,7 +2,10 @@ import { FileCog, FileText } from "lucide-react";
 
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { useFileData } from "@/hooks/useFileData";
-import { getFileContent, getProccessedFileContent } from "@/lib/axios/fileData";
+import {
+  getStudentsByEtape,
+  getStudentsValidationByEtape,
+} from "@/lib/axios/fileData";
 import { useEffect, useState } from "react";
 
 export function FileContentOptions() {
@@ -11,8 +14,9 @@ export function FileContentOptions() {
   useEffect(() => {
     console.log(option);
     if (semester !== "") {
-      if (option == "validation") getProccessedFileContent(setData, semester);
-      if (option == "students") getFileContent(setData, semester);
+      if (option == "validation")
+        getStudentsValidationByEtape(setData, semester);
+      if (option == "students") getStudentsByEtape(setData, semester);
     }
   }, [semester, setData, option]);
 
@@ -21,7 +25,7 @@ export function FileContentOptions() {
       <ToggleGroupItem
         onClick={() => {
           setOption("validation");
-          getProccessedFileContent(setData, semester);
+          getStudentsValidationByEtape(setData, semester);
         }}
         value="validation"
         aria-label="Toggle Validation"
@@ -32,7 +36,7 @@ export function FileContentOptions() {
       <ToggleGroupItem
         onClick={() => {
           setOption("students");
-          getFileContent(setData, semester);
+          getStudentsByEtape(setData, semester);
         }}
         value="students"
         aria-label="Toggle Content"

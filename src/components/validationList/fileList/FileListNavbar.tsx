@@ -5,7 +5,7 @@ import { FileDialog } from "./FIleDialog";
 import { useState } from "react";
 import { MessageDialog } from "./MessageDialog";
 import { MessageType } from "@/types/Message";
-import { getFiles } from "@/lib/axios/fileData";
+import { getEtapes } from "@/lib/axios/fileData";
 import { useFileData } from "@/hooks/useFileData";
 
 const fileUploadedMessage: MessageType = {
@@ -20,7 +20,7 @@ export function FileListNavbar() {
   const [fileUploadedDialogOpen, setFileUploadedDialog] = useState(false);
 
   async function dialogOpenChangeHandler() {
-    const newData = await getFiles();
+    const newData = await getEtapes();
     setFileUploadedDialog(false);
     setData(newData);
   }

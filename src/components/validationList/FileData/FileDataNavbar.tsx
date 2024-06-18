@@ -5,7 +5,7 @@ import { FileContentOptions } from "./FileContentOptions";
 import { FileInputs } from "./FileInputs";
 import { useFileData } from "@/hooks/useFileData";
 import { useEffect, useState } from "react";
-import { getFileContent } from "@/lib/axios/fileData";
+import { getStudentsByEtape } from "@/lib/axios/fileData";
 import { DownloadDialog } from "./DownloadDialog";
 
 export function FileDataNavbar() {
@@ -14,7 +14,7 @@ export function FileDataNavbar() {
   const { screenSelectedHandler, screen } = useScreen();
   const { setData, semester, setSemester } = useFileData();
   useEffect(() => {
-    getFileContent(setData, semester);
+    getStudentsByEtape(setData, semester);
   }, []);
 
   useEffect(() => {

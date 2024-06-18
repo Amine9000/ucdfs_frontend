@@ -1,14 +1,14 @@
 import { FileDataItem } from "@/types/FileDataItem";
 import { FileTable } from "./FileTable";
 import { useEffect, useState } from "react";
-import { getFiles } from "@/lib/axios/fileData";
+import { getEtapes } from "@/lib/axios/fileData";
 
 export function FileList() {
   const [data, setData] = useState<FileDataItem[]>([]);
 
   useEffect(() => {
     async function fetchFile() {
-      const newData = await getFiles();
+      const newData = await getEtapes();
       setData(newData);
     }
     fetchFile();

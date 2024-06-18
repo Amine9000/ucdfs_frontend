@@ -2,7 +2,7 @@ import { FileColumnNames } from "@/types/FileColumnNames";
 import { setStateType } from "@/types/setState";
 import axios, { AxiosError, AxiosResponse } from "axios";
 
-export function getFileContent(
+export function getStudentsByEtape(
   setData: setStateType<FileColumnNames[]>,
   etape_code?: string
 ) {
@@ -18,7 +18,7 @@ export function getFileContent(
   }
 }
 
-export function getProccessedFileContent(
+export function getStudentsValidationByEtape(
   setData: setStateType<FileColumnNames[]>,
   etape_code?: string
 ) {
@@ -35,12 +35,12 @@ export function getProccessedFileContent(
   }
 }
 
-export async function getFiles() {
+export async function getEtapes() {
   try {
     const responce = await axios.get("http://localhost:3000/etapes");
     return responce.data;
   } catch (err: unknown) {
-    console.error("getFiles() failed. axios could not fetch the files.");
+    console.error("getEtapes() failed. axios could not fetch the files.");
   }
 }
 
