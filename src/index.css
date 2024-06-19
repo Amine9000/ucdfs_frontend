@@ -864,6 +864,10 @@ body {
   width: 1.5rem;
 }
 
+.w-\[40px\] {
+  width: 40px;
+}
+
 .w-\[64px\] {
   width: 64px;
 }
@@ -880,8 +884,24 @@ body {
   width: 100vw;
 }
 
+.w-8 {
+  width: 2rem;
+}
+
+.w-12 {
+  width: 3rem;
+}
+
+.w-9 {
+  width: 2.25rem;
+}
+
 .min-w-\[8rem\] {
   min-width: 8rem;
+}
+
+.min-w-9 {
+  min-width: 2.25rem;
 }
 
 .max-w-\[400px\] {
@@ -1355,6 +1375,11 @@ body {
 
 .text-secondary-foreground {
   color: hsl(var(--secondary-foreground));
+}
+
+.text-sky-600 {
+  --tw-text-opacity: 1;
+  color: rgb(2 132 199 / var(--tw-text-opacity));
 }
 
 .text-slate-500 {

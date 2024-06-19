@@ -4,11 +4,17 @@ import axios, { AxiosError, AxiosResponse } from "axios";
 
 export function getStudentsByEtape(
   setData: setStateType<FileColumnNames[]>,
+  pageLength: number,
+  pageNum: number,
   etape_code?: string
 ) {
   if (etape_code) {
     axios
-      .get(`http://localhost:3000/students/etape/${etape_code}`)
+      .get(
+        `http://localhost:3000/students/etape/${etape_code}?skip=${
+          pageLength * (pageNum - 1)
+        }&take=${pageLength}`
+      )
       .then((res: AxiosResponse) => {
         setData(res.data);
       })
@@ -20,13 +26,18 @@ export function getStudentsByEtape(
 
 export function getStudentsValidationByEtape(
   setData: setStateType<FileColumnNames[]>,
+  pageLength: number,
+  pageNum: number,
   etape_code?: string
 ) {
   if (etape_code) {
     axios
-      .get(`http://localhost:3000/etapes/${etape_code}/validation`)
+      .get(
+        `http://localhost:3000/students/validation/${etape_code}?skip=${
+          pageLength * (pageNum - 1)
+        }&take=${pageLength}`
+      )
       .then((res: AxiosResponse) => {
-        console.log(res.data);
         setData(res.data);
       })
       .catch((err: AxiosError) => {
@@ -35,9 +46,13 @@ export function getStudentsValidationByEtape(
   }
 }
 
-export async function getEtapes() {
+export async function getEtapes(pageNum: number, pageLength: number) {
   try {
-    const responce = await axios.get("http://localhost:3000/etapes");
+    const responce = await axios.get(
+      `http://localhost:3000/etapes?skip=${
+        pageLength * (pageNum - 1)
+      }&take=${pageLength}`
+    );
     return responce.data;
   } catch (err: unknown) {
     console.error("getEtapes() failed. axios could not fetch the files.");
@@ -46,15 +61,13 @@ export async function getEtapes() {
 
 export async function getProccessedDataFile(
   semester: string,
-  groupNum: number,
-  etape_code?: string
+  groupNum: number
 ) {
-  if (etape_code) {
+  if (semester) {
     try {
       const res = await axios.post(
-        `http://localhost:3001/file/download/${etape_code}`,
+        `http://localhost:3000/files/download/${semester}`,
         {
-          semester,
           groupNum,
         },
         {

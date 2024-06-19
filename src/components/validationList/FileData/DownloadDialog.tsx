@@ -10,7 +10,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useFileData } from "@/hooks/useFileData";
-import { useScreen } from "@/hooks/useScreen";
 import { getProccessedDataFile } from "@/lib/axios/studentsData";
 import { setStateType } from "@/types/setState";
 import { useState } from "react";
@@ -21,7 +20,6 @@ type DownloadDialogProps = {
 };
 
 export function DownloadDialog({ open, onOpenChane }: DownloadDialogProps) {
-  const { screen } = useScreen();
   const { semester, setSemester } = useFileData();
   const [groupNum, setGroupNum] = useState<number>(1);
   return (
@@ -52,7 +50,7 @@ export function DownloadDialog({ open, onOpenChane }: DownloadDialogProps) {
             <Input
               id="groups-num"
               min={1}
-              defaultValue={1}
+              defaultValue={groupNum}
               onChange={(e) => setGroupNum(parseInt(e.target.value))}
               type="number"
               className="col-span-3 focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0"
@@ -63,11 +61,7 @@ export function DownloadDialog({ open, onOpenChane }: DownloadDialogProps) {
           <Button
             type="submit"
             onClick={() => {
-              getProccessedDataFile(
-                semester,
-                groupNum,
-                screen?.data?.etape_code
-              );
+              getProccessedDataFile(semester, groupNum);
               onOpenChane(false);
             }}
           >

@@ -7,19 +7,29 @@ import { useFileData } from "@/hooks/useFileData";
 import { useEffect, useState } from "react";
 import { getStudentsByEtape } from "@/lib/axios/studentsData";
 import { DownloadDialog } from "./DownloadDialog";
+import { Pagination } from "../global/Pagination";
+import { pageLength } from "@/constants/pagination";
 
 export function FileDataNavbar() {
   const [downloadDialogState, setDownloadDialogState] =
     useState<boolean>(false);
   const { screenSelectedHandler, screen } = useScreen();
-  const { setData, semester, setSemester } = useFileData();
+  const { setData, data, semester, setSemester } = useFileData();
+  const [pageNum, setPageNum] = useState<number>(1);
+  const [morePage, setMorePages] = useState<boolean>(true);
+
   useEffect(() => {
-    getStudentsByEtape(setData, semester);
+    getStudentsByEtape(setData, pageLength, pageNum, semester);
   }, []);
 
   useEffect(() => {
     setSemester(screen?.etape_code ?? "");
   }, []);
+
+  useEffect(() => {
+    if (data.length < pageLength) setMorePages(false);
+    else setMorePages(true);
+  }, [data]);
 
   return (
     <div className="h-12 w-full bg-white flex-shrink-0 rounded flex items-center justify-between gap-2 px-4">
@@ -32,8 +42,9 @@ export function FileDataNavbar() {
         <ChevronLeft className="size-6" />
       </Button>
       <div className="h-full w-auto flex items-center gap-4">
+        <Pagination pageNum={pageNum} setPageNum={setPageNum} more={morePage} />
         <FileInputs />
-        <FileContentOptions />
+        <FileContentOptions pageNum={pageNum} pageLength={pageLength} />
         <Button
           onClick={() => setDownloadDialogState(true)}
           className="text-white bg-sky-500 hover:bg-sky-700 flex items-center gap-2"

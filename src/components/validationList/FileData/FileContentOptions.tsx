@@ -8,24 +8,32 @@ import {
 } from "@/lib/axios/studentsData";
 import { useEffect, useState } from "react";
 
-export function FileContentOptions() {
+type FileContentOptionsProps = {
+  pageNum: number;
+  pageLength: number;
+};
+
+export function FileContentOptions({
+  pageNum,
+  pageLength,
+}: FileContentOptionsProps) {
   const { setData, semester } = useFileData();
   const [option, setOption] = useState<string>("students");
   useEffect(() => {
-    console.log(option);
     if (semester !== "") {
       if (option == "validation")
-        getStudentsValidationByEtape(setData, semester);
-      if (option == "students") getStudentsByEtape(setData, semester);
+        getStudentsValidationByEtape(setData, pageLength, pageNum, semester);
+      if (option == "students")
+        getStudentsByEtape(setData, pageLength, pageNum, semester);
     }
-  }, [semester, setData, option]);
+  }, [semester, setData, pageNum, option]);
 
   return (
     <ToggleGroup defaultValue="students" type="single">
       <ToggleGroupItem
         onClick={() => {
           setOption("validation");
-          getStudentsValidationByEtape(setData, semester);
+          getStudentsValidationByEtape(setData, pageLength, pageNum, semester);
         }}
         value="validation"
         aria-label="Toggle Validation"
@@ -36,7 +44,7 @@ export function FileContentOptions() {
       <ToggleGroupItem
         onClick={() => {
           setOption("students");
-          getStudentsByEtape(setData, semester);
+          getStudentsByEtape(setData, pageLength, pageNum, semester);
         }}
         value="students"
         aria-label="Toggle Content"

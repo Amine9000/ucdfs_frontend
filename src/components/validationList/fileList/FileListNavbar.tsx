@@ -2,11 +2,15 @@ import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import { FileSearch } from "./FileSearch";
 import { FileDialog } from "./FIleDialog";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { MessageDialog } from "./MessageDialog";
 import { MessageType } from "@/types/Message";
 import { getEtapes } from "@/lib/axios/studentsData";
 import { useFileData } from "@/hooks/useFileData";
+import { Pagination } from "../global/Pagination";
+import { pageLength } from "@/constants/pagination";
+import { FileDataItem } from "@/types/FileDataItem";
+import { setStateType } from "@/types/setState";
 
 const fileUploadedMessage: MessageType = {
   title: "File Upload",
@@ -14,20 +18,42 @@ const fileUploadedMessage: MessageType = {
   type: "success",
 };
 
-export function FileListNavbar() {
+type FileListNavbarProps = {
+  etapes: FileDataItem[];
+  setEtapes: setStateType<FileDataItem[]>;
+};
+
+export function FileListNavbar({ etapes, setEtapes }: FileListNavbarProps) {
   const { setData } = useFileData();
   const [fileDialogOpen, setFileDialogOpen] = useState(false);
   const [fileUploadedDialogOpen, setFileUploadedDialog] = useState(false);
+  const [pageNum, setPageNum] = useState<number>(1);
+  const [morePage, setMorePages] = useState<boolean>(true);
 
-  async function dialogOpenChangeHandler() {
-    const newData = await getEtapes();
+  async function dialogOpenChangeHandler(pageNum: number, pageLength: number) {
+    const newData = await getEtapes(pageNum, pageLength);
+
     setFileUploadedDialog(false);
     setData(newData);
   }
+
+  useEffect(() => {
+    async function fetchFile() {
+      const newData = await getEtapes(pageNum, pageLength);
+      setEtapes(newData);
+    }
+    fetchFile();
+  }, [pageNum]);
+
+  useEffect(() => {
+    if (etapes.length < pageLength) setMorePages(false);
+    else setMorePages(true);
+  }, [etapes]);
   return (
     <div className="h-12 w-full bg-white flex-shrink-0 rounded flex items-center justify-between gap-2 px-4">
       <FileSearch />
       <div className="h-full w-auto flex items-center gap-2">
+        <Pagination pageNum={pageNum} setPageNum={setPageNum} more={morePage} />
         <Button
           onClick={() => setFileDialogOpen(true)}
           className="text-white bg-sky-500 hover:bg-sky-700"
@@ -42,7 +68,7 @@ export function FileListNavbar() {
         <MessageDialog
           message={fileUploadedMessage}
           open={fileUploadedDialogOpen}
-          onOpenChange={dialogOpenChangeHandler}
+          onOpenChange={() => dialogOpenChangeHandler(pageNum, pageLength)}
         />
       </div>
     </div>
