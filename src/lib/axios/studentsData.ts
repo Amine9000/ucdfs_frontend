@@ -1,4 +1,5 @@
 import { FileColumnNames } from "@/types/FileColumnNames";
+import { FileDataItem } from "@/types/FileDataItem";
 import { setStateType } from "@/types/setState";
 import axios, { AxiosError, AxiosResponse } from "axios";
 
@@ -89,4 +90,47 @@ export async function getProccessedDataFile(
       );
     }
   }
+}
+
+export function search(
+  setData: setStateType<FileColumnNames[]>,
+  search_query: string,
+  pageLength: number,
+  pageNum: number,
+  etape_code?: string
+) {
+  if (etape_code) {
+    axios
+      .get(
+        `http://localhost:3000/students/search/${etape_code}?q=${search_query}&skip=${
+          pageLength * (pageNum - 1)
+        }&take=${pageLength}`
+      )
+      .then((res: AxiosResponse) => {
+        setData(res.data);
+      })
+      .catch((err: AxiosError) => {
+        console.error("axios error", err.message);
+      });
+  }
+}
+
+export function searchEtapes(
+  setData: setStateType<FileDataItem[]>,
+  search_query: string,
+  pageLength: number,
+  pageNum: number
+) {
+  axios
+    .get(
+      `http://localhost:3000/etapes/search/?q=${search_query}&skip=${
+        pageLength * (pageNum - 1)
+      }&take=${pageLength}`
+    )
+    .then((res: AxiosResponse) => {
+      setData(res.data);
+    })
+    .catch((err: AxiosError) => {
+      console.error("axios error", err.message);
+    });
 }

@@ -1,11 +1,11 @@
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
-import { FileSearch } from "./FileSearch";
+import { SearchForm } from "../global/Search";
 import { FileDialog } from "./FIleDialog";
 import { useEffect, useState } from "react";
 import { MessageDialog } from "./MessageDialog";
 import { MessageType } from "@/types/Message";
-import { getEtapes } from "@/lib/axios/studentsData";
+import { getEtapes, searchEtapes } from "@/lib/axios/studentsData";
 import { useFileData } from "@/hooks/useFileData";
 import { Pagination } from "../global/Pagination";
 import { pageLength } from "@/constants/pagination";
@@ -29,6 +29,7 @@ export function FileListNavbar({ etapes, setEtapes }: FileListNavbarProps) {
   const [fileUploadedDialogOpen, setFileUploadedDialog] = useState(false);
   const [pageNum, setPageNum] = useState<number>(1);
   const [morePage, setMorePages] = useState<boolean>(true);
+  const [searchQuery, setSearchQuery] = useState<string>("");
 
   async function dialogOpenChangeHandler(pageNum: number, pageLength: number) {
     const newData = await getEtapes(pageNum, pageLength);
@@ -49,9 +50,28 @@ export function FileListNavbar({ etapes, setEtapes }: FileListNavbarProps) {
     if (etapes.length < pageLength) setMorePages(false);
     else setMorePages(true);
   }, [etapes]);
+
+  useEffect(() => {
+    async function fetchData() {
+      console.log("here");
+      if (searchQuery.length > 0)
+        searchEtapes(setEtapes, searchQuery, pageLength, pageNum);
+      if (searchQuery.length == 0) {
+        const newData = await getEtapes(pageNum, pageLength);
+
+        setEtapes(newData);
+      }
+    }
+    fetchData();
+  }, [searchQuery]);
+
   return (
     <div className="h-12 w-full bg-white flex-shrink-0 rounded flex items-center justify-between gap-2 px-4">
-      <FileSearch />
+      <SearchForm
+        className="w-[400px]"
+        searchQuery={searchQuery}
+        setSearchQuery={setSearchQuery}
+      />
       <div className="h-full w-auto flex items-center gap-2">
         <Pagination pageNum={pageNum} setPageNum={setPageNum} more={morePage} />
         <Button

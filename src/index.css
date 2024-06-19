@@ -896,6 +896,26 @@ body {
   width: 2.25rem;
 }
 
+.w-\[200px\] {
+  width: 200px;
+}
+
+.w-40 {
+  width: 10rem;
+}
+
+.w-\[500px\] {
+  width: 500px;
+}
+
+.w-\[400px\] {
+  width: 400px;
+}
+
+.w-\[300px\] {
+  width: 300px;
+}
+
 .min-w-\[8rem\] {
   min-width: 8rem;
 }

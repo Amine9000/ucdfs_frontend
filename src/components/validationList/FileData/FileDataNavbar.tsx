@@ -5,10 +5,11 @@ import { FileContentOptions } from "./FileContentOptions";
 import { FileInputs } from "./FileInputs";
 import { useFileData } from "@/hooks/useFileData";
 import { useEffect, useState } from "react";
-import { getStudentsByEtape } from "@/lib/axios/studentsData";
+import { getStudentsByEtape, search } from "@/lib/axios/studentsData";
 import { DownloadDialog } from "./DownloadDialog";
 import { Pagination } from "../global/Pagination";
 import { pageLength } from "@/constants/pagination";
+import { SearchForm } from "../global/Search";
 
 export function FileDataNavbar() {
   const [downloadDialogState, setDownloadDialogState] =
@@ -17,6 +18,7 @@ export function FileDataNavbar() {
   const { setData, data, semester, setSemester } = useFileData();
   const [pageNum, setPageNum] = useState<number>(1);
   const [morePage, setMorePages] = useState<boolean>(true);
+  const [searchQuery, setSearchQuery] = useState<string>("");
 
   useEffect(() => {
     getStudentsByEtape(setData, pageLength, pageNum, semester);
@@ -31,16 +33,30 @@ export function FileDataNavbar() {
     else setMorePages(true);
   }, [data]);
 
+  useEffect(() => {
+    if (searchQuery.length > 0)
+      search(setData, searchQuery, pageLength, pageNum, semester);
+    if (searchQuery.length == 0)
+      getStudentsByEtape(setData, pageLength, pageNum, semester);
+  }, [searchQuery]);
+
   return (
     <div className="h-12 w-full bg-white flex-shrink-0 rounded flex items-center justify-between gap-2 px-4">
-      <Button
-        onClick={() =>
-          screenSelectedHandler != null && screenSelectedHandler("fileList")
-        }
-        className="bg-slate-100 hover:bg-slate-200 transition-all duration-200 ease-in text-slate-700 px-2"
-      >
-        <ChevronLeft className="size-6" />
-      </Button>
+      <div className="h-full w-auto flex items-center gap-4">
+        <Button
+          onClick={() =>
+            screenSelectedHandler != null && screenSelectedHandler("fileList")
+          }
+          className="bg-slate-100 hover:bg-slate-200 transition-all duration-200 ease-in text-slate-700 px-2"
+        >
+          <ChevronLeft className="size-6" />
+        </Button>
+        <SearchForm
+          className="w-[400px]"
+          searchQuery={searchQuery}
+          setSearchQuery={setSearchQuery}
+        />
+      </div>
       <div className="h-full w-auto flex items-center gap-4">
         <Pagination pageNum={pageNum} setPageNum={setPageNum} more={morePage} />
         <FileInputs />
