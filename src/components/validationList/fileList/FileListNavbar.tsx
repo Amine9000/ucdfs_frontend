@@ -53,7 +53,6 @@ export function FileListNavbar({ etapes, setEtapes }: FileListNavbarProps) {
 
   useEffect(() => {
     async function fetchData() {
-      console.log("here");
       if (searchQuery.length > 0)
         searchEtapes(setEtapes, searchQuery, pageLength, pageNum);
       if (searchQuery.length == 0) {
