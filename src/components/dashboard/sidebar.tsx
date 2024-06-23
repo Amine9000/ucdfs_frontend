@@ -20,8 +20,8 @@ export default function SideBar({
     <div className="h-full w-[64px] p-2 flex-shrink-0 flex flex-col items-center justify-between bg-white rounded-md">
       <header className="w-full h-[48px] p-1 flex items-center justify-center bg-slate-50 rounded-md">
         <img
-          src="fs_logo.png"
-          className="w-5/6 h-auto hover:rotate-6 transition-all ease-out cursor-pointer"
+          src="logo_ucd_fs_short.svg"
+          className="w-5/6 h-auto cursor-pointer"
           alt="FS logo"
         />
       </header>

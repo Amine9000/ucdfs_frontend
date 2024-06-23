@@ -1,53 +1,13 @@
 import Content from "@/components/dashboard/content";
 import Navbar from "@/components/dashboard/navbar";
 import SideBar from "@/components/dashboard/sidebar";
-import { Profile } from "@/features/profile/Profile";
-import { ValidationList } from "@/features/validationList/ValidationList";
+import {
+  initialSidebarList,
+  initialSidebarSections,
+} from "@/constants/sidebar";
 import { SidebarItemType } from "@/types/sidebarItem";
-import { Position, SidebarSectionType } from "@/types/sidebarSection";
-import { Bolt, ClipboardList, Settings, User } from "lucide-react";
+import { SidebarSectionType } from "@/types/sidebarSection";
 import { useState } from "react";
-
-const initialSidebarList: SidebarItemType[] = [
-  {
-    label: "students",
-    icon: ClipboardList,
-    element: <ValidationList />,
-  },
-  {
-    label: "profs needs",
-    icon: Bolt,
-    element: <div>profs needs</div>,
-  },
-];
-
-const profileList: SidebarItemType[] = [
-  {
-    label: "parameters",
-    icon: Settings,
-    element: <div>parameters</div>,
-  },
-  {
-    label: "profile",
-    icon: User,
-    element: <Profile />,
-  },
-];
-
-const initialSidebarSections: SidebarSectionType[] = [
-  {
-    id: "1",
-    title: "Menu",
-    items: initialSidebarList,
-    position: Position.TOP,
-  },
-  {
-    id: "2",
-    title: "help",
-    items: profileList,
-    position: Position.BOTTOM,
-  },
-];
 
 export default function Dashboard() {
   const [itemSelected, setItemSelected] = useState<SidebarItemType>(
