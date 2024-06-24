@@ -17,7 +17,8 @@ export function getStudentsByEtape(
         }&take=${pageLength}`
       )
       .then((res: AxiosResponse) => {
-        setData(res.data);
+        if (res.data) setData(res.data);
+        else setData([]);
       })
       .catch((err: AxiosError) => {
         console.error("axios error", err.message);
@@ -39,7 +40,8 @@ export function getStudentsValidationByEtape(
         }&take=${pageLength}`
       )
       .then((res: AxiosResponse) => {
-        setData(res.data);
+        if (res.data) setData(res.data);
+        else setData([]);
       })
       .catch((err: AxiosError) => {
         console.error(err.message);
@@ -54,9 +56,12 @@ export async function getEtapes(pageNum: number, pageLength: number) {
         pageLength * (pageNum - 1)
       }&take=${pageLength}`
     );
-    return responce.data;
+    if (responce.data) {
+      return responce.data;
+    } else return [];
   } catch (err: unknown) {
     console.error("getEtapes() failed. axios could not fetch the files.");
+    return [];
   }
 }
 
@@ -75,14 +80,16 @@ export async function getProccessedDataFile(
           responseType: "blob",
         }
       );
-      const url = window.URL.createObjectURL(new Blob([res.data]));
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = "data.zip";
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      window.URL.revokeObjectURL(url);
+      if (res.data) {
+        const url = window.URL.createObjectURL(new Blob([res.data]));
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "data.zip";
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        window.URL.revokeObjectURL(url);
+      }
     } catch (error) {
       console.error(
         "There has been a problem with your fetch operation:",
@@ -107,7 +114,8 @@ export function search(
         }&take=${pageLength}`
       )
       .then((res: AxiosResponse) => {
-        setData(res.data);
+        if (res.data) setData(res.data);
+        else setData([]);
       })
       .catch((err: AxiosError) => {
         console.error("axios error", err.message);
@@ -128,7 +136,8 @@ export function searchEtapes(
       }&take=${pageLength}`
     )
     .then((res: AxiosResponse) => {
-      setData(res.data);
+      if (res.data) setData(res.data);
+      else setData([]);
     })
     .catch((err: AxiosError) => {
       console.error("axios error", err.message);
