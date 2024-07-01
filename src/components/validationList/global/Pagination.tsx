@@ -21,6 +21,7 @@ export function Pagination({ pageNum, setPageNum, more }: PaginationProps) {
       <Input
         type="text"
         onChange={(e) =>
+          e &&
           setPageNum(parseInt(e.target.value) ? parseInt(e.target.value) : 1)
         }
         value={pageNum}

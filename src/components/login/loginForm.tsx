@@ -1,23 +1,35 @@
-import * as React from "react";
-
 import { cn } from "@/lib/utils";
 import { Icons } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { SignUp } from "@/lib/axios/signUp";
+import { useState } from "react";
 
 interface loginFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 export function LoginForm({ className, ...props }: loginFormProps) {
-  const [isLoading, setIsLoading] = React.useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
 
   async function onSubmit(event: React.SyntheticEvent) {
     event.preventDefault();
     setIsLoading(true);
 
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 3000);
+    const data = await SignUp({ email: email, password: password });
+
+    if (data.access_token) {
+      localStorage.setItem("access_token", data.access_token);
+      localStorage.setItem("roles", data.user["roles"]);
+      localStorage.setItem("user_fname", data.user["user_fname"]);
+      localStorage.setItem("user_lname", data.user["user_lname"]);
+      localStorage.setItem("user_email", data.user["user_email"]);
+      localStorage.setItem("user_avatar", data.user["user_avatar_path"]);
+      window.location.href = "/";
+    }
+
+    setIsLoading(false);
   }
 
   return (
@@ -30,6 +42,7 @@ export function LoginForm({ className, ...props }: loginFormProps) {
             </Label>
             <Input
               id="email"
+              onChange={(e) => e && setEmail(e.target.value)}
               placeholder="name@example.com"
               type="email"
               autoCapitalize="none"
@@ -44,6 +57,7 @@ export function LoginForm({ className, ...props }: loginFormProps) {
             </Label>
             <Input
               id="password"
+              onChange={(e) => e && setPassword(e.target.value)}
               placeholder="***********"
               type="password"
               autoCapitalize="none"

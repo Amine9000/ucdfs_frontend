@@ -10,11 +10,17 @@ export function getStudentsByEtape(
   etape_code?: string
 ) {
   if (etape_code) {
+    const access_token = localStorage.getItem("access_token") ?? "";
     axios
       .get(
         `http://localhost:3000/students/etape/${etape_code}?skip=${
           pageLength * (pageNum - 1)
-        }&take=${pageLength}`
+        }&take=${pageLength}`,
+        {
+          headers: {
+            Authorization: `Bearer ${access_token}`,
+          },
+        }
       )
       .then((res: AxiosResponse) => {
         if (res.data) setData(res.data);
@@ -33,11 +39,17 @@ export function getStudentsValidationByEtape(
   etape_code?: string
 ) {
   if (etape_code) {
+    const access_token = localStorage.getItem("access_token") ?? "";
     axios
       .get(
         `http://localhost:3000/students/validation/${etape_code}?skip=${
           pageLength * (pageNum - 1)
-        }&take=${pageLength}`
+        }&take=${pageLength}`,
+        {
+          headers: {
+            Authorization: `Bearer ${access_token}`,
+          },
+        }
       )
       .then((res: AxiosResponse) => {
         if (res.data) setData(res.data);
@@ -51,16 +63,23 @@ export function getStudentsValidationByEtape(
 
 export async function getEtapes(pageNum: number, pageLength: number) {
   try {
+    const access_token = localStorage.getItem("access_token") ?? "";
     const responce = await axios.get(
       `http://localhost:3000/etapes?skip=${
         pageLength * (pageNum - 1)
-      }&take=${pageLength}`
+      }&take=${pageLength}`,
+      {
+        headers: {
+          Authorization: `Bearer ${access_token}`,
+        },
+      }
     );
     if (responce.data) {
       return responce.data;
     } else return [];
   } catch (err: unknown) {
-    console.error("getEtapes() failed. axios could not fetch the files.");
+    const error = err as AxiosError;
+    if (error.response?.status == 401) handleUnauthorized();
     return [];
   }
 }
@@ -71,6 +90,7 @@ export async function getProccessedDataFile(
 ) {
   if (semester) {
     try {
+      const access_token = localStorage.getItem("access_token") ?? "";
       const res = await axios.post(
         `http://localhost:3000/files/download/${semester}`,
         {
@@ -78,6 +98,9 @@ export async function getProccessedDataFile(
         },
         {
           responseType: "blob",
+          headers: {
+            Authorization: `Bearer ${access_token}`,
+          },
         }
       );
       if (res.data) {
@@ -91,10 +114,11 @@ export async function getProccessedDataFile(
         window.URL.revokeObjectURL(url);
       }
     } catch (error) {
-      console.error(
-        "There has been a problem with your fetch operation:",
-        error
-      );
+      console.dir(error);
+      // console.error(
+      //   "There has been a problem with your fetch operation:",
+      //   error
+      // );
     }
   }
 }
@@ -107,11 +131,17 @@ export function search(
   etape_code?: string
 ) {
   if (etape_code) {
+    const access_token = localStorage.getItem("access_token") ?? "";
     axios
       .get(
         `http://localhost:3000/students/search/${etape_code}?q=${search_query}&skip=${
           pageLength * (pageNum - 1)
-        }&take=${pageLength}`
+        }&take=${pageLength}`,
+        {
+          headers: {
+            Authorization: `Bearer ${access_token}`,
+          },
+        }
       )
       .then((res: AxiosResponse) => {
         if (res.data) setData(res.data);
@@ -129,11 +159,17 @@ export function searchEtapes(
   pageLength: number,
   pageNum: number
 ) {
+  const access_token = localStorage.getItem("access_token") ?? "";
   axios
     .get(
       `http://localhost:3000/etapes/search/?q=${search_query}&skip=${
         pageLength * (pageNum - 1)
-      }&take=${pageLength}`
+      }&take=${pageLength}`,
+      {
+        headers: {
+          Authorization: `Bearer ${access_token}`,
+        },
+      }
     )
     .then((res: AxiosResponse) => {
       if (res.data) setData(res.data);
@@ -142,4 +178,9 @@ export function searchEtapes(
     .catch((err: AxiosError) => {
       console.error("axios error", err.message);
     });
+}
+
+function handleUnauthorized() {
+  localStorage.removeItem("access_token");
+  window.location.href = "/login";
 }

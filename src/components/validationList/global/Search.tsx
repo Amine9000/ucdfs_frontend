@@ -27,7 +27,7 @@ export function SearchForm({
         type="text"
         placeholder="search for ..."
         value={searchQuery}
-        onChange={(e) => setSearchQuery(e.target.value)}
+        onChange={(e) => e && setSearchQuery(e.target.value)}
       />
       <Button className="text-white bg-sky-500 hover:bg-sky-700 rounded-l-none">
         <Search className="size-6" />

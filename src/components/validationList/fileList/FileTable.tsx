@@ -105,16 +105,20 @@ function MapFileData(
             <DropdownMenuContent>
               <DropdownMenuItem
                 onClick={(e) => {
-                  e.stopPropagation();
-                  setUpdatePopUp(true);
+                  if (e) {
+                    e.stopPropagation();
+                    setUpdatePopUp(true);
+                  }
                 }}
               >
                 update
               </DropdownMenuItem>
               <DropdownMenuItem
                 onClick={(e) => {
-                  e.stopPropagation();
-                  setDeleteAlert(true);
+                  if (e) {
+                    e.stopPropagation();
+                    setDeleteAlert(true);
+                  }
                 }}
               >
                 delete

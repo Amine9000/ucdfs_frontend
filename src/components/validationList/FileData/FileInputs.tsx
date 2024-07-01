@@ -9,7 +9,7 @@ export function FileInputs() {
       <div className="flex items-center gap-2">
         <Input
           value={semester}
-          onChange={(e) => setSemester(e.target.value)}
+          onChange={(e) => e && setSemester(e.target.value)}
           type="text"
           placeholder="Code etape"
           className="focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0"

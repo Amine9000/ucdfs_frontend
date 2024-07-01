@@ -11,7 +11,7 @@ import { setStateType } from "@/types/setState";
 import { FileDropArea } from "./FileDropArea";
 import { useScreen } from "@/hooks/useScreen";
 import { useState } from "react";
-import axios, { AxiosResponse } from "axios";
+import { uploadFile } from "@/lib/axios/fileUpload";
 
 type FileDialogProps = {
   open: boolean;
@@ -58,24 +58,4 @@ export function FileDialog({
       </DialogContent>
     </Dialog>
   );
-}
-
-async function uploadFile(file: string | Blob) {
-  const formData = new FormData();
-  formData.append("file", file);
-
-  try {
-    const response: AxiosResponse = await axios.post(
-      "http://localhost:3000/files",
-      formData,
-      {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      }
-    );
-    console.log("File uploaded successfully", response.data);
-  } catch (error) {
-    console.error("Error uploading file", error);
-  }
 }

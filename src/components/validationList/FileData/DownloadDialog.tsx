@@ -21,7 +21,7 @@ type DownloadDialogProps = {
 
 export function DownloadDialog({ open, onOpenChane }: DownloadDialogProps) {
   const { semester, setSemester } = useFileData();
-  const [groupNum, setGroupNum] = useState<number>(1);
+  const [groupNum, setGroupNum] = useState<number | string>(1);
   return (
     <Dialog open={open} onOpenChange={onOpenChane}>
       <DialogContent className="sm:max-w-[425px]">
@@ -38,8 +38,8 @@ export function DownloadDialog({ open, onOpenChane }: DownloadDialogProps) {
             </Label>
             <Input
               id="code-etape"
-              defaultValue={semester}
-              onChange={(e) => setSemester(e.target.value)}
+              value={semester}
+              onChange={(e) => e && setSemester(e.target.value)}
               className="col-span-3 focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0"
             />
           </div>
@@ -50,8 +50,13 @@ export function DownloadDialog({ open, onOpenChane }: DownloadDialogProps) {
             <Input
               id="groups-num"
               min={1}
-              defaultValue={groupNum}
-              onChange={(e) => setGroupNum(parseInt(e.target.value))}
+              value={groupNum ?? 1}
+              onChange={(e) => {
+                if (e) {
+                  const value = parseInt(e.target.value);
+                  setGroupNum(isNaN(value) ? "" : value);
+                }
+              }}
               type="number"
               className="col-span-3 focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0"
             />
@@ -61,7 +66,7 @@ export function DownloadDialog({ open, onOpenChane }: DownloadDialogProps) {
           <Button
             type="submit"
             onClick={() => {
-              getProccessedDataFile(semester, groupNum);
+              getProccessedDataFile(semester, groupNum as number);
               onOpenChane(false);
             }}
           >
