@@ -1,6 +1,7 @@
 import Login from "@/pages/Login";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Dashboard from "@/pages/dashboard";
+import { TabsProvider } from "./context/Tabs";
 
 const routes = [
   {
@@ -16,7 +17,11 @@ const routes = [
 const router = createBrowserRouter(routes);
 
 function App() {
-  return <RouterProvider router={router} />;
+  return (
+    <TabsProvider>
+      <RouterProvider router={router} />
+    </TabsProvider>
+  );
 }
 
 export default App;
