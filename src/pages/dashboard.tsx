@@ -8,10 +8,10 @@ import { SidebarSectionType } from "@/types/sidebarSection";
 import { useState } from "react";
 
 export default function Dashboard() {
-  const { itemSelected, setItemSelected } = useTabs();
+  const { itemSelected, navigateTo } = useTabs();
   const sidebarState = useState<SidebarSectionType[]>(initialSidebarSections);
   function handleSidebarItemSelected(item: SidebarItemType) {
-    setItemSelected(item);
+    navigateTo(item);
   }
   return (
     <div className="h-screen w-screen flex items-center justify-start p-2 gap-2 bg-slate-100">

@@ -1,16 +1,16 @@
 import { initialSidebarList } from "@/constants/sidebar";
-import { setStateType } from "@/types/setState";
+import { Screen, isScreens } from "@/enums/Screens";
 import { SidebarItemType } from "@/types/sidebarItem";
 import { ReactNode, createContext, useState } from "react";
 
 type TabsContextType = {
-  itemSelected: SidebarItemType;
-  setItemSelected: setStateType<SidebarItemType>;
+  itemSelected: SidebarItemType | null;
+  navigateTo: (screen: Screen | SidebarItemType) => void;
 };
 
 const TabsContextInitValue = {
-  itemSelected: initialSidebarList[0],
-  setItemSelected: () => {},
+  itemSelected: null,
+  navigateTo: () => {},
 };
 
 export const TabsContext = createContext<TabsContextType>(TabsContextInitValue);
@@ -23,9 +23,27 @@ export function TabsProvider({ children }: TabsContextProps) {
   const [itemSelected, setItemSelected] = useState<SidebarItemType>(
     initialSidebarList[0]
   );
+
+  function navigateTo(screen: Screen | SidebarItemType) {
+    if (isScreens(screen)) {
+      switch (screen) {
+        case Screen.Students:
+          setItemSelected(initialSidebarList[0]);
+          break;
+
+        case Screen.Profs:
+          setItemSelected(initialSidebarList[1]);
+          break;
+
+        default:
+          break;
+      }
+    } else setItemSelected(screen as SidebarItemType);
+  }
+
   const defaultValue = {
     itemSelected,
-    setItemSelected,
+    navigateTo,
   };
   return (
     <TabsContext.Provider value={defaultValue}>{children}</TabsContext.Provider>
