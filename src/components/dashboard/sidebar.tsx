@@ -6,16 +6,10 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "../ui/tooltip";
+import { useTabs } from "@/hooks/useTabs";
 
-type sidebarProps = {
-  sidebarSections: SidebarSectionType[];
-  handleItemSelected: (item: SidebarItemType) => void;
-};
-
-export default function SideBar({
-  sidebarSections,
-  handleItemSelected,
-}: sidebarProps) {
+export default function SideBar() {
+  const { navigateTo, sidebarState } = useTabs();
   return (
     <div className="h-full w-[64px] p-2 flex-shrink-0 flex flex-col items-center justify-between bg-white rounded-md">
       <header className="w-full h-[48px] p-1 flex items-center justify-center bg-slate-50 rounded-md">
@@ -26,8 +20,8 @@ export default function SideBar({
         />
       </header>
       <div className="w-full h-full flex flex-col justify-between items-center">
-        {getSection(sidebarSections, handleItemSelected, Position.TOP)}
-        {getSection(sidebarSections, handleItemSelected, Position.BOTTOM)}
+        {getSection(sidebarState, navigateTo, Position.TOP)}
+        {getSection(sidebarState, navigateTo, Position.BOTTOM)}
       </div>
     </div>
   );

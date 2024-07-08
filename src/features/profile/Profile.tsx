@@ -1,28 +1,21 @@
-import { Button } from "@/components/ui/button";
-import { initialSidebarList } from "@/constants/sidebar";
-import { Screen } from "@/enums/Screens";
-import { useTabs } from "@/hooks/useTabs";
+import { NotifySection } from "@/components/global/NotifySection";
+import { StudentValidation } from "@/components/profile/StudentValidation";
+import { UserInfo } from "@/components/profile/UserInfo";
+import { ls } from "@/lib/LocalStorage";
+import { UserInfoType } from "@/types/UserInfo";
 import { useEffect } from "react";
 
 export function Profile() {
-  const { navigateTo } = useTabs();
-  initialSidebarList;
   useEffect(() => {
-    const userFname = localStorage.getItem("user_fname") ?? "";
-    const userLname = localStorage.getItem("user_lname") ?? "";
-    const userEmail = localStorage.getItem("user_email") ?? "";
-    const roles = localStorage.getItem("roles") ?? [];
-    console.log(userFname, userLname, userEmail, roles);
+    const userInfo: UserInfoType = ls.userInfo();
+    const roles = ls.roles();
+    console.log(userInfo, roles);
   }, []);
   return (
-    <div>
-      <Button
-        onClick={() => {
-          navigateTo(Screen.Profs);
-        }}
-      >
-        Go
-      </Button>
+    <div className="w-full h-full flex flex-wrap items-stretch justify-start gap-2">
+      <UserInfo className="bg-white rounded p-4 w-full lg:w-1/2 xl:w-1/3 flex-shrink px-2 h-auto" />
+      <StudentValidation className="bg-white p-4 rounded w-full lg:flex-1 flex-shrink xl:w-1/3 px-2 h-auto" />
+      <NotifySection className="bg-white rounded p-4 w-full lg:w-full xl:w-1/3 px-2 h-auto" />
     </div>
   );
 }

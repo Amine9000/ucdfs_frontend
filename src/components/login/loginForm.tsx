@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { SignUp } from "@/lib/axios/signUp";
 import { useState } from "react";
+import { ls } from "@/lib/LocalStorage";
 
 interface loginFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -17,15 +18,15 @@ export function LoginForm({ className, ...props }: loginFormProps) {
     event.preventDefault();
     setIsLoading(true);
 
-    const data = await SignUp({ email: email, password: password });
+    const data = await SignUp({
+      email: email,
+      password: password,
+    });
 
     if (data.access_token) {
-      localStorage.setItem("access_token", data.access_token);
-      localStorage.setItem("roles", data.user["roles"]);
-      localStorage.setItem("user_fname", data.user["user_fname"]);
-      localStorage.setItem("user_lname", data.user["user_lname"]);
-      localStorage.setItem("user_email", data.user["user_email"]);
-      localStorage.setItem("user_avatar", data.user["user_avatar_path"]);
+      ls.setAccessToken(data.access_token);
+      ls.setRoles(data.user.roles);
+      ls.setUserInfo(data.user);
       window.location.href = "/";
     }
 

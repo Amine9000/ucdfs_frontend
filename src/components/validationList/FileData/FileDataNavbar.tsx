@@ -7,9 +7,9 @@ import { useFileData } from "@/hooks/useFileData";
 import { useEffect, useState } from "react";
 import { getStudentsByEtape, search } from "@/lib/axios/studentsData";
 import { DownloadDialog } from "./DownloadDialog";
-import { Pagination } from "../global/Pagination";
+import { Pagination } from "../../global/Pagination";
 import { pageLength } from "@/constants/pagination";
-import { SearchForm } from "../global/Search";
+import { SearchForm } from "../../global/Search";
 
 export function FileDataNavbar() {
   const [downloadDialogState, setDownloadDialogState] =

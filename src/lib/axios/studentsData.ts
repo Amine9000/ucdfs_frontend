@@ -2,6 +2,7 @@ import { FileColumnNames } from "@/types/FileColumnNames";
 import { FileDataItem } from "@/types/FileDataItem";
 import { setStateType } from "@/types/setState";
 import axios, { AxiosError, AxiosResponse } from "axios";
+import { handleUnauthorized } from "../utils";
 
 export function getStudentsByEtape(
   setData: setStateType<FileColumnNames[]>,
@@ -178,9 +179,4 @@ export function searchEtapes(
     .catch((err: AxiosError) => {
       console.error("axios error", err.message);
     });
-}
-
-function handleUnauthorized() {
-  localStorage.removeItem("access_token");
-  window.location.href = "/login";
 }

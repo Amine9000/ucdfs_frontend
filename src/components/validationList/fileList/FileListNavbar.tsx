@@ -1,13 +1,13 @@
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
-import { SearchForm } from "../global/Search";
+import { SearchForm } from "../../global/Search";
 import { FileDialog } from "./FIleDialog";
 import { useEffect, useState } from "react";
 import { MessageDialog } from "./MessageDialog";
 import { MessageType } from "@/types/Message";
 import { getEtapes, searchEtapes } from "@/lib/axios/studentsData";
 import { useFileData } from "@/hooks/useFileData";
-import { Pagination } from "../global/Pagination";
+import { Pagination } from "../../global/Pagination";
 import { pageLength } from "@/constants/pagination";
 import { FileDataItem } from "@/types/FileDataItem";
 import { setStateType } from "@/types/setState";

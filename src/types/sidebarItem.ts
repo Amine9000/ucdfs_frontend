@@ -1,3 +1,4 @@
+import { Roles } from "@/enums/Roles";
 import { LucideProps } from "lucide-react";
 import { ForwardRefExoticComponent, ReactElement, RefAttributes } from "react";
 
@@ -7,4 +8,5 @@ export type SidebarItemType = {
     Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>
   >;
   element: ReactElement;
+  roles: Roles[];
 };

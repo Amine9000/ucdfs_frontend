@@ -1,14 +1,11 @@
-import { SidebarItemType } from "@/types/sidebarItem";
+import { useTabs } from "@/hooks/useTabs";
 
-type contentProps = {
-  content: SidebarItemType | null;
-};
-
-export default function Content({ content }: contentProps) {
+export default function Content() {
+  const { itemSelected } = useTabs();
   return (
     <div className="w-full flex-grow rounded flex items-center justify-center overflow-y-auto">
-      {content && content.element}
-      {!content && (
+      {itemSelected && itemSelected.element}
+      {!itemSelected && (
         <div className="text-sm text-slate-500 text-center">No Content</div>
       )}
     </div>
