@@ -6,6 +6,7 @@ import { Label } from "@/components/ui/label";
 import { SignUp } from "@/lib/axios/signUp";
 import { useState } from "react";
 import { ls } from "@/lib/LocalStorage";
+import { UCDAlert } from "./UCDAlert";
 
 interface loginFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -13,6 +14,7 @@ export function LoginForm({ className, ...props }: loginFormProps) {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [errorMessage, setErrorMessage] = useState<string>("");
 
   async function onSubmit(event: React.SyntheticEvent) {
     event.preventDefault();
@@ -22,19 +24,25 @@ export function LoginForm({ className, ...props }: loginFormProps) {
       email: email,
       password: password,
     });
-
-    if (data.access_token) {
-      ls.setAccessToken(data.access_token);
-      ls.setRoles(data.user.roles);
-      ls.setUserInfo(data.user);
-      window.location.href = "/";
+    if (data) {
+      if (!data.access_token) {
+        setErrorMessage(data.message);
+      } else {
+        console.log(data.user);
+        ls.setAccessToken(data.access_token);
+        ls.setRoles(data.user.roles);
+        ls.setUserInfo(data.user);
+        window.location.href = "/";
+      }
+      setIsLoading(false);
     }
-
-    setIsLoading(false);
   }
 
   return (
     <div className={cn("grid gap-6", className)} {...props}>
+      {errorMessage.length > 0 && (
+        <UCDAlert title="Error" message={errorMessage} />
+      )}
       <form onSubmit={onSubmit}>
         <div className="grid gap-2">
           <div className="grid gap-1">

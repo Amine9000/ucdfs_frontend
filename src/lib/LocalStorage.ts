@@ -20,6 +20,15 @@ class LocalStorage {
   setAccessToken = (accessTk: string) => {
     localStorage.setItem("access_token", accessTk);
   };
+  getAccessToken = () => {
+    return localStorage.getItem("access_token") ?? "";
+  };
+  checkUserData = () => {
+    const access_token = this.getAccessToken();
+    const roles = this.roles();
+    const userInfo = this.userInfo();
+    return roles.length > 0 && userInfo.user_email && access_token.length > 0;
+  };
 }
 
 export const ls = new LocalStorage();

@@ -3,6 +3,8 @@ export enum Screen {
   Profs = "Profs",
   Profile = "Profile",
   Setting = "Setting",
+  Notifications = "Notifications",
+  validation = "Validation",
 }
 
 export function isScreens(screen: unknown) {

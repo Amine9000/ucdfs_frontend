@@ -1,4 +1,4 @@
-import { selectSidebar, topList } from "@/constants/sidebar";
+import { bottomList, selectSidebar, topList } from "@/constants/sidebar";
 import { Screen, isScreens } from "@/enums/Screens";
 import { ls } from "@/lib/LocalStorage";
 import { setStateType } from "@/types/setState";
@@ -53,6 +53,22 @@ export function TabsProvider({ children }: TabsContextProps) {
 
         case Screen.Profs:
           setItemSelected(topList[1]);
+          break;
+
+        case Screen.Profile:
+          setItemSelected(bottomList[1]);
+          break;
+
+        case Screen.Setting:
+          setItemSelected(bottomList[0]);
+          break;
+
+        case Screen.validation:
+          setItemSelected(topList[3]);
+          break;
+
+        case Screen.Notifications:
+          setItemSelected(topList[2]);
           break;
 
         default:

@@ -1,12 +1,14 @@
 import axios, { AxiosResponse } from "axios";
+import { ls } from "../LocalStorage";
+import { HOST_LINK } from "@/constants/host";
 
 export async function uploadFile(file: string | Blob) {
   const formData = new FormData();
   formData.append("file", file);
-  const access_token = localStorage.getItem("access_token") ?? "";
+  const access_token = ls.getAccessToken();
   try {
     const response: AxiosResponse = await axios.post(
-      "http://localhost:3000/files",
+      `${HOST_LINK}files`,
       formData,
       {
         headers: {

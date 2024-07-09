@@ -1,9 +1,19 @@
+import { UnderConstruction } from "@/components/UnderConstruction";
 import { Roles } from "@/enums/Roles";
+import { StudentsValidationTab } from "@/features/StudentsValidation/StudentsValidation";
+import { Notifications } from "@/features/notifications/Notifications";
 import { Profile } from "@/features/profile/Profile";
 import { ValidationList } from "@/features/validationList/ValidationList";
 import { SidebarItemType } from "@/types/sidebarItem";
 import { Position, SidebarSectionType } from "@/types/sidebarSection";
-import { Bolt, ClipboardList, Settings, User } from "lucide-react";
+import {
+  Bell,
+  ClipboardList,
+  HandPlatter,
+  ListChecks,
+  Settings,
+  User,
+} from "lucide-react";
 
 export const topList: SidebarItemType[] = [
   {
@@ -11,12 +21,28 @@ export const topList: SidebarItemType[] = [
     icon: ClipboardList,
     element: <ValidationList />,
     roles: [Roles.STUDENTS_MANAGER],
+    hidden: false,
   },
   {
     label: "profs needs",
-    icon: Bolt,
-    element: <div>profs needs</div>,
+    icon: HandPlatter,
+    element: <UnderConstruction pageName="Profs Service" />,
     roles: [Roles.ADMIN],
+    hidden: false,
+  },
+  {
+    label: "Notifications",
+    icon: Bell,
+    element: <Notifications />,
+    roles: [],
+    hidden: false,
+  },
+  {
+    label: "validation",
+    icon: ListChecks,
+    element: <StudentsValidationTab />,
+    roles: [],
+    hidden: true,
   },
 ];
 
@@ -24,14 +50,16 @@ export const bottomList: SidebarItemType[] = [
   {
     label: "parameters",
     icon: Settings,
-    element: <div>parameters</div>,
+    element: <UnderConstruction pageName="parameters" />,
     roles: [Roles.ADMIN, Roles.STUDENTS_MANAGER],
+    hidden: false,
   },
   {
     label: "profile",
     icon: User,
     element: <Profile />,
     roles: [Roles.ADMIN, Roles.STUDENTS_MANAGER],
+    hidden: false,
   },
 ];
 
@@ -53,8 +81,11 @@ export const initialSidebarSections: SidebarSectionType[] = [
 export function selectSidebar(roles: Roles[]) {
   const sidebarSections = initialSidebarSections;
   sidebarSections.forEach((sidebarSection) => {
-    sidebarSection.items = sidebarSection.items.filter((item) =>
-      item.roles.some((role) => roles.includes(role))
+    sidebarSection.items = sidebarSection.items.filter(
+      (item) =>
+        !item.hidden &&
+        (item.roles.length == 0 ||
+          item.roles.some((role) => roles.includes(role)))
     );
   });
   console.log(sidebarSections);

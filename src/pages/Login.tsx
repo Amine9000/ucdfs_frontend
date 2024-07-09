@@ -5,7 +5,7 @@ export default function Login() {
     <div className="h-screen w-screen p-4">
       <div className="container relative h-full flex items-center justify-center px-2 md:grid lg:max-w-none lg:grid-cols-2 lg:px-0">
         <div className="relative hidden h-full flex-col bg-muted p-10 text-white lg:flex dark:border-r">
-          <div className="absolute inset-0 bg-zinc-900" />
+          <div className="absolute inset-0 bg-red-900"></div>
         </div>
         <div className="lg:p-8">
           <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">

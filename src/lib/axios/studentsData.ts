@@ -3,6 +3,8 @@ import { FileDataItem } from "@/types/FileDataItem";
 import { setStateType } from "@/types/setState";
 import axios, { AxiosError, AxiosResponse } from "axios";
 import { handleUnauthorized } from "../utils";
+import { ls } from "../LocalStorage";
+import { HOST_LINK } from "@/constants/host";
 
 export function getStudentsByEtape(
   setData: setStateType<FileColumnNames[]>,
@@ -11,10 +13,11 @@ export function getStudentsByEtape(
   etape_code?: string
 ) {
   if (etape_code) {
-    const access_token = localStorage.getItem("access_token") ?? "";
+    const access_token = ls.getAccessToken();
+    if (access_token.length == 0) handleUnauthorized();
     axios
       .get(
-        `http://localhost:3000/students/etape/${etape_code}?skip=${
+        `${HOST_LINK}students/etape/${etape_code}?skip=${
           pageLength * (pageNum - 1)
         }&take=${pageLength}`,
         {
@@ -40,10 +43,11 @@ export function getStudentsValidationByEtape(
   etape_code?: string
 ) {
   if (etape_code) {
-    const access_token = localStorage.getItem("access_token") ?? "";
+    const access_token = ls.getAccessToken();
+    if (access_token.length == 0) handleUnauthorized();
     axios
       .get(
-        `http://localhost:3000/students/validation/${etape_code}?skip=${
+        `${HOST_LINK}students/validation/${etape_code}?skip=${
           pageLength * (pageNum - 1)
         }&take=${pageLength}`,
         {
@@ -64,9 +68,10 @@ export function getStudentsValidationByEtape(
 
 export async function getEtapes(pageNum: number, pageLength: number) {
   try {
-    const access_token = localStorage.getItem("access_token") ?? "";
+    const access_token = ls.getAccessToken();
+    if (access_token.length == 0) handleUnauthorized();
     const responce = await axios.get(
-      `http://localhost:3000/etapes?skip=${
+      `${HOST_LINK}etapes?skip=${
         pageLength * (pageNum - 1)
       }&take=${pageLength}`,
       {
@@ -91,9 +96,10 @@ export async function getProccessedDataFile(
 ) {
   if (semester) {
     try {
-      const access_token = localStorage.getItem("access_token") ?? "";
+      const access_token = ls.getAccessToken();
+      if (access_token.length == 0) handleUnauthorized();
       const res = await axios.post(
-        `http://localhost:3000/files/download/${semester}`,
+        `${HOST_LINK}files/download/${semester}`,
         {
           groupNum,
         },
@@ -132,10 +138,11 @@ export function search(
   etape_code?: string
 ) {
   if (etape_code) {
-    const access_token = localStorage.getItem("access_token") ?? "";
+    const access_token = ls.getAccessToken();
+    if (access_token.length == 0) handleUnauthorized();
     axios
       .get(
-        `http://localhost:3000/students/search/${etape_code}?q=${search_query}&skip=${
+        `${HOST_LINK}students/search/${etape_code}?q=${search_query}&skip=${
           pageLength * (pageNum - 1)
         }&take=${pageLength}`,
         {
@@ -160,10 +167,11 @@ export function searchEtapes(
   pageLength: number,
   pageNum: number
 ) {
-  const access_token = localStorage.getItem("access_token") ?? "";
+  const access_token = ls.getAccessToken();
+  if (access_token.length == 0) handleUnauthorized();
   axios
     .get(
-      `http://localhost:3000/etapes/search/?q=${search_query}&skip=${
+      `${HOST_LINK}etapes/search/?q=${search_query}&skip=${
         pageLength * (pageNum - 1)
       }&take=${pageLength}`,
       {

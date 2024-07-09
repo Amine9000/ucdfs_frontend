@@ -1,8 +1,18 @@
-interface StudentValidationProps {
+import { HTMLAttributes, useEffect } from "react";
+import { SemestersList } from "./SemestersList";
+import { getStudentSemesters } from "@/lib/axios/fetchStudentData";
+
+interface StudentValidationProps extends HTMLAttributes<HTMLDivElement> {
   className: string;
 }
 
 export function StudentValidation({ className }: StudentValidationProps) {
+  async function fetchSemesters() {
+    await getStudentSemesters();
+  }
+  useEffect(() => {
+    fetchSemesters();
+  }, []);
   return (
     <div className={className}>
       <div className="w-full h-auto mb-4">
@@ -10,6 +20,7 @@ export function StudentValidation({ className }: StudentValidationProps) {
           <span className="text-gray-600 h-12 flex items-center font-bold">
             Validation
           </span>
+          <SemestersList />
         </div>
         <div className="border-b"></div>
       </div>

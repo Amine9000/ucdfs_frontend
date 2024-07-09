@@ -1,40 +1,99 @@
 import { Settings2 } from "lucide-react";
-import { Icons } from "../icons";
 import { Button } from "../ui/button";
+import { useEffect, useState } from "react";
+import { UserInfoType } from "@/types/UserInfo";
+import { ls } from "@/lib/LocalStorage";
+import { cn } from "@/lib/utils";
+import { useTabs } from "@/hooks/useTabs";
+import { Screen } from "@/enums/Screens";
+import { Badge } from "../ui/badge";
+import { HOST_LINK } from "@/constants/host";
 
 interface UserInfoProps {
   className: string;
 }
 
 export function UserInfo({ className }: UserInfoProps) {
+  const { navigateTo } = useTabs();
+  const [userInfo, setUserInfo] = useState<UserInfoType>();
+  const [roles, setRoles] = useState<string[]>([]);
+  useEffect(() => {
+    const infos: UserInfoType = ls.userInfo();
+    const user_roles: string[] = ls.roles();
+    if (user_roles.length > 0) setRoles(user_roles);
+    if (
+      infos.user_avatar_path &&
+      infos.user_email &&
+      infos.user_fname &&
+      infos.user_lname
+    )
+      setUserInfo(infos);
+  }, []);
   return (
-    <div className={className}>
+    <div
+      className={cn(
+        className,
+        "h-full flex flex-col items-center justify-start"
+      )}
+    >
       {/* cover and profile picture */}
-      <div className="relative w-full h-[200px] bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-md">
-        <div className="bg-slate-100 absolute h-[80px] w-[80px] rounded-md left-[5px] top-[115px] overflow-hidden">
-          {<Icons.avatar className="w-full h-full text-slate-500" />}
+      <div className="w-full h-[200px] bg-gray-100 flex items-center rounded-md">
+        <div className="bg-slate-100 h-[180px] w-full rounded-md flex items-start justify-center gap-4 px-4">
+          <img
+            className="h-full w-[180px] rounded-md text-slate-500"
+            src={HOST_LINK + userInfo?.user_avatar_path}
+            alt={userInfo?.user_fname}
+          />
+          <div className="bg-white flex-1 h-full flex-shrink-0 p-4 flex flex-col gap-4 justify-center rounded">
+            <h1 className="text-4xl font-extrabold text-slate-700">
+              {userInfo?.user_fname} {userInfo?.user_lname}
+            </h1>
+            <small className="text-gray-500">{userInfo?.user_email}</small>
+          </div>
         </div>
       </div>
       {/* user info */}
-      <div className="mt-4">
+      <div className="mt-4 w-full">
         <div className="flex w-full h-auto px-4 py-2 gap-4 justify-start items-center">
           <div className="text-sm text-slate-500 w-1/2">First Name</div>
-          <div className="text-gray-700 w-1/2">John</div>
+          <div className="text-gray-700 w-1/2">{userInfo?.user_fname}</div>
         </div>
         <div className="flex w-full h-auto px-4 py-2 gap-4 justify-start items-center">
           <div className="text-sm text-slate-500 w-1/2">Last Name</div>
-          <div className="text-gray-700 w-1/2">Doe</div>
+          <div className="text-gray-700 w-1/2">{userInfo?.user_lname}</div>
         </div>
         <div className="flex w-full h-auto px-4 py-2 gap-4 justify-start items-center">
+          <div className="text-sm text-slate-500 w-1/2">Email</div>
+          <div className="text-gray-700 w-1/2">{userInfo?.user_email}</div>
+        </div>
+        <div className="flex w-full h-auto px-4 py-2 gap-4 justify-start items-center">
+          <div className="text-sm text-slate-500 w-1/2">Roles</div>
+          <div className="text-gray-700 w-1/2 flex gap-4">
+            {roles.map((role) => {
+              return (
+                <Badge
+                  variant="secondary"
+                  className="text-purple-700 bg-purple-200 hover:bg-purple-200 font-medium py-1 px-2"
+                >
+                  {role}
+                </Badge>
+              );
+            })}
+          </div>
+        </div>
+        {/* <div className="flex w-full h-auto px-4 py-2 gap-4 justify-start items-center">
           <div className="text-sm text-slate-500 w-1/2">Age</div>
           <div className="text-gray-700 w-1/2 flex gap-4">25</div>
         </div>
         <div className="flex w-full h-auto px-4 py-2 gap-4 justify-start items-center">
           <div className="text-sm text-slate-500 w-1/2">Birth date</div>
           <div className="text-gray-700 w-1/2 flex gap-4">thu 10 feb 1999</div>
-        </div>
+        </div> */}
       </div>
-      <Button className="bg-gray-200 hover:bg-gray-200 text-gray-900 rounded-md w-full h-9 flex gap-4 items-center justify-center mt-4">
+      <Button
+        onClick={() => navigateTo(Screen.Setting)}
+        className="bg-gray-200 hover:bg-gray-200  text-gray-600 rounded-md w-full max-w-36 h-9 flex gap-4 items-center justify-center mt-4"
+      >
         <Settings2 size={20} /> update
       </Button>
     </div>

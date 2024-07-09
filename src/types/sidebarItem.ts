@@ -9,4 +9,5 @@ export type SidebarItemType = {
   >;
   element: ReactElement;
   roles: Roles[];
+  hidden: boolean;
 };
