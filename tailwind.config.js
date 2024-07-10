@@ -1,11 +1,13 @@
+const { transform } = require("typescript");
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   darkMode: ["class"],
   content: [
-    './pages/**/*.{ts,tsx}',
-    './components/**/*.{ts,tsx}',
-    './app/**/*.{ts,tsx}',
-    './src/**/*.{ts,tsx}',
+    "./pages/**/*.{ts,tsx}",
+    "./components/**/*.{ts,tsx}",
+    "./app/**/*.{ts,tsx}",
+    "./src/**/*.{ts,tsx}",
   ],
   prefix: "",
   theme: {
@@ -17,6 +19,18 @@ module.exports = {
       },
     },
     extend: {
+      textShadow: {
+        sm: "1px 1px 2px rgba(0, 0, 0, 0.25)",
+        md: "2px 2px 4px rgba(0, 0, 0, 0.25)",
+        lg: "4px 4px 6px rgba(0, 0, 0, 0.25)",
+        xl: "6px 6px 8px rgba(0, 0, 0, 0.25)",
+        "2xl": "8px 8px 10px rgba(0, 0, 0, 0.25)",
+      },
+      rotate: {
+        "y-180": "rotateY(180deg)",
+        "y-90": "rotateY(90deg)",
+        "y-45": "rotateY(45deg)",
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -58,6 +72,10 @@ module.exports = {
         sm: "calc(var(--radius) - 4px)",
       },
       keyframes: {
+        bouncy: {
+          from: { transform: "translateY(-5px)" },
+          to: { transform: "translateY(5px)" },
+        },
         "accordion-down": {
           from: { height: "0" },
           to: { height: "var(--radix-accordion-content-height)" },
@@ -70,8 +88,49 @@ module.exports = {
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        bouncy: "bouncy 2s ease infinite alternate",
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
-}
+  plugins: [
+    require("tailwindcss-animate"),
+    function ({ addUtilities }) {
+      const newUtilities = {
+        ".rotate-y-180": {
+          transform: "rotateY(180deg)",
+        },
+        ".rotate-y-90": {
+          transform: "rotateY(90deg)",
+        },
+        ".rotate-y-45": {
+          transform: "rotateY(45deg)",
+        },
+      };
+      addUtilities(newUtilities, ["responsive", "hover"]);
+    },
+    function ({ addUtilities }) {
+      const newUtilities = {
+        ".text-shadow-sm": {
+          textShadow: "1px 1px 2px rgba(0, 0, 0, 0.45)",
+        },
+        ".text-shadow-md": {
+          textShadow: "2px 2px 4px rgba(0, 0, 0, 0.45)",
+        },
+        ".text-shadow-lg": {
+          textShadow: "4px 4px 6px rgba(0, 0, 0, 0.45)",
+        },
+        ".text-shadow-xl": {
+          textShadow: "6px 6px 8px rgba(0, 0, 0, 0.45)",
+        },
+        ".text-shadow-2xl": {
+          textShadow: "8px 8px 10px rgba(0, 0, 0, 0.45)",
+        },
+        ".text-shadow-none": {
+          textShadow: "none",
+        },
+      };
+
+      addUtilities(newUtilities, ["responsive", "hover"]);
+    },
+  ],
+};
