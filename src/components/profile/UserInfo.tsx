@@ -69,9 +69,10 @@ export function UserInfo({ className }: UserInfoProps) {
         <div className="flex w-full h-auto px-4 py-2 gap-4 justify-start items-center">
           <div className="text-sm text-slate-500 w-1/2">Roles</div>
           <div className="text-gray-700 w-1/2 flex gap-4">
-            {roles.map((role) => {
+            {roles.map((role, i) => {
               return (
                 <Badge
+                  key={i}
                   variant="secondary"
                   className="text-purple-700 bg-purple-200 hover:bg-purple-200 font-medium py-1 px-2"
                 >

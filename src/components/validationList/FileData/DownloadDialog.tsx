@@ -13,6 +13,7 @@ import { useFileData } from "@/hooks/useFileData";
 import { getProccessedDataFile } from "@/lib/axios/studentsData";
 import { setStateType } from "@/types/setState";
 import { useState } from "react";
+import toast from "react-hot-toast";
 
 type DownloadDialogProps = {
   open: boolean;
@@ -22,6 +23,12 @@ type DownloadDialogProps = {
 export function DownloadDialog({ open, onOpenChane }: DownloadDialogProps) {
   const { semester, setSemester } = useFileData();
   const [groupNum, setGroupNum] = useState<number | string>(1);
+
+  async function handleSubmit() {
+    await getProccessedDataFile(semester, groupNum as number);
+    onOpenChane(false);
+  }
+
   return (
     <Dialog open={open} onOpenChange={onOpenChane}>
       <DialogContent className="sm:max-w-[425px]">
@@ -66,8 +73,17 @@ export function DownloadDialog({ open, onOpenChane }: DownloadDialogProps) {
           <Button
             type="submit"
             onClick={() => {
-              getProccessedDataFile(semester, groupNum as number);
-              onOpenChane(false);
+              toast.promise(handleSubmit(), {
+                loading: "Downloading your file ...",
+                success: (
+                  <p className="text-teal-600">
+                    your file was downloaded successfully.
+                  </p>
+                ),
+                error: (
+                  <p className="text-red-500">Could not download your file.</p>
+                ),
+              });
             }}
           >
             Download

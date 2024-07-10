@@ -7,9 +7,10 @@ import {
   TooltipTrigger,
 } from "../ui/tooltip";
 import { useTabs } from "@/hooks/useTabs";
+import { cn } from "@/lib/utils";
 
 export default function SideBar() {
-  const { navigateTo, sidebarState } = useTabs();
+  const { navigateTo, sidebarState, itemSelected } = useTabs();
   return (
     <div className="h-full w-[64px] p-2 flex-shrink-0 flex flex-col items-center justify-between bg-white rounded-md">
       <header className="w-full h-[48px] p-1 flex items-center justify-center bg-slate-50 rounded-md">
@@ -20,8 +21,8 @@ export default function SideBar() {
         />
       </header>
       <div className="w-full h-full flex flex-col justify-between items-center">
-        {getSection(sidebarState, navigateTo, Position.TOP)}
-        {getSection(sidebarState, navigateTo, Position.BOTTOM)}
+        {getSection(sidebarState, navigateTo, itemSelected, Position.TOP)}
+        {getSection(sidebarState, navigateTo, itemSelected, Position.BOTTOM)}
       </div>
     </div>
   );
@@ -30,6 +31,7 @@ export default function SideBar() {
 function getSection(
   sections: SidebarSectionType[],
   handleItemSelected: (item: SidebarItemType) => void,
+  itemSelected: SidebarItemType | null,
   position: Position
 ) {
   return sections
@@ -40,7 +42,7 @@ function getSection(
           <header className="w-full h-auto uppercase text-gray-500 flex justify-center py-4 text-xs">
             {section.title}
           </header>
-          {sectionItemMapper(section.items, handleItemSelected)}
+          {sectionItemMapper(section.items, itemSelected, handleItemSelected)}
         </div>
       );
     });
@@ -48,6 +50,7 @@ function getSection(
 
 function sectionItemMapper(
   items: SidebarItemType[],
+  itemSelected: SidebarItemType | null,
   handleItemSelected: (item: SidebarItemType) => void
 ) {
   return (
@@ -60,7 +63,10 @@ function sectionItemMapper(
                 <div
                   onClick={() => handleItemSelected(item)}
                   key={i}
-                  className="w-full h-auto flex items-center justify-center py-2 hover:bg-sky-600 rounded-md cursor-pointer text-gray-600 hover:text-white transition-all ease-out duration-500"
+                  className={cn(
+                    "w-full h-auto flex items-center justify-center py-2 hover:bg-sky-600 rounded-md cursor-pointer text-gray-600 hover:text-white transition-all ease-out duration-500",
+                    itemSelected?.label == item.label && "bg-sky-600 text-white"
+                  )}
                 >
                   {<item.icon className="h-[32px]" />}
                 </div>

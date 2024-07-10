@@ -88,6 +88,5 @@ export function selectSidebar(roles: Roles[]) {
           item.roles.some((role) => roles.includes(role)))
     );
   });
-  console.log(sidebarSections);
   return sidebarSections;
 }
