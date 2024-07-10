@@ -2,8 +2,9 @@ import Login from "@/pages/Login";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Dashboard from "@/pages/dashboard";
 import { TabsProvider } from "./context/Tabs";
-import { LoginForm } from "./components/login/loginForm";
+import { AdminLoginForm } from "./components/login/AdminLoginForm";
 import { Logins } from "./components/login/Logins";
+import { StudentsLoginForm } from "./components/login/StudentsLoginForm";
 
 const routes = [
   {
@@ -16,11 +17,11 @@ const routes = [
     children: [
       {
         path: "admins",
-        element: <LoginForm />,
+        element: <AdminLoginForm />,
       },
       {
         path: "students",
-        element: <LoginForm />,
+        element: <StudentsLoginForm />,
       },
     ],
   },

@@ -19,7 +19,7 @@ export default function Login({ children }: LoginProps) {
                   size={30}
                   className="fill-white text-white rotate-y-180 "
                 />
-                <p className="text-lg w-3/4 self-center shadow-sm text-shadow-md">
+                <p className="text-lg w-3/4 self-center shadow-sm text-shadow-lg">
                   At Université Chouaib Doukkali Faculté des Sciences El Jadida,
                   we strive to cultivate a spirit of innovation and excellence.
                   Our commitment to cutting-edge research, quality education,
@@ -45,7 +45,7 @@ export default function Login({ children }: LoginProps) {
             <div className="flex flex-col items-center space-y-2 text-center">
               <div className="p-2 rounded w-full h-auto py-4 px-2 bg-slate-100 flex items-center justify-center">
                 <img
-                  src="logo_ucd_fs_long.svg"
+                  src="/logo_ucd_fs_long.svg"
                   className="h-8"
                   alt="UCD FS logo"
                 />

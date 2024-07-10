@@ -10,7 +10,7 @@ import { UCDAlert } from "./UCDAlert";
 
 interface loginFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
-export function LoginForm({ className, ...props }: loginFormProps) {
+export function AdminLoginForm({ className, ...props }: loginFormProps) {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
