@@ -5,7 +5,7 @@ import { TabsProvider } from "./context/Tabs";
 import { AdminLoginForm } from "./components/login/AdminLoginForm";
 import { Logins } from "./components/login/Logins";
 import { StudentsLoginForm } from "./components/login/StudentsLoginForm";
-
+import { Toaster } from "react-hot-toast";
 const routes = [
   {
     path: "/login",
@@ -36,7 +36,10 @@ const router = createBrowserRouter(routes);
 function App() {
   return (
     <TabsProvider>
-      <RouterProvider router={router} />
+      <div>
+        <Toaster />
+        <RouterProvider router={router} />
+      </div>
     </TabsProvider>
   );
 }

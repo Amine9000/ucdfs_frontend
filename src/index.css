@@ -1640,6 +1640,11 @@ body {
   color: rgb(39 39 42 / var(--tw-text-opacity));
 }
 
+.text-teal-600 {
+  --tw-text-opacity: 1;
+  color: rgb(13 148 136 / var(--tw-text-opacity));
+}
+
 .underline {
   text-decoration-line: underline;
 }

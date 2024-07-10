@@ -12,6 +12,7 @@ import { FileDropArea } from "./FileDropArea";
 import { useScreen } from "@/hooks/useScreen";
 import { useState } from "react";
 import { uploadFile } from "@/lib/axios/fileUpload";
+import toast from "react-hot-toast";
 
 type FileDialogProps = {
   open: boolean;
@@ -26,6 +27,21 @@ export function FileDialog({
 }: FileDialogProps) {
   const { screenSelectedHandler } = useScreen();
   const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
+
+  function handleSubmit() {
+    if (screenSelectedHandler) {
+      toast.promise(uploadFile(uploadedFiles[0]), {
+        loading: "Uploading ...",
+        success: (
+          <p className="text-teal-600">your file was uploaded successfully.</p>
+        ),
+        error: <p className="text-red-500">Could not upload file.</p>,
+      });
+      setUploadedFiles([]);
+    }
+    setFileUploadedDialog(true);
+    setOpen(false);
+  }
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent className="sm:max-w-[425px]">
@@ -40,18 +56,7 @@ export function FileDialog({
           setUploadedFiles={setUploadedFiles}
         />
         <DialogFooter>
-          <Button
-            onClick={() => {
-              if (screenSelectedHandler) {
-                uploadFile(uploadedFiles[0]);
-                setUploadedFiles([]);
-                // screenSelectedHandler("fileData");
-              }
-              setFileUploadedDialog(true);
-              setOpen(false);
-            }}
-            type="submit"
-          >
+          <Button onClick={handleSubmit} type="submit">
             Save changes
           </Button>
         </DialogFooter>

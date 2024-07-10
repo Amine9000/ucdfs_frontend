@@ -3,20 +3,12 @@ import { Plus } from "lucide-react";
 import { SearchForm } from "../../global/Search";
 import { FileDialog } from "./FIleDialog";
 import { useEffect, useState } from "react";
-import { MessageDialog } from "./MessageDialog";
-import { MessageType } from "@/types/Message";
 import { getEtapes, searchEtapes } from "@/lib/axios/studentsData";
 import { useFileData } from "@/hooks/useFileData";
 import { Pagination } from "../../global/Pagination";
 import { pageLength } from "@/constants/pagination";
 import { FileDataItem } from "@/types/FileDataItem";
 import { setStateType } from "@/types/setState";
-
-const fileUploadedMessage: MessageType = {
-  title: "File Upload",
-  description: "your file was uploaded successfully.",
-  type: "success",
-};
 
 type FileListNavbarProps = {
   etapes: FileDataItem[];
@@ -30,6 +22,12 @@ export function FileListNavbar({ etapes, setEtapes }: FileListNavbarProps) {
   const [pageNum, setPageNum] = useState<number>(1);
   const [morePage, setMorePages] = useState<boolean>(true);
   const [searchQuery, setSearchQuery] = useState<string>("");
+
+  useEffect(() => {
+    if (fileUploadedDialogOpen) {
+      dialogOpenChangeHandler(pageNum, pageLength);
+    }
+  }, [fileUploadedDialogOpen]);
 
   async function dialogOpenChangeHandler(pageNum: number, pageLength: number) {
     const newData = await getEtapes(pageNum, pageLength);
@@ -83,11 +81,6 @@ export function FileListNavbar({ etapes, setEtapes }: FileListNavbarProps) {
           open={fileDialogOpen}
           setFileUploadedDialog={setFileUploadedDialog}
           setOpen={setFileDialogOpen}
-        />
-        <MessageDialog
-          message={fileUploadedMessage}
-          open={fileUploadedDialogOpen}
-          onOpenChange={() => dialogOpenChangeHandler(pageNum, pageLength)}
         />
       </div>
     </div>
