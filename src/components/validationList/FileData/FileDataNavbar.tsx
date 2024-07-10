@@ -5,7 +5,12 @@ import { FileContentOptions } from "./FileContentOptions";
 import { FileInputs } from "./FileInputs";
 import { useFileData } from "@/hooks/useFileData";
 import { useEffect, useState } from "react";
-import { getStudentsByEtape, search } from "@/lib/axios/studentsData";
+import {
+  getStudentsByEtape,
+  getStudentsValidationByEtape,
+  search,
+  searchStudents,
+} from "@/lib/axios/studentsData";
 import { DownloadDialog } from "./DownloadDialog";
 import { Pagination } from "../../global/Pagination";
 import { pageLength } from "@/constants/pagination";
@@ -19,6 +24,16 @@ export function FileDataNavbar() {
   const [pageNum, setPageNum] = useState<number>(1);
   const [morePage, setMorePages] = useState<boolean>(true);
   const [searchQuery, setSearchQuery] = useState<string>("");
+  const [option, setOption] = useState<string>("students");
+
+  useEffect(() => {
+    if (semester !== "") {
+      if (option == "validation")
+        getStudentsValidationByEtape(setData, pageLength, pageNum, semester);
+      if (option == "students")
+        getStudentsByEtape(setData, pageLength, pageNum, semester);
+    }
+  }, [semester, setData, pageNum, option]);
 
   useEffect(() => {
     getStudentsByEtape(setData, pageLength, pageNum, semester);
@@ -34,10 +49,18 @@ export function FileDataNavbar() {
   }, [data]);
 
   useEffect(() => {
-    if (searchQuery.length > 0)
-      search(setData, searchQuery, pageLength, pageNum, semester);
-    if (searchQuery.length == 0)
-      getStudentsByEtape(setData, pageLength, pageNum, semester);
+    if (searchQuery.length > 0) {
+      if (option == "validation")
+        search(setData, searchQuery, pageLength, pageNum, semester);
+      if (option == "students")
+        searchStudents(setData, searchQuery, pageLength, pageNum, semester);
+    }
+    if (searchQuery.length == 0) {
+      if (option == "validation")
+        getStudentsValidationByEtape(setData, pageLength, pageNum, semester);
+      if (option == "students")
+        getStudentsByEtape(setData, pageLength, pageNum, semester);
+    }
   }, [searchQuery]);
 
   return (
@@ -60,7 +83,11 @@ export function FileDataNavbar() {
       <div className="h-full w-auto flex items-center gap-4">
         <Pagination pageNum={pageNum} setPageNum={setPageNum} more={morePage} />
         <FileInputs />
-        <FileContentOptions pageNum={pageNum} pageLength={pageLength} />
+        <FileContentOptions
+          setOption={setOption}
+          pageNum={pageNum}
+          pageLength={pageLength}
+        />
         <Button
           onClick={() => setDownloadDialogState(true)}
           className="text-white bg-sky-500 hover:bg-sky-700 flex items-center gap-2"

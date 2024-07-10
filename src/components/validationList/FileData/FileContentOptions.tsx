@@ -6,27 +6,20 @@ import {
   getStudentsByEtape,
   getStudentsValidationByEtape,
 } from "@/lib/axios/studentsData";
-import { useEffect, useState } from "react";
+import { setStateType } from "@/types/setState";
 
 type FileContentOptionsProps = {
   pageNum: number;
   pageLength: number;
+  setOption: setStateType<string>;
 };
 
 export function FileContentOptions({
   pageNum,
   pageLength,
+  setOption,
 }: FileContentOptionsProps) {
   const { setData, semester } = useFileData();
-  const [option, setOption] = useState<string>("students");
-  useEffect(() => {
-    if (semester !== "") {
-      if (option == "validation")
-        getStudentsValidationByEtape(setData, pageLength, pageNum, semester);
-      if (option == "students")
-        getStudentsByEtape(setData, pageLength, pageNum, semester);
-    }
-  }, [semester, setData, pageNum, option]);
 
   return (
     <ToggleGroup defaultValue="students" type="single">
