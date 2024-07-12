@@ -5,8 +5,10 @@ import { useEffect, useState } from "react";
 import { UserInfoType } from "@/types/UserInfo";
 import { ls } from "@/lib/LocalStorage";
 import { HOST_LINK } from "@/constants/host";
+import { useTabs } from "@/hooks/useTabs";
 
 export default function Navbar() {
+  const { itemSelected } = useTabs();
   const [userInfo, setUserInfo] = useState<UserInfoType>();
   const [roles, setRoles] = useState<string[]>([]);
   useEffect(() => {
@@ -26,7 +28,7 @@ export default function Navbar() {
       {/* right */}
       <div className="">
         <div className="font-bold text-lg first-letter:uppercase text-zinc-700">
-          Dashboard
+          {itemSelected?.label ?? "Dashboard"}
         </div>
       </div>
 
@@ -47,7 +49,7 @@ export default function Navbar() {
               </div>
             </div>
             <UserProfileOptions>
-              <div className="flex-shrink-0 flex -space-x-2 overflow-hidden cursor-pointer">
+              <div className="flex-shrink-0 flex -space-x-2 overflow-hidden cursor-pointer shadow-sm">
                 <img
                   className="inline-block h-10 w-h-10 rounded-md ring-2 ring-white"
                   src={HOST_LINK + userInfo.user_avatar_path}
