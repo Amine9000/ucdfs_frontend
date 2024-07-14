@@ -14,13 +14,16 @@ import {
 import { FileColumnNames } from "@/types/FileColumnNames";
 import { HTMLAttributes, useState } from "react";
 import { ValidationDialog } from "../validationList/FileData/ValidationDialog";
+import { FileDataItem } from "@/types/FileDataItem";
 
 interface UCDSheetProps extends HTMLAttributes<HTMLDivElement> {
-  student: FileColumnNames;
+  student: FileColumnNames | FileDataItem;
 }
 
 export function UCDSheet({ children, student }: UCDSheetProps) {
-  const [stdData, setStdData] = useState<FileColumnNames>(student);
+  const [stdData, setStdData] = useState<FileColumnNames>(
+    student as FileColumnNames
+  );
   const [dialogOpen, setDialogOpen] = useState<boolean>(false);
 
   function handleInputChange(e: { target: { name: string; value: string } }) {
@@ -63,9 +66,6 @@ export function UCDSheet({ children, student }: UCDSheetProps) {
             <SheetClose asChild>
               <Button variant="secondary">Cancel</Button>
             </SheetClose>
-            <Button variant="destructive" onClick={() => setDialogOpen(true)}>
-              Delete
-            </Button>
             <SheetClose asChild>
               <Button type="submit" variant={"default"}>
                 Save changes

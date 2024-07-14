@@ -1,10 +1,4 @@
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import {
   TableCaption,
   TableHeader,
   TableRow,
@@ -17,10 +11,11 @@ import { FileDataItem } from "@/types/FileDataItem";
 import { EllipsisVertical } from "lucide-react";
 import { useEffect, useState } from "react";
 import { UCDAlertDialog } from "./Dialog";
-import { setStateType } from "@/types/setState";
 import { AlertMessageType } from "@/types/AlertMessage";
 import { PopUpDialog } from "./PopUpDialog";
 import { useScreen } from "@/hooks/useScreen";
+import { OptionsSheet } from "@/components/global/optionsSheet";
+import { Option } from "@/types/Option";
 
 type FileTableProps = {
   data: FileDataItem[];
@@ -37,6 +32,25 @@ export function FileTable({ data }: FileTableProps) {
   const [deleteDialog, setDeleteAlert] = useState(false);
   const [updatePopUp, setUpdatePopUp] = useState(false);
   const [columns, setColumns] = useState<string[]>([]);
+  const options: Option[] = [
+    {
+      label: "Update",
+      value: "update",
+      callback: () => console.log("Updated"),
+    },
+    {
+      label: "Delete",
+      value: "delete",
+      callback: () => console.log("Deleted"),
+    },
+    {
+      label: "Students",
+      value: "students",
+      callback: (etapeCode: string) =>
+        screenSelectedHandler && screenSelectedHandler("fileData", etapeCode),
+    },
+  ];
+
   useEffect(() => {
     if (data.length > 0) {
       setColumns(Object.keys(data[0]));
@@ -57,12 +71,7 @@ export function FileTable({ data }: FileTableProps) {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {MapFileData(
-            data,
-            setDeleteAlert,
-            setUpdatePopUp,
-            screenSelectedHandler
-          )}
+          <MapFileData data={data} options={options} />
         </TableBody>
       </Table>
       <UCDAlertDialog
@@ -76,19 +85,20 @@ export function FileTable({ data }: FileTableProps) {
   );
 }
 
-function MapFileData(
-  data: FileDataItem[],
-  setDeleteAlert: setStateType<boolean>,
-  setUpdatePopUp: setStateType<boolean>,
-  screenSelectedHandler: ((title: string, etape_code?: string) => void) | null
-) {
+function MapFileData({
+  data,
+  options,
+}: {
+  data: FileDataItem[];
+  options: Option[];
+}) {
   return data.map((etape, index) => {
     return (
       <TableRow
-        onClick={() => {
-          if (screenSelectedHandler != null)
-            screenSelectedHandler("fileData", etape.code);
-        }}
+        // onClick={() => {
+        //   if (screenSelectedHandler != null)
+        //     screenSelectedHandler("fileData", etape.code);
+        // }}
         className="cursor-pointer"
         key={index}
       >
@@ -98,34 +108,9 @@ function MapFileData(
           </TableCell>
         ))}
         <TableCell>
-          <DropdownMenu>
-            <DropdownMenuTrigger>
-              <EllipsisVertical className="text-slate-600" />
-            </DropdownMenuTrigger>
-            <DropdownMenuContent>
-              <DropdownMenuItem
-                onClick={(e) => {
-                  if (e) {
-                    e.stopPropagation();
-                    setUpdatePopUp(true);
-                  }
-                }}
-              >
-                update
-              </DropdownMenuItem>
-              <DropdownMenuItem
-                onClick={(e) => {
-                  if (e) {
-                    e.stopPropagation();
-                    setDeleteAlert(true);
-                  }
-                }}
-              >
-                delete
-              </DropdownMenuItem>
-              <DropdownMenuItem>rename</DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          <OptionsSheet options={options} data={etape}>
+            <EllipsisVertical className="text-slate-600" />
+          </OptionsSheet>
         </TableCell>
       </TableRow>
     );
