@@ -12,15 +12,14 @@ import {
 import { cn } from "@/lib/utils";
 import { AlertMessageType } from "@/types/AlertMessage";
 import { setStateType } from "@/types/setState";
-import { ReactElement } from "react";
+import { HTMLAttributes } from "react";
 
-type UCDAlertDialogOptions = {
-  trigger?: string | ReactElement;
+interface UCDAlertDialogOptions extends HTMLAttributes<HTMLDivElement> {
   message: AlertMessageType;
-  confirmAction: () => void;
-  open: boolean;
-  setOpenState: setStateType<boolean>;
-};
+  confirmAction?: () => void;
+  open?: boolean;
+  setOpenState?: setStateType<boolean>;
+}
 
 const colors = {
   success: "bg-green-500",
@@ -30,7 +29,7 @@ const colors = {
 };
 
 export function UCDAlertDialog({
-  trigger,
+  children,
   message,
   confirmAction,
   open,
@@ -38,7 +37,7 @@ export function UCDAlertDialog({
 }: UCDAlertDialogOptions) {
   return (
     <AlertDialog open={open} onOpenChange={setOpenState}>
-      {trigger && <AlertDialogTrigger>{trigger}</AlertDialogTrigger>}
+      {children && <AlertDialogTrigger>{children}</AlertDialogTrigger>}
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>{message.title}</AlertDialogTitle>
@@ -47,7 +46,7 @@ export function UCDAlertDialog({
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
           <AlertDialogAction
-            onClick={() => confirmAction()}
+            onClick={() => confirmAction && confirmAction()}
             className={cn(colors[message.type], "text-white")}
           >
             confirm

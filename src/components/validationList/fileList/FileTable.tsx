@@ -8,11 +8,15 @@ import {
   Table,
 } from "@/components/ui/table";
 import { FileDataItem } from "@/types/FileDataItem";
-import { EllipsisVertical } from "lucide-react";
+import {
+  EllipsisVertical,
+  Settings2,
+  SquareArrowOutUpRight,
+  Trash2,
+} from "lucide-react";
 import { useEffect, useState } from "react";
 import { UCDAlertDialog } from "./Dialog";
 import { AlertMessageType } from "@/types/AlertMessage";
-import { PopUpDialog } from "./PopUpDialog";
 import { useScreen } from "@/hooks/useScreen";
 import { OptionsSheet } from "@/components/global/optionsSheet";
 import { Option } from "@/types/Option";
@@ -30,24 +34,26 @@ const deleteMessageDialog: AlertMessageType = {
 export function FileTable({ data }: FileTableProps) {
   const { screenSelectedHandler } = useScreen();
   const [deleteDialog, setDeleteAlert] = useState(false);
-  const [updatePopUp, setUpdatePopUp] = useState(false);
   const [columns, setColumns] = useState<string[]>([]);
   const options: Option[] = [
     {
       label: "Update",
       value: "update",
       callback: () => console.log("Updated"),
+      icon: Settings2,
     },
     {
       label: "Delete",
       value: "delete",
       callback: () => console.log("Deleted"),
+      icon: Trash2,
     },
     {
       label: "Students",
       value: "students",
       callback: (etapeCode: string) =>
         screenSelectedHandler && screenSelectedHandler("fileData", etapeCode),
+      icon: SquareArrowOutUpRight,
     },
   ];
 
@@ -80,7 +86,6 @@ export function FileTable({ data }: FileTableProps) {
         deleteDialog={deleteDialog}
         setDeleteAlert={setDeleteAlert}
       />
-      <PopUpDialog open={updatePopUp} setOpen={setUpdatePopUp} />
     </>
   );
 }

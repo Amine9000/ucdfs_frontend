@@ -17,7 +17,6 @@ type PopUpDialogOptions = {
 };
 
 export function PopUpDialog({ open, setOpen }: PopUpDialogOptions) {
-  console.log("NOW");
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent className="sm:max-w-[425px]">

@@ -1,4 +1,4 @@
-import { UCDSheet } from "@/components/global/UCDSheet";
+import { OptionsSheet } from "@/components/global/optionsSheet";
 import {
   TableCaption,
   TableHeader,
@@ -9,7 +9,8 @@ import {
   Table,
 } from "@/components/ui/table";
 import { FileColumnNames } from "@/types/FileColumnNames";
-import { EllipsisVertical } from "lucide-react";
+import { Option } from "@/types/Option";
+import { EllipsisVertical, Settings2, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
 
 type FileDataTableProps = {
@@ -18,6 +19,21 @@ type FileDataTableProps = {
 
 export function FileDataTable({ data }: FileDataTableProps) {
   const [columns, setColumns] = useState<string[]>([]);
+  const options: Option[] = [
+    {
+      label: "Update",
+      value: "update",
+      callback: () => console.log("Updated"),
+      icon: Settings2,
+    },
+    {
+      label: "Delete",
+      value: "delete",
+      callback: () => console.log("Deleted"),
+      icon: Trash2,
+    },
+  ];
+
   useEffect(() => {
     if (data.length > 0) {
       setColumns(Object.keys(data[0]));
@@ -37,13 +53,13 @@ export function FileDataTable({ data }: FileDataTableProps) {
             <TableHead className="text-slate-900">actions</TableHead>
           </TableRow>
         </TableHeader>
-        <TableBody>{MapFileData(data)}</TableBody>
+        <TableBody>{MapFileData(data, options)}</TableBody>
       </Table>
     </>
   );
 }
 
-function MapFileData(data: FileColumnNames[]) {
+function MapFileData(data: FileColumnNames[], options: Option[]) {
   return data.map((student, index) => {
     return (
       <TableRow className="cursor-pointer py-1" key={index}>
@@ -55,9 +71,9 @@ function MapFileData(data: FileColumnNames[]) {
           );
         })}
         <TableCell>
-          <UCDSheet student={student}>
-            <EllipsisVertical size={20} className="text-slate-700" />
-          </UCDSheet>
+          <OptionsSheet options={options} data={student}>
+            <EllipsisVertical className="text-slate-600" />
+          </OptionsSheet>
         </TableCell>
       </TableRow>
     );

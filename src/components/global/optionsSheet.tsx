@@ -1,4 +1,3 @@
-import { Button } from "@/components/ui/button";
 import {
   Sheet,
   SheetContent,
@@ -14,12 +13,20 @@ import { Option } from "@/types/Option";
 import { FileDataItem } from "@/types/FileDataItem";
 import { Label } from "../ui/label";
 import { UCDSheet } from "./UCDSheet";
-import { Settings2, Trash2 } from "lucide-react";
+import { UCDAlertDialog } from "./Dialog";
+import { AlertMessageType } from "@/types/AlertMessage";
+import { FileColumnNames } from "@/types/FileColumnNames";
 
 interface UCDSheetProps extends HTMLAttributes<HTMLDivElement> {
-  data: FileDataItem;
+  data: FileDataItem | FileColumnNames;
   options: Option[];
 }
+
+const deleteMessage: AlertMessageType = {
+  title: "Delete Element",
+  description: "Are you sure you want to delete this element.",
+  type: "error",
+};
 
 export function OptionsSheet({ children, options, data }: UCDSheetProps) {
   const [dialogOpen, setDialogOpen] = useState<boolean>(false);
@@ -52,28 +59,30 @@ export function OptionsSheet({ children, options, data }: UCDSheetProps) {
           <SheetFooter>
             <div className="flex flex-col gap-2 w-full">
               {options.map((option) => {
-                // return <div key={option.label}>{option.label}</div>;
                 switch (option.value) {
                   case "delete":
                     return (
-                      <div
-                        className="flex gap-4 text-slate-700 bg-slate-100 w-full rounded-sm py-2 px-4 cursor-pointer items-center justify-start"
+                      <UCDAlertDialog
                         key={option.label}
-                        onClick={() => option.callback(data.code)}
+                        message={deleteMessage}
                       >
-                        <Trash2 />
-                        {option.label}
-                      </div>
+                        <div
+                          className="flex gap-4 text-slate-700 bg-slate-100 w-full rounded-sm py-2 px-4 cursor-pointer items-center justify-start"
+                          onClick={() => option.callback(data.code)}
+                        >
+                          <option.icon size={20} />
+                          {option.label}
+                        </div>
+                      </UCDAlertDialog>
                     );
                   default:
                     return (
-                      <UCDSheet student={data}>
+                      <UCDSheet key={option.label} student={data}>
                         <div
                           className="flex gap-4 text-slate-700 bg-slate-100 w-full rounded-sm py-2 px-4 cursor-pointer items-center justify-start"
-                          key={option.label}
                           onClick={() => option.callback(data.code)}
                         >
-                          <Settings2 size={20} />
+                          <option.icon size={20} />
                           {option.label}
                         </div>
                       </UCDSheet>
