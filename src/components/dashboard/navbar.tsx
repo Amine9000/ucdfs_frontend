@@ -12,16 +12,11 @@ export default function Navbar() {
   const [userInfo, setUserInfo] = useState<UserInfoType>();
   const [roles, setRoles] = useState<string[]>([]);
   useEffect(() => {
+    const access_token: string = ls.getAccessToken();
     const infos: UserInfoType = ls.userInfo();
     const user_roles: string[] = ls.roles();
     if (user_roles.length > 0) setRoles(user_roles);
-    if (
-      infos.user_avatar_path &&
-      infos.user_email &&
-      infos.user_fname &&
-      infos.user_lname
-    )
-      setUserInfo(infos);
+    if (access_token.length > 0) setUserInfo(infos);
   }, []);
   return (
     <div className="w-full h-[52px] bg-white rounded flex-shrink-0 flex items-center justify-between px-4 py-1">
@@ -38,7 +33,7 @@ export default function Navbar() {
           <span className="group-hover:animate-ping absolute inline-flex h-[8px] w-[8px] rounded-full bg-red-500 opacity-75 top-2 right-4"></span>
           <Bell size={20} />
         </Button>
-        {userInfo?.user_email && (
+        {(userInfo?.user_email || userInfo?.user_code) && (
           <div className="flex h-full w-auto items-center justify-between gap-4 px-4 rounded py-1">
             <div className="flex flex-col justify-center items-start">
               <div className="text-zinc-700 uppercase text-sm font-bold w-[150px] truncate">

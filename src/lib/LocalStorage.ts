@@ -26,8 +26,7 @@ class LocalStorage {
   checkUserData = () => {
     const access_token = this.getAccessToken();
     const roles = this.roles();
-    const userInfo = this.userInfo();
-    return roles.length > 0 && userInfo.user_email && access_token.length > 0;
+    return roles.length > 0 && access_token.length > 0;
   };
 }
 

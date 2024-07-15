@@ -1,5 +1,4 @@
 import { ls } from "@/lib/LocalStorage";
-import { SignUp } from "@/lib/axios/signUp";
 import { useState } from "react";
 import { UCDAlert } from "./UCDAlert";
 import { Label } from "../ui/label";
@@ -7,6 +6,7 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { Icons } from "../icons";
 import { cn } from "@/lib/utils";
+import { studentSignIn } from "@/lib/axios/studentSignIn";
 
 interface StudentsLoginFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -15,7 +15,7 @@ export function StudentsLoginForm({
   ...props
 }: StudentsLoginFormProps) {
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [email, setEmail] = useState<string>("");
+  const [cne, setCne] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [errorMessage, setErrorMessage] = useState<string>("");
 
@@ -23,8 +23,8 @@ export function StudentsLoginForm({
     event.preventDefault();
     setIsLoading(true);
 
-    const data = await SignUp({
-      email: email,
+    const data = await studentSignIn({
+      cne: cne,
       password: password,
     });
     if (data) {
@@ -53,7 +53,8 @@ export function StudentsLoginForm({
             </Label>
             <Input
               id="cne"
-              onChange={(e) => e && setEmail(e.target.value)}
+              onChange={(e) => e && setCne(e.target.value)}
+              value={cne}
               placeholder="A123456789"
               type="text"
               autoCapitalize="none"
@@ -68,6 +69,7 @@ export function StudentsLoginForm({
             <Input
               id="password"
               onChange={(e) => e && setPassword(e.target.value)}
+              value={password}
               placeholder="***********"
               type="password"
               autoCapitalize="none"

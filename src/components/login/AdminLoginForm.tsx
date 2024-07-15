@@ -3,10 +3,10 @@ import { Icons } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { SignUp } from "@/lib/axios/signUp";
 import { useState } from "react";
 import { ls } from "@/lib/LocalStorage";
 import { UCDAlert } from "./UCDAlert";
+import { adminSignIn } from "@/lib/axios/adminSignIn";
 
 interface loginFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -20,7 +20,7 @@ export function AdminLoginForm({ className, ...props }: loginFormProps) {
     event.preventDefault();
     setIsLoading(true);
 
-    const data = await SignUp({
+    const data = await adminSignIn({
       email: email,
       password: password,
     });

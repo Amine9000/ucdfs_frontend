@@ -51,14 +51,14 @@ export const bottomList: SidebarItemType[] = [
     label: "parameters",
     icon: Settings,
     element: <UnderConstruction pageName="parameters" />,
-    roles: [Roles.ADMIN, Roles.STUDENTS_MANAGER],
+    roles: [],
     hidden: false,
   },
   {
     label: "profile",
     icon: User,
     element: <Profile />,
-    roles: [Roles.ADMIN, Roles.STUDENTS_MANAGER],
+    roles: [],
     hidden: false,
   },
 ];

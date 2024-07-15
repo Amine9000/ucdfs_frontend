@@ -1,4 +1,4 @@
-export type signInDataType = {
+export type AdminsignInDataType = {
   email: string;
   password: string;
 };

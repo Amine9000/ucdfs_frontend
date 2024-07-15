@@ -1,10 +1,10 @@
 import { HOST_LINK } from "@/constants/host";
-import { signInDataType } from "@/types/signInDataType";
+import { AdminsignInDataType } from "@/types/adminSignInDataType";
 import axios from "axios";
 
-export async function SignUp(data: signInDataType) {
+export async function adminSignIn(data: AdminsignInDataType) {
   try {
-    const res = await axios.post(`${HOST_LINK}auth/signin`, {
+    const res = await axios.post(`${HOST_LINK}auth/admin/signin`, {
       email: data.email,
       password: data.password,
     });
