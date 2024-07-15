@@ -7,5 +7,5 @@ export type Option = {
   icon: ForwardRefExoticComponent<
     Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>
   >;
-  callback: (value: string) => void | null;
+  callback: (value: string) => Promise<void> | Promise<unknown> | void | null;
 };

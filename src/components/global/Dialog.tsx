@@ -12,7 +12,7 @@ import {
 import { cn } from "@/lib/utils";
 import { AlertMessageType } from "@/types/AlertMessage";
 import { setStateType } from "@/types/setState";
-import { HTMLAttributes } from "react";
+import { HTMLAttributes, useState } from "react";
 
 interface UCDAlertDialogOptions extends HTMLAttributes<HTMLDivElement> {
   message: AlertMessageType;
@@ -31,13 +31,22 @@ const colors = {
 export function UCDAlertDialog({
   children,
   message,
-  confirmAction,
   open,
   setOpenState,
+  confirmAction,
 }: UCDAlertDialogOptions) {
+  const [internalOpen, setInternalOpen] = useState<boolean>(false);
+
+  const handleOpenChange = (isOpen: boolean) => {
+    if (setOpenState) {
+      setOpenState(isOpen);
+    } else {
+      setInternalOpen(isOpen);
+    }
+  };
   return (
-    <AlertDialog open={open} onOpenChange={setOpenState}>
-      {children && <AlertDialogTrigger>{children}</AlertDialogTrigger>}
+    <AlertDialog open={open ?? internalOpen} onOpenChange={handleOpenChange}>
+      {children && <AlertDialogTrigger asChild>{children}</AlertDialogTrigger>}
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>{message.title}</AlertDialogTitle>

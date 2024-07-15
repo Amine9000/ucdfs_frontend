@@ -8,28 +8,56 @@ import {
   TableCell,
   Table,
 } from "@/components/ui/table";
+import { useFileData } from "@/hooks/useFileData";
+import { deleteStudent } from "@/lib/axios/deleteStudent";
 import { FileColumnNames } from "@/types/FileColumnNames";
 import { Option } from "@/types/Option";
 import { EllipsisVertical, Settings2, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 
 type FileDataTableProps = {
   data: FileColumnNames[];
 };
 
 export function FileDataTable({ data }: FileDataTableProps) {
+  const { data: userList, setData } = useFileData();
   const [columns, setColumns] = useState<string[]>([]);
+
+  async function handleDeleteAction(cne: string) {
+    try {
+      const res: { message: string } = await deleteStudent(cne);
+      const nData = userList.filter((std) => std["CNE"] != cne);
+      setData(nData);
+      toast.promise(Promise.resolve(res.message), {
+        loading: "Deleting...",
+        success: <small className="text-sm">{res.message}</small>,
+        error: (
+          <small className="text-sm">An error occurred while deleting.</small>
+        ),
+      });
+    } catch (error) {
+      toast.error("An error occurred while deleting.");
+    }
+  }
+
   const options: Option[] = [
     {
       label: "Update",
       value: "update",
-      callback: () => console.log("Updated"),
+      callback: () => console.log("Updated."),
       icon: Settings2,
     },
     {
       label: "Delete",
       value: "delete",
-      callback: () => console.log("Deleted"),
+      callback: (cne: string) => handleDeleteAction(cne),
+      icon: Trash2,
+    },
+    {
+      label: "Regenerate Password",
+      value: "regeneratepwd",
+      callback: () => console.log("password regenerated."),
       icon: Trash2,
     },
   ];
