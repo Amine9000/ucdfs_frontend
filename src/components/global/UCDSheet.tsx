@@ -15,16 +15,25 @@ import { FileColumnNames } from "@/types/FileColumnNames";
 import { HTMLAttributes, useState } from "react";
 import { ValidationDialog } from "../validationList/FileData/ValidationDialog";
 import { FileDataItem } from "@/types/FileDataItem";
+import { setStateType } from "@/types/setState";
+import { Alert, AlertDescription, AlertTitle } from "../ui/alert";
+import { AlertCircle } from "lucide-react";
 
 interface UCDSheetProps extends HTMLAttributes<HTMLDivElement> {
   student: FileColumnNames | FileDataItem;
+  callback: (
+    value: string,
+    data?: FileColumnNames,
+    setError?: setStateType<string>
+  ) => Promise<void> | Promise<unknown> | void | null;
 }
 
-export function UCDSheet({ children, student }: UCDSheetProps) {
+export function UCDSheet({ children, student, callback }: UCDSheetProps) {
   const [stdData, setStdData] = useState<FileColumnNames>(
     student as FileColumnNames
   );
   const [dialogOpen, setDialogOpen] = useState<boolean>(false);
+  const [error, setError] = useState<string>("");
 
   function handleInputChange(e: { target: { name: string; value: string } }) {
     setStdData((prevStdData) => ({
@@ -44,6 +53,13 @@ export function UCDSheet({ children, student }: UCDSheetProps) {
               done.
             </SheetDescription>
           </SheetHeader>
+          {error && error.length > 0 && (
+            <Alert variant="destructive">
+              <AlertCircle className="h-4 w-4" />
+              <AlertTitle>Error</AlertTitle>
+              <AlertDescription>{error}</AlertDescription>
+            </Alert>
+          )}
           <div className="grid gap-4 py-4">
             {Object.keys(stdData).map((key) => {
               return (
@@ -67,7 +83,17 @@ export function UCDSheet({ children, student }: UCDSheetProps) {
               <Button variant="secondary">Cancel</Button>
             </SheetClose>
             <SheetClose asChild>
-              <Button type="submit" variant={"default"}>
+              <Button
+                onClick={() =>
+                  callback(
+                    (student as FileColumnNames)["CNE"],
+                    stdData,
+                    setError as setStateType<string>
+                  )
+                }
+                type="submit"
+                variant={"default"}
+              >
                 Save changes
               </Button>
             </SheetClose>

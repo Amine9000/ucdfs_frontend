@@ -75,13 +75,25 @@ export function OptionsSheet({ children, options, data }: UCDSheetProps) {
                         </div>
                       </UCDAlertDialog>
                     );
+                  case "showstudents":
+                    return (
+                      <div
+                        key={option.label}
+                        onClick={() => option.callback(data.code)}
+                        className="flex gap-4 text-slate-700 bg-slate-100 w-full rounded-sm py-2 px-4 cursor-pointer items-center justify-start"
+                      >
+                        <option.icon size={20} />
+                        {option.label}
+                      </div>
+                    );
                   default:
                     return (
-                      <UCDSheet key={option.label} student={data}>
-                        <div
-                          className="flex gap-4 text-slate-700 bg-slate-100 w-full rounded-sm py-2 px-4 cursor-pointer items-center justify-start"
-                          onClick={() => option.callback(data.code)}
-                        >
+                      <UCDSheet
+                        key={option.label}
+                        student={data}
+                        callback={option.callback}
+                      >
+                        <div className="flex gap-4 text-slate-700 bg-slate-100 w-full rounded-sm py-2 px-4 cursor-pointer items-center justify-start">
                           <option.icon size={20} />
                           {option.label}
                         </div>

@@ -10,9 +10,11 @@ import {
 } from "@/components/ui/table";
 import { useFileData } from "@/hooks/useFileData";
 import { deleteStudent } from "@/lib/axios/deleteStudent";
+import { updateStudent } from "@/lib/axios/updateStudent";
 import { FileColumnNames } from "@/types/FileColumnNames";
 import { Option } from "@/types/Option";
-import { EllipsisVertical, Settings2, Trash2 } from "lucide-react";
+import { setStateType } from "@/types/setState";
+import { Cog, EllipsisVertical, Settings2, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
@@ -41,11 +43,43 @@ export function FileDataTable({ data }: FileDataTableProps) {
     }
   }
 
+  async function handleUpdateAction(
+    cne: string,
+    data?: FileColumnNames,
+    setError?: setStateType<string>
+  ) {
+    try {
+      console.log(data);
+      const res = await updateStudent(cne, data ?? {});
+      if (res && res.status != 200 && setError) {
+        setError(res.data.message);
+      } else {
+        const nData = userList.map((std) => {
+          return std["CNE"] == cne ? data : std;
+        });
+        setData(nData as FileColumnNames[]);
+        toast.promise(Promise.resolve(res?.data.message), {
+          loading: "Updating...",
+          success: <small className="text-sm">Updated successfully</small>,
+          error: (
+            <small className="text-sm">An error occurred while updating.</small>
+          ),
+        });
+      }
+    } catch (error) {
+      toast.error("An error occurred while deleting.");
+    }
+  }
+
   const options: Option[] = [
     {
       label: "Update",
       value: "update",
-      callback: () => console.log("Updated."),
+      callback: (
+        cne: string,
+        data?: FileColumnNames,
+        setError?: setStateType<string>
+      ) => handleUpdateAction(cne, data, setError),
       icon: Settings2,
     },
     {
@@ -58,7 +92,7 @@ export function FileDataTable({ data }: FileDataTableProps) {
       label: "Regenerate Password",
       value: "regeneratepwd",
       callback: () => console.log("password regenerated."),
-      icon: Trash2,
+      icon: Cog,
     },
   ];
 

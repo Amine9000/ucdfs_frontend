@@ -50,7 +50,7 @@ export function FileTable({ data }: FileTableProps) {
     },
     {
       label: "Students",
-      value: "students",
+      value: "showstudents",
       callback: (etapeCode: string) =>
         screenSelectedHandler && screenSelectedHandler("fileData", etapeCode),
       icon: SquareArrowOutUpRight,
