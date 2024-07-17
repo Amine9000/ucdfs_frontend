@@ -26,18 +26,18 @@ export function FileDialog({
   setFileUploadedDialog,
 }: FileDialogProps) {
   const { screenSelectedHandler } = useScreen();
-  const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
+  const [uploadedFile, setUploadedFile] = useState<File | null>(null);
 
   function handleSubmit() {
     if (screenSelectedHandler) {
-      toast.promise(uploadFile(uploadedFiles[0]), {
+      toast.promise(uploadFile(uploadedFile), {
         loading: "Uploading ...",
         success: (
           <p className="text-teal-600">your file was uploaded successfully.</p>
         ),
         error: <p className="text-red-500">Could not upload file.</p>,
       });
-      setUploadedFiles([]);
+      setUploadedFile(null);
     }
     setFileUploadedDialog(true);
     setOpen(false);
@@ -52,8 +52,8 @@ export function FileDialog({
           </DialogDescription>
         </DialogHeader>
         <FileDropArea
-          uploadedFiles={uploadedFiles}
-          setUploadedFiles={setUploadedFiles}
+          uploadedFile={uploadedFile}
+          setUploadedFile={setUploadedFile}
         />
         <DialogFooter>
           <Button onClick={handleSubmit} type="submit">
