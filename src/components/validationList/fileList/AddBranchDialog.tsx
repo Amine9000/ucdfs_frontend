@@ -13,10 +13,16 @@ import { HTMLAttributes, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { addEtape } from "@/lib/axios/addEtape";
+import { FileDataItem } from "@/types/FileDataItem";
+import { setStateType } from "@/types/setState";
 
-interface GroupDialogProps extends HTMLAttributes<HTMLDivElement> {}
+interface GroupDialogProps extends HTMLAttributes<HTMLDivElement> {
+  data: FileDataItem[];
+  setData: setStateType<FileDataItem[]>;
+}
 
-export function AddBranchDialog({ children }: GroupDialogProps) {
+export function AddBranchDialog({ children, setData }: GroupDialogProps) {
+  const [open, setOpen] = useState<boolean>();
   const [etapeCode, setEtapeCode] = useState<string>("");
   const [etapeName, setEtapeName] = useState<string>("");
   const [error, setError] = useState<string>("");
@@ -30,11 +36,25 @@ export function AddBranchDialog({ children }: GroupDialogProps) {
       setError("");
     }
     const res = await addEtape(etapeCode, etapeName);
-    console.log(res);
+    if (res?.status == 201) {
+      setOpen(false);
+      setData((prev) => [
+        {
+          code: etapeCode,
+          nom: etapeName,
+          semesters: "unknown",
+          etudiants: 0,
+          modules: 0,
+        },
+        ...prev,
+      ]);
+    } else {
+      setError("Erreur lors de l'ajout de l'étape");
+    }
   }
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent className="sm:max-w-[900px]">
         <DialogHeader>

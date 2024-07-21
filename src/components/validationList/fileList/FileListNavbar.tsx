@@ -78,7 +78,7 @@ export function FileListNavbar({ etapes, setEtapes }: FileListNavbarProps) {
             groupe <Group size={20} className="text-white ml-2" />
           </Button>
         </GroupDialog>
-        <AddBranchDialog>
+        <AddBranchDialog setData={setEtapes} data={etapes}>
           <Button className="text-white bg-sky-500 hover:bg-sky-700">
             nouvelle filière <Plus size={20} className="text-white ml-2" />
           </Button>

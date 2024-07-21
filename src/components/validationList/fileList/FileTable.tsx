@@ -21,9 +21,11 @@ import { useScreen } from "@/hooks/useScreen";
 import { OptionsSheet } from "@/components/global/optionsSheet";
 import { Option } from "@/types/Option";
 import { deleteEtape } from "@/lib/axios/deleteEtape";
+import { setStateType } from "@/types/setState";
 
 type FileTableProps = {
   data: FileDataItem[];
+  setData: setStateType<FileDataItem[]>;
 };
 
 const deleteMessageDialog: AlertMessageType = {
@@ -32,7 +34,7 @@ const deleteMessageDialog: AlertMessageType = {
   type: "error",
 };
 
-export function FileTable({ data }: FileTableProps) {
+export function FileTable({ data, setData }: FileTableProps) {
   const { screenSelectedHandler } = useScreen();
   const [deleteDialog, setDeleteAlert] = useState(false);
   const [columns, setColumns] = useState<string[]>([]);
@@ -46,7 +48,13 @@ export function FileTable({ data }: FileTableProps) {
     {
       label: "Delete",
       value: "delete",
-      callback: (etape_code: string) => deleteEtape(etape_code),
+      callback: (etape_code: string) => {
+        deleteEtape(etape_code);
+        const ndata = data.filter((d) => {
+          return d.code !== etape_code;
+        });
+        setData(ndata);
+      },
       icon: Trash2,
     },
     {

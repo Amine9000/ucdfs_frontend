@@ -46,16 +46,11 @@ export function GroupDialog({ children }: GroupDialogProps) {
     fetchBranches();
   }, []);
 
-  useEffect(() => {
-    console.log(selectedBranches);
-  }, [selectedBranches]);
-
   function handleDownloadButton() {
     getProccessedDataFileByEtapes(
       selectedBranches.map((b) => b.value),
       NGroupes
     );
-    console.log(selectedBranches);
   }
 
   return (
