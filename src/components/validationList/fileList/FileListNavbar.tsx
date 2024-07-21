@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Plus } from "lucide-react";
+import { FileUp, Group, Plus } from "lucide-react";
 import { SearchForm } from "../../global/Search";
 import { FileDialog } from "./FIleDialog";
 import { useEffect, useState } from "react";
@@ -9,6 +9,8 @@ import { Pagination } from "../../global/Pagination";
 import { pageLength } from "@/constants/pagination";
 import { FileDataItem } from "@/types/FileDataItem";
 import { setStateType } from "@/types/setState";
+import { GroupDialog } from "./GroupDialog";
+import { AddBranchDialog } from "./AddBranchDialog";
 
 type FileListNavbarProps = {
   etapes: FileDataItem[];
@@ -71,11 +73,21 @@ export function FileListNavbar({ etapes, setEtapes }: FileListNavbarProps) {
       />
       <div className="h-full w-auto flex items-center gap-2">
         <Pagination pageNum={pageNum} setPageNum={setPageNum} more={morePage} />
+        <GroupDialog>
+          <Button className="text-white bg-sky-500 hover:bg-sky-700">
+            groupe <Group size={20} className="text-white ml-2" />
+          </Button>
+        </GroupDialog>
+        <AddBranchDialog>
+          <Button className="text-white bg-sky-500 hover:bg-sky-700">
+            nouvelle filière <Plus size={20} className="text-white ml-2" />
+          </Button>
+        </AddBranchDialog>
         <Button
           onClick={() => setFileDialogOpen(true)}
           className="text-white bg-sky-500 hover:bg-sky-700"
         >
-          New <Plus className="text-white size-6 ml-2" />
+          charger <FileUp size={20} className="text-white ml-2" />
         </Button>
         <FileDialog
           open={fileDialogOpen}

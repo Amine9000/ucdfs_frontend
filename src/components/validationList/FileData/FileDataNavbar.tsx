@@ -95,10 +95,10 @@ export function FileDataNavbar() {
           Download <Download size={20} />
         </Button>
         <Button
-          onClick={() => console.log("Updated")}
+          onClick={() => console.log("add student")}
           className="text-white bg-sky-500 hover:bg-sky-700 flex items-center gap-2"
         >
-          Update <PenLine size={20} />
+          add student <PenLine size={20} />
         </Button>
       </div>
       <DownloadDialog

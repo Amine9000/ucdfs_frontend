@@ -66,7 +66,10 @@ export function OptionsSheet({ children, options, data }: UCDSheetProps) {
                         key={option.label}
                         message={deleteMessage}
                         confirmAction={() =>
-                          option.callback((data as FileColumnNames)["CNE"])
+                          option.callback(
+                            (data as FileColumnNames)["CNE"] ||
+                              (data as FileColumnNames)["code"]
+                          )
                         }
                       >
                         <div className="flex gap-4 text-slate-700 bg-slate-100 w-full rounded-sm py-2 px-4 cursor-pointer items-center justify-start">

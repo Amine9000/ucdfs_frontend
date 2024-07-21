@@ -20,6 +20,7 @@ import { AlertMessageType } from "@/types/AlertMessage";
 import { useScreen } from "@/hooks/useScreen";
 import { OptionsSheet } from "@/components/global/optionsSheet";
 import { Option } from "@/types/Option";
+import { deleteEtape } from "@/lib/axios/deleteEtape";
 
 type FileTableProps = {
   data: FileDataItem[];
@@ -45,7 +46,7 @@ export function FileTable({ data }: FileTableProps) {
     {
       label: "Delete",
       value: "delete",
-      callback: () => console.log("Deleted"),
+      callback: (etape_code: string) => deleteEtape(etape_code),
       icon: Trash2,
     },
     {
