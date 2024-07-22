@@ -20,7 +20,7 @@ import { Alert, AlertDescription, AlertTitle } from "../ui/alert";
 import { AlertCircle } from "lucide-react";
 
 interface UCDSheetProps extends HTMLAttributes<HTMLDivElement> {
-  student: FileColumnNames | FileDataItem;
+  data: FileColumnNames | FileDataItem;
   callback: (
     value: string,
     data?: FileColumnNames,
@@ -28,16 +28,16 @@ interface UCDSheetProps extends HTMLAttributes<HTMLDivElement> {
   ) => Promise<void> | Promise<unknown> | void | null;
 }
 
-export function UCDSheet({ children, student, callback }: UCDSheetProps) {
-  const [stdData, setStdData] = useState<FileColumnNames>(
-    student as FileColumnNames
+export function UCDSheet({ children, data, callback }: UCDSheetProps) {
+  const [dataState, setDataState] = useState<FileColumnNames>(
+    data as FileColumnNames
   );
   const [dialogOpen, setDialogOpen] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
 
   function handleInputChange(e: { target: { name: string; value: string } }) {
-    setStdData((prevStdData) => ({
-      ...prevStdData,
+    setDataState((prevData) => ({
+      ...prevData,
       [e.target.name]: e.target.value,
     }));
   }
@@ -61,7 +61,7 @@ export function UCDSheet({ children, student, callback }: UCDSheetProps) {
             </Alert>
           )}
           <div className="grid gap-4 py-4">
-            {Object.keys(stdData).map((key) => {
+            {Object.keys(data).map((key) => {
               return (
                 <div key={key} className="grid grid-cols-4 items-center gap-4">
                   <Label htmlFor="name" className="text-right">
@@ -71,7 +71,7 @@ export function UCDSheet({ children, student, callback }: UCDSheetProps) {
                     id="name"
                     name={key}
                     onChange={handleInputChange}
-                    value={stdData[key]}
+                    value={dataState[key]}
                     className="col-span-3 focus-visible:ring-0 focus-visible:ring-offset-0"
                   />
                 </div>
@@ -86,8 +86,9 @@ export function UCDSheet({ children, student, callback }: UCDSheetProps) {
               <Button
                 onClick={() =>
                   callback(
-                    (student as FileColumnNames)["CNE"],
-                    stdData,
+                    (data as FileColumnNames)["CNE"] ||
+                      (data as FileColumnNames)["code"],
+                    dataState,
                     setError as setStateType<string>
                   )
                 }

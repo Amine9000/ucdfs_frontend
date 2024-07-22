@@ -93,7 +93,7 @@ export function OptionsSheet({ children, options, data }: UCDSheetProps) {
                     return (
                       <UCDSheet
                         key={option.label}
-                        student={data}
+                        data={data}
                         callback={option.callback}
                       >
                         <div className="flex gap-4 text-slate-700 bg-slate-100 w-full rounded-sm py-2 px-4 cursor-pointer items-center justify-start">

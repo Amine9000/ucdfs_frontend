@@ -22,6 +22,8 @@ import { OptionsSheet } from "@/components/global/optionsSheet";
 import { Option } from "@/types/Option";
 import { deleteEtape } from "@/lib/axios/deleteEtape";
 import { setStateType } from "@/types/setState";
+import { FileColumnNames } from "@/types/FileColumnNames";
+import { updateEtape } from "@/lib/axios/uppdateEtape";
 
 type FileTableProps = {
   data: FileDataItem[];
@@ -42,7 +44,21 @@ export function FileTable({ data, setData }: FileTableProps) {
     {
       label: "Update",
       value: "update",
-      callback: () => console.log("Updated"),
+      callback: async (
+        etape_code: string,
+        etape?: FileDataItem | FileColumnNames
+      ) => {
+        const res = await updateEtape(etape_code, etape as FileDataItem);
+        if (res) {
+          const index = data.findIndex((item) => item.code === etape_code);
+          const ndata = [
+            ...data.slice(0, index),
+            etape,
+            ...data.slice(index + 1),
+          ];
+          setData(ndata as FileDataItem[]);
+        }
+      },
       icon: Settings2,
     },
     {
