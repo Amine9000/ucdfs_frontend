@@ -11,6 +11,7 @@ import { FileDataItem } from "@/types/FileDataItem";
 import { setStateType } from "@/types/setState";
 import { GroupDialog } from "./GroupDialog";
 import { AddBranchDialog } from "./AddBranchDialog";
+import { AddModuleDialog } from "./addModule";
 
 type FileListNavbarProps = {
   etapes: FileDataItem[];
@@ -75,19 +76,24 @@ export function FileListNavbar({ etapes, setEtapes }: FileListNavbarProps) {
         <Pagination pageNum={pageNum} setPageNum={setPageNum} more={morePage} />
         <GroupDialog>
           <Button className="text-white bg-sky-500 hover:bg-sky-700">
-            groupe <Group size={20} className="text-white ml-2" />
+            Groupe <Group size={20} className="text-white ml-2" />
           </Button>
         </GroupDialog>
         <AddBranchDialog setData={setEtapes} data={etapes}>
           <Button className="text-white bg-sky-500 hover:bg-sky-700">
-            nouvelle filière <Plus size={20} className="text-white ml-2" />
+            Filière <Plus size={20} className="text-white ml-2" />
           </Button>
         </AddBranchDialog>
+        <AddModuleDialog setData={setEtapes} data={etapes}>
+          <Button className="text-white bg-sky-500 hover:bg-sky-700">
+            Module <Plus size={20} className="text-white ml-2" />
+          </Button>
+        </AddModuleDialog>
         <Button
           onClick={() => setFileDialogOpen(true)}
           className="text-white bg-sky-500 hover:bg-sky-700"
         >
-          charger <FileUp size={20} className="text-white ml-2" />
+          Charger <FileUp size={20} className="text-white ml-2" />
         </Button>
         <FileDialog
           open={fileDialogOpen}
