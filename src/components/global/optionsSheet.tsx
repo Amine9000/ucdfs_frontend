@@ -8,17 +8,17 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { HTMLAttributes, useState } from "react";
-import { ValidationDialog } from "../validationList/FileData/ValidationDialog";
 import { Option } from "@/types/Option";
-import { FileDataItem } from "@/types/FileDataItem";
+import { EtapeDataType } from "@/types/EtapeDataType";
 import { Label } from "../ui/label";
 import { UCDSheet } from "./UCDSheet";
 import { UCDAlertDialog } from "./Dialog";
 import { AlertMessageType } from "@/types/AlertMessage";
-import { FileColumnNames } from "@/types/FileColumnNames";
+import { DataRecord } from "@/types/DataRecord";
+import { ValidationDialog } from "../validationList/StudentsData/ValidationDialog";
 
 interface UCDSheetProps extends HTMLAttributes<HTMLDivElement> {
-  data: FileDataItem | FileColumnNames;
+  data: EtapeDataType | DataRecord;
   options: Option[];
 }
 
@@ -67,8 +67,8 @@ export function OptionsSheet({ children, options, data }: UCDSheetProps) {
                         message={deleteMessage}
                         confirmAction={() =>
                           option.callback(
-                            (data as FileColumnNames)["CNE"] ||
-                              (data as FileColumnNames)["code"]
+                            ((data as DataRecord)["CNE"] as string) ||
+                              ((data as DataRecord)["code"] as string)
                           )
                         }
                       >
@@ -82,7 +82,7 @@ export function OptionsSheet({ children, options, data }: UCDSheetProps) {
                     return (
                       <div
                         key={option.label}
-                        onClick={() => option.callback(data.code)}
+                        onClick={() => option.callback(data.code as string)}
                         className="flex gap-4 text-slate-700 bg-slate-100 w-full rounded-sm py-2 px-4 cursor-pointer items-center justify-start"
                       >
                         <option.icon size={20} />

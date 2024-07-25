@@ -1,8 +1,8 @@
 import { LucideProps } from "lucide-react";
 import { ForwardRefExoticComponent, RefAttributes } from "react";
 import { setStateType } from "./setState";
-import { FileColumnNames } from "./FileColumnNames";
-import { FileDataItem } from "./FileDataItem";
+import { EtapeDataType } from "./EtapeDataType";
+import { DataRecord } from "./DataRecord";
 
 export type Option = {
   label: string;
@@ -12,7 +12,7 @@ export type Option = {
   >;
   callback: (
     value: string,
-    data?: FileColumnNames | FileDataItem,
+    data?: DataRecord | EtapeDataType,
     setError?: setStateType<string>
   ) => Promise<void> | Promise<unknown> | void | null;
 };

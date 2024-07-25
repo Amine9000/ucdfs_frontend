@@ -13,12 +13,12 @@ import { HTMLAttributes, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { addEtape } from "@/lib/axios/addEtape";
-import { FileDataItem } from "@/types/FileDataItem";
+import { EtapeDataType } from "@/types/EtapeDataType";
 import { setStateType } from "@/types/setState";
 
 interface GroupDialogProps extends HTMLAttributes<HTMLDivElement> {
-  data: FileDataItem[];
-  setData: setStateType<FileDataItem[]>;
+  data: EtapeDataType[];
+  setData: setStateType<EtapeDataType[]>;
 }
 
 export function AddBranchDialog({ children, setData }: GroupDialogProps) {

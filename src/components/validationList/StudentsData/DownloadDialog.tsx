@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useFileData } from "@/hooks/useFileData";
+import { useStudentsData } from "@/hooks/useStudentsData";
 import { getProccessedDataFile } from "@/lib/axios/studentsData";
 import { setStateType } from "@/types/setState";
 import { useState } from "react";
@@ -21,7 +21,7 @@ type DownloadDialogProps = {
 };
 
 export function DownloadDialog({ open, onOpenChane }: DownloadDialogProps) {
-  const { semester, setSemester } = useFileData();
+  const { semester, setSemester } = useStudentsData();
   const [groupNum, setGroupNum] = useState<number | string>(1);
 
   async function handleSubmit() {

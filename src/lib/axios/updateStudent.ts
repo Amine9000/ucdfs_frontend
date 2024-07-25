@@ -2,9 +2,9 @@ import axios, { AxiosError, AxiosResponse } from "axios";
 import { ls } from "../LocalStorage";
 import { handleUnauthorized } from "../utils";
 import { HOST_LINK } from "@/constants/host";
-import { FileColumnNames } from "@/types/FileColumnNames";
+import { DataRecord } from "@/types/DataRecord";
 
-export async function updateStudent(cne: string, studentData: FileColumnNames) {
+export async function updateStudent(cne: string, studentData: DataRecord) {
   if (cne.length > 0) {
     const access_token = ls.getAccessToken();
     if (access_token.length == 0) handleUnauthorized();

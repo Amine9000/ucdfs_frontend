@@ -1,5 +1,5 @@
-import { FileDataScreen } from "@/components/validationList/FileData/FileDataScreen";
-import { FileScreen } from "@/components/validationList/fileList/FilesScreen";
+import { EtapeListScreen } from "@/components/validationList/EtapesList/EtapeListScreen";
+import { StudentsListScreen } from "@/components/validationList/StudentsData/StudentsListScreen";
 import { ScreenItemType } from "@/types/ScreenItem";
 import { ReactNode, createContext, useState } from "react";
 
@@ -17,15 +17,15 @@ type ScreensProviderProps = {
 const screensData: ScreenItemType[] = [
   {
     screen: {
-      title: "fileList",
-      component: <FileScreen />,
+      title: "EtapeList",
+      component: <EtapeListScreen />,
     },
     etape_code: undefined,
   },
   {
     screen: {
-      title: "fileData",
-      component: <FileDataScreen />,
+      title: "StudentsData",
+      component: <StudentsListScreen />,
     },
     etape_code: undefined,
   },

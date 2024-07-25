@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
-import { FileList } from "./FileList";
-import { FileListNavbar } from "./FileListNavbar";
-import { FileDataItem } from "@/types/FileDataItem";
+import { EtapeList } from "./EtapeList";
+import { EtapeListNavbar } from "./EtapeListNavbar";
+import { EtapeDataType } from "@/types/EtapeDataType";
 import { getEtapes } from "@/lib/axios/studentsData";
 import { pageLength } from "@/constants/pagination";
 
-export function FileScreen() {
-  const [data, setData] = useState<FileDataItem[]>([]);
+export function EtapeListScreen() {
+  const [data, setData] = useState<EtapeDataType[]>([]);
 
   useEffect(() => {
     async function fetchFile() {
@@ -17,8 +17,8 @@ export function FileScreen() {
   }, []);
   return (
     <div className="w-full h-full flex-grow flex-shrink-0 flex flex-col items-center justify-start gap-2">
-      <FileListNavbar etapes={data} setEtapes={setData} />
-      <FileList etapes={data} setData={setData} />
+      <EtapeListNavbar etapes={data} setEtapes={setData} />
+      <EtapeList etapes={data} setData={setData} />
     </div>
   );
 }

@@ -1,8 +1,8 @@
 import { Input } from "@/components/ui/input";
-import { useFileData } from "@/hooks/useFileData";
+import { useStudentsData } from "@/hooks/useStudentsData";
 
-export function FileInputs() {
-  const { semester, setSemester } = useFileData();
+export function EtapeCodeInput() {
+  const { semester, setSemester } = useStudentsData();
 
   return (
     <div className="flex items-center gap-4">

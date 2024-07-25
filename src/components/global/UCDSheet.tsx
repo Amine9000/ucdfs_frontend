@@ -11,27 +11,25 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { FileColumnNames } from "@/types/FileColumnNames";
 import { HTMLAttributes, useState } from "react";
-import { ValidationDialog } from "../validationList/FileData/ValidationDialog";
-import { FileDataItem } from "@/types/FileDataItem";
+import { EtapeDataType } from "@/types/EtapeDataType";
 import { setStateType } from "@/types/setState";
 import { Alert, AlertDescription, AlertTitle } from "../ui/alert";
 import { AlertCircle } from "lucide-react";
+import { DataRecord } from "@/types/DataRecord";
+import { ValidationDialog } from "../validationList/StudentsData/ValidationDialog";
 
 interface UCDSheetProps extends HTMLAttributes<HTMLDivElement> {
-  data: FileColumnNames | FileDataItem;
+  data: DataRecord | EtapeDataType;
   callback: (
     value: string,
-    data?: FileColumnNames,
+    data?: DataRecord,
     setError?: setStateType<string>
   ) => Promise<void> | Promise<unknown> | void | null;
 }
 
 export function UCDSheet({ children, data, callback }: UCDSheetProps) {
-  const [dataState, setDataState] = useState<FileColumnNames>(
-    data as FileColumnNames
-  );
+  const [dataState, setDataState] = useState<DataRecord>(data as DataRecord);
   const [dialogOpen, setDialogOpen] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
 
@@ -86,8 +84,8 @@ export function UCDSheet({ children, data, callback }: UCDSheetProps) {
               <Button
                 onClick={() =>
                   callback(
-                    (data as FileColumnNames)["CNE"] ||
-                      (data as FileColumnNames)["code"],
+                    ((data as DataRecord)["CNE"] as string) ||
+                      ((data as DataRecord)["code"] as string),
                     dataState,
                     setError as setStateType<string>
                   )

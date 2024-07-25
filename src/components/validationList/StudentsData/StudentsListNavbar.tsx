@@ -1,9 +1,9 @@
 import { Button } from "@/components/ui/button";
 import { useScreen } from "@/hooks/useScreen";
 import { ChevronLeft, Download, Plus } from "lucide-react";
-import { FileContentOptions } from "./FileContentOptions";
-import { FileInputs } from "./FileInputs";
-import { useFileData } from "@/hooks/useFileData";
+import { StudentsDataOptions } from "./StudentsDataOptions";
+import { EtapeCodeInput } from "./EtapeCodeInput";
+import { useStudentsData } from "@/hooks/useStudentsData";
 import { useEffect, useState } from "react";
 import {
   getStudentsByEtape,
@@ -17,11 +17,11 @@ import { pageLength } from "@/constants/pagination";
 import { SearchForm } from "../../global/Search";
 import { AddStudentDialog } from "./addStudent";
 
-export function FileDataNavbar() {
+export function StudentsListNavbar() {
   const [downloadDialogState, setDownloadDialogState] =
     useState<boolean>(false);
   const { screenSelectedHandler, screen } = useScreen();
-  const { setData, data, semester, setSemester } = useFileData();
+  const { setData, data, semester, setSemester } = useStudentsData();
   const [pageNum, setPageNum] = useState<number>(1);
   const [morePage, setMorePages] = useState<boolean>(true);
   const [searchQuery, setSearchQuery] = useState<string>("");
@@ -69,7 +69,7 @@ export function FileDataNavbar() {
       <div className="h-full w-auto flex items-center gap-4">
         <Button
           onClick={() =>
-            screenSelectedHandler != null && screenSelectedHandler("fileList")
+            screenSelectedHandler != null && screenSelectedHandler("EtapeList")
           }
           className="bg-slate-100 hover:bg-slate-200 transition-all duration-200 ease-in text-slate-700 px-2"
         >
@@ -83,8 +83,8 @@ export function FileDataNavbar() {
       </div>
       <div className="h-full w-auto flex items-center gap-4">
         <Pagination pageNum={pageNum} setPageNum={setPageNum} more={morePage} />
-        <FileInputs />
-        <FileContentOptions
+        <EtapeCodeInput />
+        <StudentsDataOptions
           setOption={setOption}
           pageNum={pageNum}
           pageLength={pageLength}

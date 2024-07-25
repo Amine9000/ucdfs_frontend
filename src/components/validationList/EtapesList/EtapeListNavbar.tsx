@@ -4,22 +4,22 @@ import { SearchForm } from "../../global/Search";
 import { FileDialog } from "./FIleDialog";
 import { useEffect, useState } from "react";
 import { getEtapes, searchEtapes } from "@/lib/axios/studentsData";
-import { useFileData } from "@/hooks/useFileData";
+import { useStudentsData } from "@/hooks/useStudentsData";
 import { Pagination } from "../../global/Pagination";
 import { pageLength } from "@/constants/pagination";
-import { FileDataItem } from "@/types/FileDataItem";
+import { EtapeDataType } from "@/types/EtapeDataType";
 import { setStateType } from "@/types/setState";
 import { GroupDialog } from "./GroupDialog";
 import { AddBranchDialog } from "./AddBranchDialog";
 import { AddModuleDialog } from "./addModule";
 
 type FileListNavbarProps = {
-  etapes: FileDataItem[];
-  setEtapes: setStateType<FileDataItem[]>;
+  etapes: EtapeDataType[];
+  setEtapes: setStateType<EtapeDataType[]>;
 };
 
-export function FileListNavbar({ etapes, setEtapes }: FileListNavbarProps) {
-  const { setData } = useFileData();
+export function EtapeListNavbar({ etapes, setEtapes }: FileListNavbarProps) {
+  const { setData } = useStudentsData();
   const [fileDialogOpen, setFileDialogOpen] = useState(false);
   const [fileUploadedDialogOpen, setFileUploadedDialog] = useState(false);
   const [pageNum, setPageNum] = useState<number>(1);

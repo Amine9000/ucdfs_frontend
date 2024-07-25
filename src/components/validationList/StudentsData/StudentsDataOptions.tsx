@@ -1,7 +1,7 @@
 import { FileCog, FileText } from "lucide-react";
 
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
-import { useFileData } from "@/hooks/useFileData";
+import { useStudentsData } from "@/hooks/useStudentsData";
 import {
   getStudentsByEtape,
   getStudentsValidationByEtape,
@@ -14,12 +14,12 @@ type FileContentOptionsProps = {
   setOption: setStateType<string>;
 };
 
-export function FileContentOptions({
+export function StudentsDataOptions({
   pageNum,
   pageLength,
   setOption,
 }: FileContentOptionsProps) {
-  const { setData, semester } = useFileData();
+  const { setData, semester } = useStudentsData();
 
   return (
     <ToggleGroup defaultValue="students" type="single">

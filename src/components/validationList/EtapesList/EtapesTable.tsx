@@ -7,7 +7,7 @@ import {
   TableCell,
   Table,
 } from "@/components/ui/table";
-import { FileDataItem } from "@/types/FileDataItem";
+import { EtapeDataType } from "@/types/EtapeDataType";
 import {
   EllipsisVertical,
   Settings2,
@@ -22,12 +22,12 @@ import { OptionsSheet } from "@/components/global/optionsSheet";
 import { Option } from "@/types/Option";
 import { deleteEtape } from "@/lib/axios/deleteEtape";
 import { setStateType } from "@/types/setState";
-import { FileColumnNames } from "@/types/FileColumnNames";
 import { updateEtape } from "@/lib/axios/uppdateEtape";
+import { DataRecord } from "@/types/DataRecord";
 
 type FileTableProps = {
-  data: FileDataItem[];
-  setData: setStateType<FileDataItem[]>;
+  data: EtapeDataType[];
+  setData: setStateType<EtapeDataType[]>;
 };
 
 const deleteMessageDialog: AlertMessageType = {
@@ -36,7 +36,7 @@ const deleteMessageDialog: AlertMessageType = {
   type: "error",
 };
 
-export function FileTable({ data, setData }: FileTableProps) {
+export function EtapesTable({ data, setData }: FileTableProps) {
   const { screenSelectedHandler } = useScreen();
   const [deleteDialog, setDeleteAlert] = useState(false);
   const [columns, setColumns] = useState<string[]>([]);
@@ -46,9 +46,9 @@ export function FileTable({ data, setData }: FileTableProps) {
       value: "update",
       callback: async (
         etape_code: string,
-        etape?: FileDataItem | FileColumnNames
+        etape?: EtapeDataType | DataRecord
       ) => {
-        const res = await updateEtape(etape_code, etape as FileDataItem);
+        const res = await updateEtape(etape_code, etape as EtapeDataType);
         if (res) {
           const index = data.findIndex((item) => item.code === etape_code);
           const ndata = [
@@ -56,7 +56,7 @@ export function FileTable({ data, setData }: FileTableProps) {
             etape,
             ...data.slice(index + 1),
           ];
-          setData(ndata as FileDataItem[]);
+          setData(ndata as EtapeDataType[]);
         }
       },
       icon: Settings2,
@@ -77,7 +77,8 @@ export function FileTable({ data, setData }: FileTableProps) {
       label: "Students",
       value: "showstudents",
       callback: (etapeCode: string) =>
-        screenSelectedHandler && screenSelectedHandler("fileData", etapeCode),
+        screenSelectedHandler &&
+        screenSelectedHandler("StudentsData", etapeCode),
       icon: SquareArrowOutUpRight,
     },
   ];
@@ -90,7 +91,7 @@ export function FileTable({ data, setData }: FileTableProps) {
   return (
     <>
       <Table>
-        <TableCaption>A list of your recent files.</TableCaption>
+        <TableCaption>Liste d'étapes.</TableCaption>
         <TableHeader>
           <TableRow className="hover:bg-transparent">
             {columns.map((column, index) => (
@@ -119,19 +120,12 @@ function MapFileData({
   data,
   options,
 }: {
-  data: FileDataItem[];
+  data: EtapeDataType[];
   options: Option[];
 }) {
   return data.map((etape, index) => {
     return (
-      <TableRow
-        // onClick={() => {
-        //   if (screenSelectedHandler != null)
-        //     screenSelectedHandler("fileData", etape.code);
-        // }}
-        className="cursor-pointer"
-        key={index}
-      >
+      <TableRow className="cursor-pointer" key={index}>
         {Object.values(etape).map((value, index) => (
           <TableCell className="text-sm text-slate-700" key={index}>
             {value}

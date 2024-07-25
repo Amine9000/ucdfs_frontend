@@ -1,13 +1,13 @@
-import { FileColumnNames } from "@/types/FileColumnNames";
-import { FileDataItem } from "@/types/FileDataItem";
+import { EtapeDataType } from "@/types/EtapeDataType";
 import { setStateType } from "@/types/setState";
 import axios, { AxiosError, AxiosResponse } from "axios";
 import { handleUnauthorized } from "../utils";
 import { ls } from "../LocalStorage";
 import { HOST_LINK } from "@/constants/host";
+import { DataRecord } from "@/types/DataRecord";
 
 export function getStudentsByEtape(
-  setData: setStateType<FileColumnNames[]>,
+  setData: setStateType<DataRecord[]>,
   pageLength: number,
   pageNum: number,
   etape_code?: string
@@ -37,7 +37,7 @@ export function getStudentsByEtape(
 }
 
 export function getStudentsValidationByEtape(
-  setData: setStateType<FileColumnNames[]>,
+  setData: setStateType<DataRecord[]>,
   pageLength: number,
   pageNum: number,
   etape_code?: string
@@ -131,7 +131,7 @@ export async function getProccessedDataFile(
 }
 
 export function search(
-  setData: setStateType<FileColumnNames[]>,
+  setData: setStateType<DataRecord[]>,
   search_query: string,
   pageLength: number,
   pageNum: number,
@@ -162,7 +162,7 @@ export function search(
 }
 
 export function searchStudents(
-  setData: setStateType<FileColumnNames[]>,
+  setData: setStateType<DataRecord[]>,
   search_query: string,
   pageLength: number,
   pageNum: number,
@@ -193,7 +193,7 @@ export function searchStudents(
 }
 
 export function searchEtapes(
-  setData: setStateType<FileDataItem[]>,
+  setData: setStateType<EtapeDataType[]>,
   search_query: string,
   pageLength: number,
   pageNum: number

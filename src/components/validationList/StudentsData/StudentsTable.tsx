@@ -8,10 +8,10 @@ import {
   TableCell,
   Table,
 } from "@/components/ui/table";
-import { useFileData } from "@/hooks/useFileData";
+import { useStudentsData } from "@/hooks/useStudentsData";
 import { deleteStudent } from "@/lib/axios/deleteStudent";
 import { updateStudent } from "@/lib/axios/updateStudent";
-import { FileColumnNames } from "@/types/FileColumnNames";
+import { DataRecord } from "@/types/DataRecord";
 import { Option } from "@/types/Option";
 import { setStateType } from "@/types/setState";
 import { Cog, EllipsisVertical, Settings2, Trash2 } from "lucide-react";
@@ -19,11 +19,11 @@ import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
 type FileDataTableProps = {
-  data: FileColumnNames[];
+  data: DataRecord[];
 };
 
-export function FileDataTable({ data }: FileDataTableProps) {
-  const { data: userList, setData } = useFileData();
+export function StudentsTable({ data }: FileDataTableProps) {
+  const { data: userList, setData } = useStudentsData();
   const [columns, setColumns] = useState<string[]>([]);
 
   async function handleDeleteAction(cne: string) {
@@ -45,7 +45,7 @@ export function FileDataTable({ data }: FileDataTableProps) {
 
   async function handleUpdateAction(
     cne: string,
-    data?: FileColumnNames,
+    data?: DataRecord,
     setError?: setStateType<string>
   ) {
     try {
@@ -57,7 +57,7 @@ export function FileDataTable({ data }: FileDataTableProps) {
         const nData = userList.map((std) => {
           return std["CNE"] == cne ? data : std;
         });
-        setData(nData as FileColumnNames[]);
+        setData(nData as DataRecord[]);
         toast.promise(Promise.resolve(res?.data.message), {
           loading: "Updating...",
           success: <small className="text-sm">Updated successfully</small>,
@@ -77,7 +77,7 @@ export function FileDataTable({ data }: FileDataTableProps) {
       value: "update",
       callback: (
         cne: string,
-        data?: FileColumnNames,
+        data?: DataRecord,
         setError?: setStateType<string>
       ) => handleUpdateAction(cne, data, setError),
       icon: Settings2,
@@ -121,7 +121,7 @@ export function FileDataTable({ data }: FileDataTableProps) {
   );
 }
 
-function MapFileData(data: FileColumnNames[], options: Option[]) {
+function MapFileData(data: DataRecord[], options: Option[]) {
   return data.map((student, index) => {
     return (
       <TableRow className="cursor-pointer py-1" key={index}>

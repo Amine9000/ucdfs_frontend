@@ -2,9 +2,9 @@ import axios, { AxiosError, AxiosResponse } from "axios";
 import { ls } from "../LocalStorage";
 import { handleUnauthorized } from "../utils";
 import { HOST_LINK } from "@/constants/host";
-import { FileDataItem } from "@/types/FileDataItem";
+import { EtapeDataType } from "@/types/EtapeDataType";
 
-export async function updateEtape(etape_code: string, etape: FileDataItem) {
+export async function updateEtape(etape_code: string, etape: EtapeDataType) {
   if (etape_code.length > 0) {
     const access_token = ls.getAccessToken();
     if (access_token.length == 0) handleUnauthorized();

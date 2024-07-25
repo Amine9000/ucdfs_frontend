@@ -12,7 +12,7 @@ import { Label } from "@/components/ui/label";
 import { HTMLAttributes, useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { FileDataItem } from "@/types/FileDataItem";
+import { EtapeDataType } from "@/types/EtapeDataType";
 import { setStateType } from "@/types/setState";
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
@@ -20,17 +20,17 @@ import { DatePicker } from "./DatePicker";
 import { StudentDataType } from "@/types/studentDataType";
 import { addStudent } from "@/lib/axios/addStudent";
 import { fetchModules } from "@/lib/axios/fetchModules";
-import { useFileData } from "@/hooks/useFileData";
+import { useStudentsData } from "@/hooks/useStudentsData";
 
 interface GroupDialogProps extends HTMLAttributes<HTMLDivElement> {
-  data?: FileDataItem[];
-  setData?: setStateType<FileDataItem[]>;
+  data?: EtapeDataType[];
+  setData?: setStateType<EtapeDataType[]>;
 }
 
 const animatedComponents = makeAnimated();
 
 export function AddStudentDialog({ children }: GroupDialogProps) {
-  const { semester } = useFileData();
+  const { semester } = useStudentsData();
   const [open, setOpen] = useState<boolean>();
   const [error, setError] = useState<string>("");
   const [selectedModules, setSelectedModules] = useState<

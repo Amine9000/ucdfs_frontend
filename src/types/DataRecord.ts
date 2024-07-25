@@ -1,4 +1,4 @@
-// export type FileColumnNames = {
+// export type DataRecord = {
 //   // CODE_ETUDIANT	NOM	PRENOM	CIN	CNE	DATE_NAISSANCE	COD_ELP	LIB_ELP	VERSION_ETAPE	CODE_ETAPE
 //   CODE_ETUDIANT: string;
 //   NOM: string;
@@ -12,6 +12,6 @@
 //   CODE_ETAPE: string;
 // };
 
-export interface FileColumnNames {
-  [key: string]: string;
+export interface DataRecord {
+  [key: string]: string | number;
 }

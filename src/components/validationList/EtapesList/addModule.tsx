@@ -12,7 +12,7 @@ import { Label } from "@/components/ui/label";
 import { HTMLAttributes, useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { FileDataItem } from "@/types/FileDataItem";
+import { EtapeDataType } from "@/types/EtapeDataType";
 import { setStateType } from "@/types/setState";
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
@@ -20,8 +20,8 @@ import { fetchEtapes } from "@/lib/axios/fetchEtapes";
 import { addModule } from "@/lib/axios/addModule";
 
 interface GroupDialogProps extends HTMLAttributes<HTMLDivElement> {
-  data: FileDataItem[];
-  setData: setStateType<FileDataItem[]>;
+  data: EtapeDataType[];
+  setData: setStateType<EtapeDataType[]>;
 }
 
 const animatedComponents = makeAnimated();
