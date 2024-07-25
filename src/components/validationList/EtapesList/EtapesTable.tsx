@@ -21,14 +21,9 @@ import { useScreen } from "@/hooks/useScreen";
 import { OptionsSheet } from "@/components/global/optionsSheet";
 import { Option } from "@/types/Option";
 import { deleteEtape } from "@/lib/axios/deleteEtape";
-import { setStateType } from "@/types/setState";
 import { updateEtape } from "@/lib/axios/uppdateEtape";
 import { DataRecord } from "@/types/DataRecord";
-
-type FileTableProps = {
-  data: EtapeDataType[];
-  setData: setStateType<EtapeDataType[]>;
-};
+import { useEtapesData } from "@/hooks/useEtapesData";
 
 const deleteMessageDialog: AlertMessageType = {
   title: "Delete File",
@@ -36,8 +31,9 @@ const deleteMessageDialog: AlertMessageType = {
   type: "error",
 };
 
-export function EtapesTable({ data, setData }: FileTableProps) {
+export function EtapesTable() {
   const { screenSelectedHandler } = useScreen();
+  const { etapes, setEtapes } = useEtapesData();
   const [deleteDialog, setDeleteAlert] = useState(false);
   const [columns, setColumns] = useState<string[]>([]);
   const options: Option[] = [
@@ -50,13 +46,13 @@ export function EtapesTable({ data, setData }: FileTableProps) {
       ) => {
         const res = await updateEtape(etape_code, etape as EtapeDataType);
         if (res) {
-          const index = data.findIndex((item) => item.code === etape_code);
+          const index = etapes.findIndex((item) => item.code === etape_code);
           const ndata = [
-            ...data.slice(0, index),
+            ...etapes.slice(0, index),
             etape,
-            ...data.slice(index + 1),
+            ...etapes.slice(index + 1),
           ];
-          setData(ndata as EtapeDataType[]);
+          setEtapes(ndata as EtapeDataType[]);
         }
       },
       icon: Settings2,
@@ -66,10 +62,10 @@ export function EtapesTable({ data, setData }: FileTableProps) {
       value: "delete",
       callback: (etape_code: string) => {
         deleteEtape(etape_code);
-        const ndata = data.filter((d) => {
+        const ndata = etapes.filter((d) => {
           return d.code !== etape_code;
         });
-        setData(ndata);
+        setEtapes(ndata);
       },
       icon: Trash2,
     },
@@ -84,10 +80,10 @@ export function EtapesTable({ data, setData }: FileTableProps) {
   ];
 
   useEffect(() => {
-    if (data.length > 0) {
-      setColumns(Object.keys(data[0]));
+    if (etapes.length > 0) {
+      setColumns(Object.keys(etapes[0]));
     }
-  }, [data]);
+  }, [etapes]);
   return (
     <>
       <Table>
@@ -103,7 +99,7 @@ export function EtapesTable({ data, setData }: FileTableProps) {
           </TableRow>
         </TableHeader>
         <TableBody>
-          <MapFileData data={data} options={options} />
+          <MapFileData data={etapes} options={options} />
         </TableBody>
       </Table>
       <UCDAlertDialog

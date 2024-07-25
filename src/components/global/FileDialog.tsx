@@ -11,26 +11,27 @@ import { setStateType } from "@/types/setState";
 import { FileDropArea } from "./FileDropArea";
 import { useScreen } from "@/hooks/useScreen";
 import { useState } from "react";
-import { uploadFile } from "@/lib/axios/fileUpload";
 import toast from "react-hot-toast";
 
 type FileDialogProps = {
   open: boolean;
   setOpen: setStateType<boolean>;
   setFileUploadedDialog: setStateType<boolean>;
+  fileUploader: (file: string | Blob | null) => Promise<void>;
 };
 
 export function FileDialog({
   open,
   setOpen,
   setFileUploadedDialog,
+  fileUploader,
 }: FileDialogProps) {
   const { screenSelectedHandler } = useScreen();
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
 
   function handleSubmit() {
     if (screenSelectedHandler) {
-      toast.promise(uploadFile(uploadedFile), {
+      toast.promise(fileUploader(uploadedFile), {
         loading: "Uploading ...",
         success: (
           <p className="text-teal-600">your file was uploaded successfully.</p>

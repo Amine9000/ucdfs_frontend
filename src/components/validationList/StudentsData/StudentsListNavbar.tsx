@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { useScreen } from "@/hooks/useScreen";
-import { ChevronLeft, Download, Plus } from "lucide-react";
+import { ChevronLeft, Download, FileUp, Plus } from "lucide-react";
 import { StudentsDataOptions } from "./StudentsDataOptions";
 import { EtapeCodeInput } from "./EtapeCodeInput";
 import { useStudentsData } from "@/hooks/useStudentsData";
@@ -16,6 +16,8 @@ import { Pagination } from "../../global/Pagination";
 import { pageLength } from "@/constants/pagination";
 import { SearchForm } from "../../global/Search";
 import { AddStudentDialog } from "./addStudent";
+import { FileDialog } from "@/components/global/FileDialog";
+import { uploadFile } from "@/lib/axios/fileUpload";
 
 export function StudentsListNavbar() {
   const [downloadDialogState, setDownloadDialogState] =
@@ -26,6 +28,22 @@ export function StudentsListNavbar() {
   const [morePage, setMorePages] = useState<boolean>(true);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [option, setOption] = useState<string>("students");
+  const [fileDialogOpen, setFileDialogOpen] = useState(false);
+  const [fileUploadedDialogOpen, setFileUploadedDialog] = useState(false);
+
+  useEffect(() => {
+    if (!fileUploadedDialogOpen) {
+      dialogOpenChangeHandler(pageNum, pageLength);
+    }
+  }, [fileUploadedDialogOpen]);
+
+  async function dialogOpenChangeHandler(pageNum: number, pageLength: number) {
+    // re-fetch students from the DB afetr file upload
+    console.log(pageNum, pageLength);
+
+    // setData(newData);
+    setFileUploadedDialog(false);
+  }
 
   useEffect(() => {
     if (semester !== "") {
@@ -104,6 +122,18 @@ export function StudentsListNavbar() {
       <DownloadDialog
         open={downloadDialogState}
         onOpenChane={() => setDownloadDialogState(false)}
+      />
+      <Button
+        onClick={() => setFileDialogOpen(true)}
+        className="text-white bg-sky-500 hover:bg-sky-700"
+      >
+        Charger <FileUp size={20} className="text-white ml-2" />
+      </Button>
+      <FileDialog
+        fileUploader={uploadFile}
+        open={fileDialogOpen}
+        setFileUploadedDialog={setFileUploadedDialog}
+        setOpen={setFileDialogOpen}
       />
     </div>
   );

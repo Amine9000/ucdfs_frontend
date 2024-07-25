@@ -1,25 +1,21 @@
 import { Button } from "@/components/ui/button";
 import { FileUp, Group, Plus } from "lucide-react";
 import { SearchForm } from "../../global/Search";
-import { FileDialog } from "./FIleDialog";
+import { FileDialog } from "../../global/FileDialog";
 import { useEffect, useState } from "react";
 import { getEtapes, searchEtapes } from "@/lib/axios/studentsData";
 import { useStudentsData } from "@/hooks/useStudentsData";
 import { Pagination } from "../../global/Pagination";
 import { pageLength } from "@/constants/pagination";
-import { EtapeDataType } from "@/types/EtapeDataType";
-import { setStateType } from "@/types/setState";
 import { GroupDialog } from "./GroupDialog";
 import { AddBranchDialog } from "./AddBranchDialog";
 import { AddModuleDialog } from "./addModule";
+import { useEtapesData } from "@/hooks/useEtapesData";
+import { uploadFile } from "@/lib/axios/fileUpload";
 
-type FileListNavbarProps = {
-  etapes: EtapeDataType[];
-  setEtapes: setStateType<EtapeDataType[]>;
-};
-
-export function EtapeListNavbar({ etapes, setEtapes }: FileListNavbarProps) {
+export function EtapeListNavbar() {
   const { setData } = useStudentsData();
+  const { etapes, setEtapes } = useEtapesData();
   const [fileDialogOpen, setFileDialogOpen] = useState(false);
   const [fileUploadedDialogOpen, setFileUploadedDialog] = useState(false);
   const [pageNum, setPageNum] = useState<number>(1);
@@ -27,7 +23,7 @@ export function EtapeListNavbar({ etapes, setEtapes }: FileListNavbarProps) {
   const [searchQuery, setSearchQuery] = useState<string>("");
 
   useEffect(() => {
-    if (fileUploadedDialogOpen) {
+    if (!fileUploadedDialogOpen) {
       dialogOpenChangeHandler(pageNum, pageLength);
     }
   }, [fileUploadedDialogOpen]);
@@ -96,6 +92,7 @@ export function EtapeListNavbar({ etapes, setEtapes }: FileListNavbarProps) {
           Charger <FileUp size={20} className="text-white ml-2" />
         </Button>
         <FileDialog
+          fileUploader={uploadFile}
           open={fileDialogOpen}
           setFileUploadedDialog={setFileUploadedDialog}
           setOpen={setFileDialogOpen}

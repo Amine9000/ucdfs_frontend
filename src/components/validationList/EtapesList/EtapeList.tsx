@@ -1,13 +1,8 @@
-import { EtapeDataType } from "@/types/EtapeDataType";
 import { EtapesTable } from "./EtapesTable";
-import { setStateType } from "@/types/setState";
+import { useEtapesData } from "@/hooks/useEtapesData";
 
-type FileListProps = {
-  etapes: EtapeDataType[];
-  setData: setStateType<EtapeDataType[]>;
-};
-
-export function EtapeList({ etapes, setData }: FileListProps) {
+export function EtapeList() {
+  const { etapes } = useEtapesData();
   return (
     <div className="w-full flex-grow p-4 bg-white rounded flex items-start justify-center overflow-y-auto">
       {etapes.length == 0 && (
@@ -16,7 +11,7 @@ export function EtapeList({ etapes, setData }: FileListProps) {
           une.
         </p>
       )}
-      {etapes.length > 0 && <EtapesTable data={etapes} setData={setData} />}
+      {etapes.length > 0 && <EtapesTable />}
     </div>
   );
 }

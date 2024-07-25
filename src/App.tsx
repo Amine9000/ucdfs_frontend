@@ -6,6 +6,7 @@ import { AdminLoginForm } from "./components/login/AdminLoginForm";
 import { Logins } from "./components/login/Logins";
 import { StudentsLoginForm } from "./components/login/StudentsLoginForm";
 import { Toaster } from "react-hot-toast";
+import { EtapesDataProvider } from "./context/EtapesData";
 const routes = [
   {
     path: "/login",
@@ -36,10 +37,12 @@ const router = createBrowserRouter(routes);
 function App() {
   return (
     <TabsProvider>
-      <div>
-        <Toaster />
-        <RouterProvider router={router} />
-      </div>
+      <EtapesDataProvider>
+        <div>
+          <Toaster />
+          <RouterProvider router={router} />
+        </div>
+      </EtapesDataProvider>
     </TabsProvider>
   );
 }
