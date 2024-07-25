@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { useScreen } from "@/hooks/useScreen";
-import { ChevronLeft, Download, PenLine } from "lucide-react";
+import { ChevronLeft, Download, Plus } from "lucide-react";
 import { FileContentOptions } from "./FileContentOptions";
 import { FileInputs } from "./FileInputs";
 import { useFileData } from "@/hooks/useFileData";
@@ -15,6 +15,7 @@ import { DownloadDialog } from "./DownloadDialog";
 import { Pagination } from "../../global/Pagination";
 import { pageLength } from "@/constants/pagination";
 import { SearchForm } from "../../global/Search";
+import { AddStudentDialog } from "./addStudent";
 
 export function FileDataNavbar() {
   const [downloadDialogState, setDownloadDialogState] =
@@ -94,12 +95,11 @@ export function FileDataNavbar() {
         >
           Download <Download size={20} />
         </Button>
-        <Button
-          onClick={() => console.log("add student")}
-          className="text-white bg-sky-500 hover:bg-sky-700 flex items-center gap-2"
-        >
-          add student <PenLine size={20} />
-        </Button>
+        <AddStudentDialog>
+          <Button className="text-white bg-sky-500 hover:bg-sky-700 flex items-center gap-2">
+            student <Plus size={20} className="text-white ml-2" />
+          </Button>
+        </AddStudentDialog>
       </div>
       <DownloadDialog
         open={downloadDialogState}
