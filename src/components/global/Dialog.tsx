@@ -11,14 +11,11 @@ import {
 } from "@/components/ui/alert-dialog";
 import { cn } from "@/lib/utils";
 import { AlertMessageType } from "@/types/AlertMessage";
-import { setStateType } from "@/types/setState";
-import { HTMLAttributes, useState } from "react";
+import { HTMLAttributes, useEffect, useState } from "react";
 
 interface UCDAlertDialogOptions extends HTMLAttributes<HTMLDivElement> {
   message: AlertMessageType;
-  confirmAction?: () => void;
-  open?: boolean;
-  setOpenState?: setStateType<boolean>;
+  confirmAction: () => void;
 }
 
 const colors = {
@@ -31,22 +28,16 @@ const colors = {
 export function UCDAlertDialog({
   children,
   message,
-  open,
-  setOpenState,
   confirmAction,
+  ...props
 }: UCDAlertDialogOptions) {
-  const [internalOpen, setInternalOpen] = useState<boolean>(false);
-
-  const handleOpenChange = (isOpen: boolean) => {
-    if (setOpenState) {
-      setOpenState(isOpen);
-    } else {
-      setInternalOpen(isOpen);
-    }
-  };
+  const [open, setOpen] = useState<boolean>(false);
+  useEffect(() => {
+    console.log("Rerendered");
+  }, [open]);
   return (
-    <AlertDialog open={open ?? internalOpen} onOpenChange={handleOpenChange}>
-      {children && <AlertDialogTrigger asChild>{children}</AlertDialogTrigger>}
+    <AlertDialog {...props} open={open} onOpenChange={setOpen}>
+      <AlertDialogTrigger asChild>{children}</AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>{message.title}</AlertDialogTitle>
@@ -55,7 +46,7 @@ export function UCDAlertDialog({
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
           <AlertDialogAction
-            onClick={() => confirmAction && confirmAction()}
+            onClick={() => confirmAction()}
             className={cn(colors[message.type], "text-white")}
           >
             confirm

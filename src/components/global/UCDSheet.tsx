@@ -17,7 +17,6 @@ import { setStateType } from "@/types/setState";
 import { Alert, AlertDescription, AlertTitle } from "../ui/alert";
 import { AlertCircle } from "lucide-react";
 import { DataRecord } from "@/types/DataRecord";
-import { ValidationDialog } from "../validationList/StudentsData/ValidationDialog";
 
 interface UCDSheetProps extends HTMLAttributes<HTMLDivElement> {
   data: DataRecord | EtapeDataType;
@@ -30,7 +29,7 @@ interface UCDSheetProps extends HTMLAttributes<HTMLDivElement> {
 
 export function UCDSheet({ children, data, callback }: UCDSheetProps) {
   const [dataState, setDataState] = useState<DataRecord>(data as DataRecord);
-  const [dialogOpen, setDialogOpen] = useState<boolean>(false);
+  const [open, setOpen] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
 
   function handleInputChange(e: { target: { name: string; value: string } }) {
@@ -40,66 +39,62 @@ export function UCDSheet({ children, data, callback }: UCDSheetProps) {
     }));
   }
   return (
-    <div>
-      <Sheet>
-        <SheetTrigger asChild>{children}</SheetTrigger>
-        <SheetContent>
-          <SheetHeader>
-            <SheetTitle>Update</SheetTitle>
-            <SheetDescription>
-              Make changes to this student data here. Click save when you're
-              done.
-            </SheetDescription>
-          </SheetHeader>
-          {error && error.length > 0 && (
-            <Alert variant="destructive">
-              <AlertCircle className="h-4 w-4" />
-              <AlertTitle>Error</AlertTitle>
-              <AlertDescription>{error}</AlertDescription>
-            </Alert>
-          )}
-          <div className="grid gap-4 py-4">
-            {Object.keys(data).map((key) => {
-              return (
-                <div key={key} className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="name" className="text-right">
-                    {key}
-                  </Label>
-                  <Input
-                    id="name"
-                    name={key}
-                    onChange={handleInputChange}
-                    value={dataState[key]}
-                    className="col-span-3 focus-visible:ring-0 focus-visible:ring-offset-0"
-                  />
-                </div>
-              );
-            })}
-          </div>
-          <SheetFooter>
-            <SheetClose asChild>
-              <Button variant="secondary">Cancel</Button>
-            </SheetClose>
-            <SheetClose asChild>
-              <Button
-                onClick={() =>
-                  callback(
-                    ((data as DataRecord)["CNE"] as string) ||
-                      ((data as DataRecord)["code"] as string),
-                    dataState,
-                    setError as setStateType<string>
-                  )
-                }
-                type="submit"
-                variant={"default"}
-              >
-                Save changes
-              </Button>
-            </SheetClose>
-          </SheetFooter>
-        </SheetContent>
-      </Sheet>
-      <ValidationDialog open={dialogOpen} setDialogOpen={setDialogOpen} />
-    </div>
+    <Sheet open={open} onOpenChange={setOpen}>
+      <SheetTrigger asChild>{children}</SheetTrigger>
+      <SheetContent>
+        <SheetHeader>
+          <SheetTitle>Update</SheetTitle>
+          <SheetDescription>
+            Make changes to this student data here. Click save when you're done.
+          </SheetDescription>
+        </SheetHeader>
+        {error && error.length > 0 && (
+          <Alert variant="destructive">
+            <AlertCircle className="h-4 w-4" />
+            <AlertTitle>Error</AlertTitle>
+            <AlertDescription>{error}</AlertDescription>
+          </Alert>
+        )}
+        <div className="grid gap-4 py-4">
+          {Object.keys(data).map((key) => {
+            return (
+              <div key={key} className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="name" className="text-right">
+                  {key}
+                </Label>
+                <Input
+                  id="name"
+                  name={key}
+                  onChange={handleInputChange}
+                  value={dataState[key]}
+                  className="col-span-3 focus-visible:ring-0 focus-visible:ring-offset-0"
+                />
+              </div>
+            );
+          })}
+        </div>
+        <SheetFooter>
+          <SheetClose asChild>
+            <Button variant="secondary">Cancel</Button>
+          </SheetClose>
+          <SheetClose asChild>
+            <Button
+              onClick={() =>
+                callback(
+                  ((data as DataRecord)["CNE"] as string) ||
+                    ((data as DataRecord)["code"] as string),
+                  dataState,
+                  setError as setStateType<string>
+                )
+              }
+              type="submit"
+              variant={"default"}
+            >
+              Save changes
+            </Button>
+          </SheetClose>
+        </SheetFooter>
+      </SheetContent>
+    </Sheet>
   );
 }
