@@ -3,10 +3,14 @@ import { ls } from "../LocalStorage";
 import { HOST_LINK } from "@/constants/host";
 import toast from "react-hot-toast";
 
-export async function studentsFileupload(file: string | Blob | null) {
+export async function studentsFileupload(
+  file: string | Blob | null,
+  modules_codes: string[]
+) {
   if (file) {
     const formData = new FormData();
     formData.append("file", file);
+    formData.append("modules", JSON.stringify(modules_codes));
     const access_token = ls.getAccessToken();
     try {
       const response: AxiosResponse = await axios.post(
@@ -17,7 +21,6 @@ export async function studentsFileupload(file: string | Blob | null) {
             "Content-Type": "multipart/form-data",
             Authorization: `Bearer ${access_token}`,
           },
-          responseType: "blob",
         }
       );
       toast.promise(downloadstudentsPasswordsFile(response), {
@@ -38,18 +41,5 @@ export async function studentsFileupload(file: string | Blob | null) {
 }
 
 async function downloadstudentsPasswordsFile(response: AxiosResponse) {
-  if (response.data) {
-    const url = window.URL.createObjectURL(
-      new Blob([response.data], {
-        type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-      })
-    );
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "passwords.xlsx";
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    window.URL.revokeObjectURL(url);
-  }
+  console.log(response.data);
 }

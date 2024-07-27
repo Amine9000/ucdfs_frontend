@@ -74,7 +74,6 @@ export function AddModuleDialog({ children, data, setData }: GroupDialogProps) {
       });
       setData(ntetapes);
       setOpen(false);
-      console.log(data);
       setError("");
     } else {
       setError("Erreur lors de l'ajout de l'étape");

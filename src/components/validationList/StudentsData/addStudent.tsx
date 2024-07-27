@@ -234,7 +234,6 @@ export function AddStudentDialog({ children }: GroupDialogProps) {
             </Label>
             <DatePicker
               onChange={(date) => {
-                console.log(date.toUTCString());
                 setStudent({
                   ...student,
                   student_birthdate: `${date.getFullYear()}-${

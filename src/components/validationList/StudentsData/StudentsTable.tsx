@@ -49,7 +49,6 @@ export function StudentsTable({ data }: FileDataTableProps) {
     setError?: setStateType<string>
   ) {
     try {
-      console.log(data);
       const res = await updateStudent(cne, data ?? {});
       if (res && res.status != 200 && setError) {
         setError(res.data.message);

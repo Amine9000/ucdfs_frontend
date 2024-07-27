@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { cn } from "@/lib/utils";
 import { AlertMessageType } from "@/types/AlertMessage";
-import { HTMLAttributes, useEffect, useState } from "react";
+import { HTMLAttributes, useState } from "react";
 
 interface UCDAlertDialogOptions extends HTMLAttributes<HTMLDivElement> {
   message: AlertMessageType;
@@ -32,9 +32,6 @@ export function UCDAlertDialog({
   ...props
 }: UCDAlertDialogOptions) {
   const [open, setOpen] = useState<boolean>(false);
-  useEffect(() => {
-    console.log("Rerendered");
-  }, [open]);
   return (
     <AlertDialog {...props} open={open} onOpenChange={setOpen}>
       <AlertDialogTrigger asChild>{children}</AlertDialogTrigger>

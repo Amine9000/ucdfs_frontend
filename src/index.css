@@ -1342,11 +1342,6 @@ body {
   background-color: rgb(239 68 68 / var(--tw-bg-opacity));
 }
 
-.bg-red-700 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(185 28 28 / var(--tw-bg-opacity));
-}
-
 .bg-secondary {
   background-color: hsl(var(--secondary));
 }

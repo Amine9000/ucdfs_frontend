@@ -16,8 +16,8 @@ import { Pagination } from "../../global/Pagination";
 import { pageLength } from "@/constants/pagination";
 import { SearchForm } from "../../global/Search";
 import { AddStudentDialog } from "./addStudent";
-import { FileDialog } from "@/components/global/FileDialog";
-import { uploadFile } from "@/lib/axios/fileUpload";
+import { studentsFileupload } from "@/lib/axios/studentsFileUpload";
+import { StudentsFileDialog } from "@/components/global/StudentsFileDialog";
 
 export function StudentsListNavbar() {
   const [downloadDialogState, setDownloadDialogState] =
@@ -129,8 +129,8 @@ export function StudentsListNavbar() {
       >
         Charger <FileUp size={20} className="text-white ml-2" />
       </Button>
-      <FileDialog
-        fileUploader={uploadFile}
+      <StudentsFileDialog
+        fileUploader={studentsFileupload}
         open={fileDialogOpen}
         setFileUploadedDialog={setFileUploadedDialog}
         setOpen={setFileDialogOpen}
