@@ -53,7 +53,7 @@ export function AddModuleDialog({ children, data, setData }: GroupDialogProps) {
 
   useEffect(() => {
     fetchBranches();
-  }, []);
+  }, [open]);
 
   async function handleSubmitClick() {
     if (selectedBranches.length == 0) {
@@ -66,7 +66,7 @@ export function AddModuleDialog({ children, data, setData }: GroupDialogProps) {
       setError("");
     }
     const selectedEtapes = selectedBranches.map((br) => br.value);
-    const res = await addModule(moduleCode, moduleName, selectedEtapes);
+    const res = await addModule(moduleName, moduleCode, selectedEtapes);
     if (res?.status == 201) {
       const ntetapes = data.map((etape) => {
         if (selectedEtapes.includes(etape.code)) etape.modules++;

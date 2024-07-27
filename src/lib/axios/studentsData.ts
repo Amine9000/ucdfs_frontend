@@ -81,6 +81,7 @@ export async function getEtapes(pageNum: number, pageLength: number) {
       }
     );
     if (responce.data) {
+      console.log(responce.data);
       return responce.data;
     } else return [];
   } catch (err: unknown) {
