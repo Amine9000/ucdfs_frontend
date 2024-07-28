@@ -7,19 +7,22 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Semester } from "@/types/Semester";
 
-const semesters = [
-  { value: "S1", label: "Semester 1" },
-  { value: "S2", label: "Semester 2" },
-  { value: "S3", label: "Semester 3" },
-  { value: "S4", label: "Semester 4" },
-  { value: "S5", label: "Semester 5" },
-  { value: "S6", label: "Semester 6" },
-];
+interface SemestersListProps {
+  semesters: Semester[];
+  handleSemesterSelection: (code: string) => void;
+}
 
-export function SemestersList() {
+export function SemestersList({
+  semesters,
+  handleSemesterSelection,
+}: SemestersListProps) {
   return (
-    <Select>
+    <Select
+      defaultValue={semesters.length > 0 ? semesters[0].semester_code : ""}
+      onValueChange={(v) => handleSemesterSelection(v)}
+    >
       <SelectTrigger className="w-[180px] focus:ring-0 focus:ring-offset-0 border-none bg-slate-100">
         <SelectValue
           className="text-slate-600"
@@ -31,8 +34,11 @@ export function SemestersList() {
           <SelectLabel className="text-slate-500">Semesters</SelectLabel>
           {semesters.map((semester) => {
             return (
-              <SelectItem key={semester.value} value={semester.value}>
-                {semester.label}
+              <SelectItem
+                key={semester.semester_code}
+                value={semester.semester_code}
+              >
+                {semester.semester_name}
               </SelectItem>
             );
           })}

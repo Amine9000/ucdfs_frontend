@@ -42,7 +42,7 @@ export const topList: SidebarItemType[] = [
     icon: ListChecks,
     element: <StudentsValidationTab />,
     roles: [],
-    hidden: true,
+    hidden: false,
   },
 ];
 

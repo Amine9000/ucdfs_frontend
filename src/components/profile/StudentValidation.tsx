@@ -1,18 +1,32 @@
-import { HTMLAttributes, useEffect } from "react";
+import { HTMLAttributes, useEffect, useState } from "react";
 import { SemestersList } from "./SemestersList";
 import { getStudentSemesters } from "@/lib/axios/fetchStudentData";
+import { Semester } from "@/types/Semester";
 
 interface StudentValidationProps extends HTMLAttributes<HTMLDivElement> {
   className: string;
 }
 
 export function StudentValidation({ className }: StudentValidationProps) {
+  const [semesters, setSemesters] = useState<Semester[]>([]);
+  const [selectedSemesters, setSelectedSemesters] = useState<Semester | null>(
+    null
+  );
+
   async function fetchSemesters() {
-    await getStudentSemesters();
+    const nSemesters: Semester[] | undefined = await getStudentSemesters();
+    if (nSemesters) setSemesters(nSemesters);
   }
   useEffect(() => {
     fetchSemesters();
   }, []);
+
+  function handleSemesterSelection(code: string) {
+    const selectedSms = semesters.filter((sms) => sms.semester_code == code);
+    if (selectedSms.length > 0) setSelectedSemesters(selectedSms[0]);
+    else setSelectedSemesters(null);
+  }
+
   return (
     <div className={className}>
       <div className="w-full h-auto mb-4">
@@ -20,27 +34,33 @@ export function StudentValidation({ className }: StudentValidationProps) {
           <span className="text-gray-600 h-12 flex items-center font-bold">
             Validation
           </span>
-          <SemestersList />
+          <SemestersList
+            semesters={semesters}
+            handleSemesterSelection={handleSemesterSelection}
+          />
         </div>
         <div className="border-b"></div>
       </div>
       <div className="w-full h-auto px-4 flex flex-col gap-2">
-        {/* row */}
-        <div className="flex justify-between gap-4">
-          <div className="w-1/2 h-auto py-2 text-sm text-gray-900 bg-slate-100 px-4 rounded">
-            Math
-          </div>
-          <div className="w-1/2 h-auto py-2 text-sm text-gray-500">I</div>
-        </div>
-        {/* end row */}
-        {/* row */}
-        <div className="flex justify-between gap-4">
-          <div className="w-1/2 h-auto py-2 text-sm text-gray-900 bg-slate-100 px-4 rounded">
-            physics
-          </div>
-          <div className="w-1/2 h-auto py-2 text-sm text-gray-500">NI</div>
-        </div>
-        {/* end row */}
+        {selectedSemesters != null ? (
+          selectedSemesters?.modules.map((mod) => {
+            return (
+              <div key={mod.module_code} className="flex justify-between gap-4">
+                <div className="w-1/2 h-auto py-2 text-sm text-gray-900 bg-slate-100 px-4 rounded">
+                  {mod.module_name}
+                </div>
+                <div className="w-1/2 h-auto py-2 text-sm text-gray-500">
+                  {mod.status}
+                </div>
+              </div>
+            );
+          })
+        ) : (
+          <small className="text-gray-500 text-center text-sm">
+            Aucun module n'a été trouvé. Veuillez en sélectionner une semester
+            s'il y en a.
+          </small>
+        )}
       </div>
     </div>
   );
