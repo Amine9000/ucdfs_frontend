@@ -7,13 +7,17 @@ type StudentsDataContextType = {
   semester: string;
   setData: setStateType<DataRecord[]>;
   setSemester: setStateType<string>;
+  SVOption: string;
+  setSVOption: setStateType<string>;
 };
 
 const StudentsDataContextInitValue = {
   data: [],
   semester: "",
+  SVOption: "",
   setData: () => {},
   setSemester: () => {},
+  setSVOption: () => {},
 };
 
 export const StudentsDataContext = createContext<StudentsDataContextType>(
@@ -27,12 +31,15 @@ type StudentsDataProviderProps = {
 export function StudentsDataProvider({ children }: StudentsDataProviderProps) {
   const [data, setData] = useState<DataRecord[]>([]);
   const [semester, setSemester] = useState<string>("");
+  const [SVOption, setSVOption] = useState<string>("students");
 
   const StudentsDataContextValue = {
     data,
     semester,
     setData,
     setSemester,
+    SVOption,
+    setSVOption,
   };
 
   return (

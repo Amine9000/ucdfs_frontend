@@ -23,11 +23,10 @@ export function StudentsListNavbar() {
   const [downloadDialogState, setDownloadDialogState] =
     useState<boolean>(false);
   const { screenSelectedHandler, screen } = useScreen();
-  const { setData, data, semester, setSemester } = useStudentsData();
+  const { setData, data, semester, setSemester, SVOption } = useStudentsData();
   const [pageNum, setPageNum] = useState<number>(1);
   const [morePage, setMorePages] = useState<boolean>(true);
   const [searchQuery, setSearchQuery] = useState<string>("");
-  const [option, setOption] = useState<string>("students");
   const [fileDialogOpen, setFileDialogOpen] = useState(false);
   const [fileUploadedDialogOpen, setFileUploadedDialog] = useState(false);
 
@@ -47,12 +46,12 @@ export function StudentsListNavbar() {
 
   useEffect(() => {
     if (semester !== "") {
-      if (option == "validation")
+      if (SVOption == "validation")
         getStudentsValidationByEtape(setData, pageLength, pageNum, semester);
-      if (option == "students")
+      if (SVOption == "students")
         getStudentsByEtape(setData, pageLength, pageNum, semester);
     }
-  }, [semester, setData, pageNum, option]);
+  }, [semester, setData, pageNum, SVOption]);
 
   useEffect(() => {
     getStudentsByEtape(setData, pageLength, pageNum, semester);
@@ -69,15 +68,15 @@ export function StudentsListNavbar() {
 
   useEffect(() => {
     if (searchQuery.length > 0) {
-      if (option == "validation")
+      if (SVOption == "validation")
         search(setData, searchQuery, pageLength, pageNum, semester);
-      if (option == "students")
+      if (SVOption == "students")
         searchStudents(setData, searchQuery, pageLength, pageNum, semester);
     }
     if (searchQuery.length == 0) {
-      if (option == "validation")
+      if (SVOption == "validation")
         getStudentsValidationByEtape(setData, pageLength, pageNum, semester);
-      if (option == "students")
+      if (SVOption == "students")
         getStudentsByEtape(setData, pageLength, pageNum, semester);
     }
   }, [searchQuery]);
@@ -102,11 +101,7 @@ export function StudentsListNavbar() {
       <div className="h-full w-auto flex items-center gap-4">
         <Pagination pageNum={pageNum} setPageNum={setPageNum} more={morePage} />
         <EtapeCodeInput />
-        <StudentsDataOptions
-          setOption={setOption}
-          pageNum={pageNum}
-          pageLength={pageLength}
-        />
+        <StudentsDataOptions pageNum={pageNum} pageLength={pageLength} />
         <Button
           onClick={() => setDownloadDialogState(true)}
           className="text-white bg-sky-500 hover:bg-sky-700 flex items-center gap-2"

@@ -18,18 +18,14 @@ import { Cog, EllipsisVertical, Settings2, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
-type FileDataTableProps = {
-  data: DataRecord[];
-};
-
-export function StudentsTable({ data }: FileDataTableProps) {
-  const { data: userList, setData } = useStudentsData();
+export function StudentsTable() {
+  const { data: studentsList, setData, SVOption } = useStudentsData();
   const [columns, setColumns] = useState<string[]>([]);
 
   async function handleDeleteAction(cne: string) {
     try {
       const res: { message: string } = await deleteStudent(cne);
-      const nData = userList.filter((std) => std["CNE"] != cne);
+      const nData = studentsList.filter((std) => std["CNE"] != cne);
       setData(nData);
       toast.promise(Promise.resolve(res.message), {
         loading: "Deleting...",
@@ -53,7 +49,7 @@ export function StudentsTable({ data }: FileDataTableProps) {
       if (res && res.status != 200 && setError) {
         setError(res.data.message);
       } else {
-        const nData = userList.map((std) => {
+        const nData = studentsList.map((std) => {
           return std["CNE"] == cne ? data : std;
         });
         setData(nData as DataRecord[]);
@@ -96,10 +92,10 @@ export function StudentsTable({ data }: FileDataTableProps) {
   ];
 
   useEffect(() => {
-    if (data.length > 0) {
-      setColumns(Object.keys(data[0]));
+    if (studentsList.length > 0) {
+      setColumns(Object.keys(studentsList[0]));
     }
-  }, [data]);
+  }, [studentsList]);
   return (
     <>
       <Table>
@@ -111,17 +107,23 @@ export function StudentsTable({ data }: FileDataTableProps) {
                 {column}
               </TableHead>
             ))}
-            <TableHead className="text-slate-900">actions</TableHead>
+            {SVOption != "validation" && (
+              <TableHead className="text-slate-900">actions</TableHead>
+            )}
           </TableRow>
         </TableHeader>
-        <TableBody>{MapFileData(data, options)}</TableBody>
+        <TableBody>{MapFileData(studentsList, options, SVOption)}</TableBody>
       </Table>
     </>
   );
 }
 
-function MapFileData(data: DataRecord[], options: Option[]) {
-  return data.map((student, index) => {
+function MapFileData(
+  studentsList: DataRecord[],
+  options: Option[],
+  SVOption: string
+) {
+  return studentsList.map((student, index) => {
     return (
       <TableRow className="cursor-pointer py-1" key={index}>
         {Object.values(student).map((value, index) => {
@@ -131,11 +133,13 @@ function MapFileData(data: DataRecord[], options: Option[]) {
             </TableCell>
           );
         })}
-        <TableCell>
-          <OptionsSheet options={options} data={student}>
-            <EllipsisVertical className="text-slate-600" />
-          </OptionsSheet>
-        </TableCell>
+        {SVOption != "validation" && (
+          <TableCell>
+            <OptionsSheet options={options} data={student}>
+              <EllipsisVertical className="text-slate-600" />
+            </OptionsSheet>
+          </TableCell>
+        )}
       </TableRow>
     );
   });

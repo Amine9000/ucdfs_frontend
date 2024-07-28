@@ -9,7 +9,7 @@ export function StudentsData() {
       {data.length == 0 && (
         <p className="text-sm text-slate-600">Aucun étudiant inscrit.</p>
       )}
-      {data.length > 0 && <StudentsTable data={data} />}
+      {data.length > 0 && <StudentsTable />}
     </div>
   );
 }

@@ -6,26 +6,23 @@ import {
   getStudentsByEtape,
   getStudentsValidationByEtape,
 } from "@/lib/axios/studentsData";
-import { setStateType } from "@/types/setState";
 
 type FileContentOptionsProps = {
   pageNum: number;
   pageLength: number;
-  setOption: setStateType<string>;
 };
 
 export function StudentsDataOptions({
   pageNum,
   pageLength,
-  setOption,
 }: FileContentOptionsProps) {
-  const { setData, semester } = useStudentsData();
+  const { setData, semester, setSVOption } = useStudentsData();
 
   return (
     <ToggleGroup defaultValue="students" type="single">
       <ToggleGroupItem
         onClick={() => {
-          setOption("validation");
+          setSVOption("validation");
           getStudentsValidationByEtape(setData, pageLength, pageNum, semester);
         }}
         value="validation"
@@ -36,7 +33,7 @@ export function StudentsDataOptions({
       </ToggleGroupItem>
       <ToggleGroupItem
         onClick={() => {
-          setOption("students");
+          setSVOption("students");
           getStudentsByEtape(setData, pageLength, pageNum, semester);
         }}
         value="students"
