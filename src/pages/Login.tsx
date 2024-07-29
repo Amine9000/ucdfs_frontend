@@ -43,10 +43,10 @@ export default function Login({ children }: LoginProps) {
         <div className="lg:p-8">
           <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
             <div className="flex flex-col items-center space-y-2 text-center">
-              <div className="p-2 rounded w-full h-auto py-4 px-2 bg-slate-100 flex items-center justify-center">
+              <div className="p-2 rounded w-full h-auto py-4 px-2 bg-gray-50 flex items-center justify-center">
                 <img
-                  src="/logo_ucd_fs_long.svg"
-                  className="h-8"
+                  src="/logo_ucd_fs_short.svg"
+                  className="h-[200px]"
                   alt="UCD FS logo"
                 />
               </div>
