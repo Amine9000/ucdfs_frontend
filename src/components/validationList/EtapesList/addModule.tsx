@@ -69,7 +69,13 @@ export function AddModuleDialog({ children, data, setData }: GroupDialogProps) {
     const res = await addModule(moduleName, moduleCode, selectedEtapes);
     if (res?.status == 201) {
       const ntetapes = data.map((etape) => {
-        if (selectedEtapes.includes(etape.code)) etape.modules++;
+        if (selectedEtapes.includes(etape.code)) {
+          return {
+            ...etape,
+            semester: moduleCode[4] ?? "unknown",
+            modules: etape.modules + 1,
+          };
+        }
         return etape;
       });
       setData(ntetapes);

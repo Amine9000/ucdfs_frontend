@@ -1,7 +1,7 @@
 export type EtapeDataType = {
   code: string;
   nom: string;
-  semester: number;
+  semester: string;
   etudiants: number;
   modules: number;
 };

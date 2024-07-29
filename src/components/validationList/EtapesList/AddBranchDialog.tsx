@@ -42,7 +42,7 @@ export function AddBranchDialog({ children, setData }: GroupDialogProps) {
         {
           code: etapeCode,
           nom: etapeName,
-          semesters: "unknown",
+          semester: "unknown",
           etudiants: 0,
           modules: 0,
         },

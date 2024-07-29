@@ -1,17 +1,16 @@
 import {
-  AlertDialogHeader,
-  AlertDialogFooter,
-  AlertDialogTrigger,
-  AlertDialogContent,
-  AlertDialogTitle,
-  AlertDialogDescription,
-  AlertDialogCancel,
-  AlertDialogAction,
-  AlertDialog,
-} from "@/components/ui/alert-dialog";
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
 import { AlertMessageType } from "@/types/AlertMessage";
 import { HTMLAttributes, useState } from "react";
+import { Button } from "../ui/button";
 
 interface UCDAlertDialogOptions extends HTMLAttributes<HTMLDivElement> {
   message: AlertMessageType;
@@ -33,23 +32,23 @@ export function UCDAlertDialog({
 }: UCDAlertDialogOptions) {
   const [open, setOpen] = useState<boolean>(false);
   return (
-    <AlertDialog {...props} open={open} onOpenChange={setOpen}>
-      <AlertDialogTrigger asChild>{children}</AlertDialogTrigger>
-      <AlertDialogContent>
-        <AlertDialogHeader>
-          <AlertDialogTitle>{message.title}</AlertDialogTitle>
-          <AlertDialogDescription>{message.description}</AlertDialogDescription>
-        </AlertDialogHeader>
-        <AlertDialogFooter>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction
+    <Dialog {...props} open={open} onOpenChange={setOpen}>
+      <DialogTrigger asChild>{children}</DialogTrigger>
+      <DialogContent className="sm:max-w-[425px]">
+        <DialogHeader>
+          <DialogTitle>{message.title}</DialogTitle>
+          <DialogDescription>{message.description}</DialogDescription>
+        </DialogHeader>
+        <DialogFooter>
+          <Button
             onClick={() => confirmAction()}
             className={cn(colors[message.type], "text-white")}
+            type="submit"
           >
-            confirm
-          </AlertDialogAction>
-        </AlertDialogFooter>
-      </AlertDialogContent>
-    </AlertDialog>
+            Confirm
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   );
 }
