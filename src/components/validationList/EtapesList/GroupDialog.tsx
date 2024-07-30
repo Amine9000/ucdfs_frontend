@@ -38,7 +38,7 @@ export function GroupDialog({ children }: GroupDialogProps) {
         label: branch.etape_name,
       })
     );
-    setBranches(newBranches);
+    if (newBranches) setBranches(newBranches);
     setIsLoading(false);
   }
 

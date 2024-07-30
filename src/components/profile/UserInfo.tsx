@@ -48,7 +48,7 @@ export function UserInfo({ className }: UserInfoProps) {
         <div className="bg-slate-100 h-[180px] w-full rounded-md flex items-start justify-center gap-4 px-4">
           <img
             className="h-full w-[180px] rounded-md text-slate-500"
-            src={HOST_LINK + userInfo?.user_avatar_path}
+            src={HOST_LINK + "static/" + userInfo?.user_avatar_path}
             alt={userInfo?.user_fname}
           />
           <div className="bg-white flex-1 h-full flex-shrink-0 p-4 flex flex-col gap-4 justify-center rounded">

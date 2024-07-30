@@ -47,7 +47,7 @@ export default function Navbar() {
               <div className="flex-shrink-0 flex -space-x-2 overflow-hidden cursor-pointer shadow-sm">
                 <img
                   className="inline-block h-10 w-h-10 rounded-md ring-2 ring-white"
-                  src={HOST_LINK + userInfo.user_avatar_path}
+                  src={HOST_LINK + "static/" + userInfo.user_avatar_path}
                   alt=""
                 />
               </div>

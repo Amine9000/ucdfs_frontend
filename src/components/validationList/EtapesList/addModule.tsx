@@ -47,7 +47,7 @@ export function AddModuleDialog({ children, data, setData }: GroupDialogProps) {
         label: branch.etape_name,
       })
     );
-    setBranches(newBranches);
+    if (newBranches) setBranches(newBranches);
     setIsLoading(false);
   }
 
