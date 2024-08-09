@@ -1,5 +1,4 @@
 import { Button } from "@/components/ui/button";
-import { useScreen } from "@/hooks/useScreen";
 import { ChevronLeft, Download, FileUp, Plus } from "lucide-react";
 import { StudentsDataOptions } from "./StudentsDataOptions";
 import { EtapeCodeInput } from "./EtapeCodeInput";
@@ -18,12 +17,14 @@ import { SearchForm } from "../../global/Search";
 import { AddStudentDialog } from "./addStudent";
 import { studentsFileupload } from "@/lib/axios/studentsFileUpload";
 import { StudentsFileDialog } from "@/components/global/StudentsFileDialog";
+import { useTabs } from "@/hooks/useTabs";
+import { Screen } from "@/enums/Screens";
 
 export function StudentsListNavbar() {
   const [downloadDialogState, setDownloadDialogState] =
     useState<boolean>(false);
-  const { screenSelectedHandler, screen } = useScreen();
   const { setData, data, semester, setSemester, SVOption } = useStudentsData();
+  const { navigateTo, data: tabsSharedData } = useTabs();
   const [pageNum, setPageNum] = useState<number>(1);
   const [morePage, setMorePages] = useState<boolean>(true);
   const [searchQuery, setSearchQuery] = useState<string>("");
@@ -58,7 +59,7 @@ export function StudentsListNavbar() {
   }, []);
 
   useEffect(() => {
-    setSemester(screen?.etape_code ?? "");
+    setSemester((tabsSharedData as { etapeCode: string }).etapeCode ?? "");
   }, []);
 
   useEffect(() => {
@@ -85,9 +86,7 @@ export function StudentsListNavbar() {
     <div className="h-12 w-full bg-white flex-shrink-0 rounded flex items-center justify-between gap-2 px-4">
       <div className="h-full w-auto flex items-center gap-4">
         <Button
-          onClick={() =>
-            screenSelectedHandler != null && screenSelectedHandler("EtapeList")
-          }
+          onClick={() => navigateTo(Screen.EtapeList)}
           className="bg-slate-100 hover:bg-slate-200 transition-all duration-200 ease-in text-slate-700 px-2"
         >
           <ChevronLeft className="size-6" />

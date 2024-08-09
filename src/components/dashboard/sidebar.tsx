@@ -64,8 +64,9 @@ function sectionItemMapper(
                   onClick={() => handleItemSelected(item)}
                   key={i}
                   className={cn(
-                    "w-full h-auto flex items-center justify-center py-2 hover:bg-sky-600 rounded-md cursor-pointer text-gray-600 hover:text-white transition-all ease-out duration-500",
-                    itemSelected?.label == item.label && "bg-sky-600 text-white"
+                    "w-full h-auto flex items-center justify-center py-2 rounded-md cursor-pointer text-gray-600 hover:text-blue-400 transition-all ease-out duration-500",
+                    itemSelected?.label == item.label &&
+                      "bg-sky-50 text-blue-700 hover:text-blue-700"
                   )}
                 >
                   {<item.icon className="h-[32px]" />}

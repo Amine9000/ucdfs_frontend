@@ -17,13 +17,14 @@ import {
 import { useEffect, useState } from "react";
 import { UCDAlertDialog } from "./Dialog";
 import { AlertMessageType } from "@/types/AlertMessage";
-import { useScreen } from "@/hooks/useScreen";
 import { OptionsSheet } from "@/components/global/optionsSheet";
 import { Option } from "@/types/Option";
 import { deleteEtape } from "@/lib/axios/deleteEtape";
 import { updateEtape } from "@/lib/axios/uppdateEtape";
 import { DataRecord } from "@/types/DataRecord";
 import { useEtapesData } from "@/hooks/useEtapesData";
+import { useTabs } from "@/hooks/useTabs";
+import { Screen } from "@/enums/Screens";
 
 const deleteMessageDialog: AlertMessageType = {
   title: "Delete File",
@@ -32,7 +33,7 @@ const deleteMessageDialog: AlertMessageType = {
 };
 
 export function EtapesTable() {
-  const { screenSelectedHandler } = useScreen();
+  const { navigateTo, setData: setShareTabsdata } = useTabs();
   const { etapes, setEtapes } = useEtapesData();
   const [deleteDialog, setDeleteAlert] = useState(false);
   const [columns, setColumns] = useState<string[]>([]);
@@ -72,9 +73,10 @@ export function EtapesTable() {
     {
       label: "Students",
       value: "showstudents",
-      callback: (etapeCode: string) =>
-        screenSelectedHandler &&
-        screenSelectedHandler("StudentsData", etapeCode),
+      callback: (etapeCode: string) => {
+        setShareTabsdata({ etapeCode });
+        navigateTo(Screen.StudentsData);
+      },
       icon: SquareArrowOutUpRight,
     },
   ];

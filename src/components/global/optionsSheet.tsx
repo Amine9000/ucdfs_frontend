@@ -15,6 +15,7 @@ import { UCDSheet } from "./UCDSheet";
 import { UCDAlertDialog } from "./Dialog";
 import { AlertMessageType } from "@/types/AlertMessage";
 import { DataRecord } from "@/types/DataRecord";
+import { HOST_LINK } from "@/constants/host";
 
 interface UCDSheetProps extends HTMLAttributes<HTMLDivElement> {
   data: EtapeDataType | DataRecord;
@@ -37,14 +38,31 @@ export function OptionsSheet({ children, options, data }: UCDSheetProps) {
         <SheetHeader>
           <SheetTitle>Options</SheetTitle>
           <SheetDescription>
-            Make changes to this etape data here. Click save when you're done.
+            Modifiez ces données comme vous le souhaitez. Cliquez sur
+            enregistrer lorsque vous avez terminé.
           </SheetDescription>
         </SheetHeader>
         <div className="flex flex-col gap-2 my-2">
           {Object.entries(data).map(([key, value], i) => {
+            if (key == "avatar")
+              return (
+                <div
+                  key={i}
+                  className="w-full rounded py-4 px-4 flex justify-center bg-gray-50 rounded"
+                >
+                  <img
+                    className="h-32 w-32 rounded-md"
+                    src={HOST_LINK + "static/" + value}
+                    alt="avatar"
+                  />
+                </div>
+              );
             return (
               <div key={i} className="w-full rounded py-4 px-4 flex gap-4">
-                <Label htmlFor="name" className="w-1/2 text-gray-900">
+                <Label
+                  htmlFor="name"
+                  className="w-1/2 text-gray-900 first-letter:uppercase"
+                >
                   {key}
                 </Label>
                 <Label htmlFor="name" className="w-1/2 text-gray-600">
@@ -55,7 +73,7 @@ export function OptionsSheet({ children, options, data }: UCDSheetProps) {
           })}
         </div>
         <SheetFooter>
-          <div className="flex flex-col gap-2 w-full">
+          <div className="flex flex-col gap-2 w-full mt-8">
             {options.map((option) => {
               switch (option.value) {
                 case "delete":

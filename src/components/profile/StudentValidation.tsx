@@ -15,6 +15,7 @@ export function StudentValidation({ className }: StudentValidationProps) {
 
   async function fetchSemesters() {
     const nSemesters: Semester[] | undefined = await getStudentSemesters();
+    console.log(nSemesters);
     if (nSemesters) setSemesters(nSemesters);
   }
   useEffect(() => {
@@ -42,14 +43,28 @@ export function StudentValidation({ className }: StudentValidationProps) {
         <div className="border-b"></div>
       </div>
       <div className="w-full h-auto px-4 flex flex-col gap-2">
+        <div className="flex justify-between gap-4">
+          {selectedSemesters != null &&
+            selectedSemesters?.modules.length > 0 &&
+            Object.keys(selectedSemesters?.modules[0]).map((key) => {
+              return (
+                <div
+                  key={key}
+                  className="w-1/2 h-auto py-2 text-sm text-blue-500 bg-slate-100 px-4 rounded uppercase"
+                >
+                  {key}
+                </div>
+              );
+            })}
+        </div>
         {selectedSemesters != null ? (
           selectedSemesters?.modules.map((mod) => {
             return (
-              <div key={mod.module_code} className="flex justify-between gap-4">
-                <div className="w-1/2 h-auto py-2 text-sm text-gray-900 bg-slate-100 px-4 rounded">
-                  {mod.module_name}
+              <div key={mod.nom} className="flex justify-between gap-4">
+                <div className="w-1/2 h-auto py-2 text-sm text-gray-900 bg-slate-50 px-4 rounded">
+                  {mod.nom}
                 </div>
-                <div className="w-1/2 h-auto py-2 text-sm text-gray-500">
+                <div className="w-1/2 h-auto py-2 text-sm text-gray-500 px-4">
                   {mod.status}
                 </div>
               </div>
