@@ -5,6 +5,7 @@ import { Roles } from "@/enums/Roles";
 import { StudentsValidationTab } from "@/features/StudentsValidation/StudentsValidation";
 import { Notifications } from "@/features/notifications/Notifications";
 import { Profile } from "@/features/profile/Profile";
+import { Services } from "@/features/services/Services";
 import { StdDemandes } from "@/features/stdDemandes/StdDemandes";
 import { UsersTab } from "@/features/users/UsersTab";
 import { ValidationList } from "@/features/validationList/ValidationList";
@@ -42,7 +43,7 @@ export const topList: SidebarItemType[] = [
   {
     label: "Services",
     icon: Headset,
-    element: <UnderConstruction pageName="Services" />,
+    element: <Services />,
     roles: [Roles.ADMIN],
     hidden: false,
   },
