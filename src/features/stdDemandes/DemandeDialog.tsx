@@ -32,7 +32,7 @@ export function DemandeDialog({ children, demande }: DemandeDialogProps) {
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent className="sm:max-w-[900px]">
         <DialogHeader>
-          <DialogTitle>{demande?.title}</DialogTitle>
+          <DialogTitle>{demande?.name}</DialogTitle>
           <DialogDescription>{demande?.description}</DialogDescription>
         </DialogHeader>
         {data && data.length > 0 && (

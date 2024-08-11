@@ -1,6 +1,7 @@
 import { SearchForm } from "@/components/global/Search";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
+import { AddDemandeDialog } from "./AddDemandeDialog";
 
 export function ServicesNav() {
   const [searchQuery, setSearchQuery] = useState<string>("");
@@ -12,9 +13,11 @@ export function ServicesNav() {
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
       />
-      <Button className="bg-blue-500 hover:bg-blue-500 text-white">
-        Ajouter
-      </Button>
+      <AddDemandeDialog>
+        <Button className="bg-blue-500 hover:bg-blue-500 text-white">
+          Ajouter
+        </Button>
+      </AddDemandeDialog>
     </div>
   );
 }

@@ -13,7 +13,7 @@ import { Demande } from "@/types/Demande";
 
 const demandes: Demande[] = [
   {
-    title: "Déclaration de perte carte d'étudiant",
+    name: "Déclaration de perte carte d'étudiant",
     description:
       "Déclaration officielle de la perte de la carte d'étudiant pour obtenir une nouvelle carte.",
     fields: [
@@ -35,7 +35,7 @@ const demandes: Demande[] = [
     ],
   },
   {
-    title: "Demande de transfert de bourse",
+    name: "Demande de transfert de bourse",
     description:
       "Demande de transfert de bourse vers une autre université ou institution.",
     fields: [
@@ -62,7 +62,7 @@ const demandes: Demande[] = [
     ],
   },
   {
-    title: "Demande de blocage de semestre",
+    name: "Demande de blocage de semestre",
     description:
       "Demande pour bloquer un semestre en cas de difficultés personnelles ou académiques.",
     fields: [
@@ -89,7 +89,7 @@ const demandes: Demande[] = [
     ],
   },
   {
-    title: "Demande d’annulation de blocage",
+    name: "Demande d’annulation de blocage",
     description:
       "Demande d'annulation du blocage d'un semestre précédemment demandé.",
     fields: [
@@ -110,41 +110,41 @@ const demandes: Demande[] = [
     ],
   },
   {
-    title: "Retard au contrôle",
+    name: "Retard au contrôle",
     description:
       "Déclaration de retard à un examen ou contrôle et demande de régularisation.",
   },
   {
-    title: "Changement de filière",
+    name: "Changement de filière",
     description:
       "Demande officielle pour changer de filière ou de programme d'études.",
   },
   {
-    title: "Formulaire retrait definitif du bac",
+    name: "Formulaire retrait definitif du bac",
     description:
       "Formulaire pour demander le retrait définitif de votre diplôme du baccalauréat.",
   },
   {
-    title: "Formulaire retrait provisoire du bac",
+    name: "Formulaire retrait provisoire du bac",
     description:
       "Formulaire pour demander le retrait provisoire de votre diplôme du baccalauréat.",
   },
   {
-    title: "Décharge Master",
+    name: "Décharge Master",
     description: "Formulaire de décharge pour quitter un programme de Master.",
   },
   {
-    title: "Demande de Dérogation réinscription en Master",
+    name: "Demande de Dérogation réinscription en Master",
     description:
       "Demande spéciale pour obtenir une dérogation pour se réinscrire en Master après une interruption.",
   },
   {
-    title: "Demande de retrait provisoire de la licence",
+    name: "Demande de retrait provisoire de la licence",
     description:
       "Demande de retrait provisoire du programme de licence pour une période déterminée.",
   },
   {
-    title: "Demande de retrait définitif de la licence",
+    name: "Demande de retrait définitif de la licence",
     description:
       "Demande de retrait définitif du programme de licence et arrêt des études.",
   },
@@ -165,9 +165,9 @@ export function AllDemandesTable() {
           </TableHeader>
           <TableBody>
             {demandes.map((demande) => (
-              <TableRow className="hover:bg-gray-50 group" key={demande.title}>
+              <TableRow className="hover:bg-gray-50 group" key={demande.name}>
                 <TableCell className="font-medium text-gray-600">
-                  {demande.title}
+                  {demande.name}
                 </TableCell>
                 <TableCell className="text-gray-600">
                   {demande.description}

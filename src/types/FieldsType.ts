@@ -1,4 +1,4 @@
-type FieldType = "string" | "number" | "date";
+export type FieldType = "string" | "number" | "date";
 
 export interface FieldsType {
   name: string;

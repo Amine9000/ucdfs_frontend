@@ -1,3 +1,4 @@
+import { dataTypeColors, typesColors } from "@/constants/typesColors";
 import { cn } from "@/lib/utils";
 import { Demande } from "@/types/Demande";
 import { ReactNode, useState } from "react";
@@ -34,20 +35,6 @@ export function HoverPopup({ trigger, demande }: HoverPopupProps) {
     });
   }
 
-  enum typesColors {
-    Text = "string",
-    Number = "number",
-    Date = "date",
-    Boolean = "boolean",
-  }
-
-  const dataTypeColors: { [k in typesColors]: { bg: string; text: string } } = {
-    string: { bg: "bg-blue-50", text: "text-blue-500" },
-    number: { bg: "bg-red-50", text: "text-red-500" },
-    boolean: { bg: "bg-purple-50", text: "text-purple-500" },
-    date: { bg: "bg-yellow-50", text: "text-yellow-500" },
-  };
-
   return (
     <div className="w-full h-full relative">
       <div
@@ -64,11 +51,11 @@ export function HoverPopup({ trigger, demande }: HoverPopupProps) {
           top: position.y + "px",
         }}
         className={cn(
-          "absolute flex flex-col gap-2 z-50 min-w-full w-[500px] py-2 px-4 bg-white border text-gray-800 rounded-md shadow-md transition-all duration-300 py-4",
+          "absolute flex flex-col gap-2 z-50 min-w-full w-[500px] px-4 bg-white border text-gray-800 rounded-md shadow-md transition-all duration-300 py-4",
           hide && "hidden"
         )}
       >
-        <h3 className="text-slate-800">{demande.title}</h3>
+        <h3 className="text-slate-800">{demande.name}</h3>
         <small className="text-gray-600">{demande.description}</small>
         <div className="flex flex-wrap gap-2">
           {demande.fields?.map((field) => {

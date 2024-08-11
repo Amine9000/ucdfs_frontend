@@ -9,7 +9,7 @@ export enum Status {
 
 export interface Demande {
   numero?: string;
-  title: string;
+  name: string;
   description: string;
   date?: string;
   fields?: FieldsType[];
