@@ -15,7 +15,6 @@ export function StudentValidation({ className }: StudentValidationProps) {
 
   async function fetchSemesters() {
     const nSemesters: Semester[] | undefined = await getStudentSemesters();
-    console.log(nSemesters);
     if (nSemesters) setSemesters(nSemesters);
   }
   useEffect(() => {

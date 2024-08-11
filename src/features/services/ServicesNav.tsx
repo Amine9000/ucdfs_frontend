@@ -1,10 +1,22 @@
 import { SearchForm } from "@/components/global/Search";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AddDemandeDialog } from "./AddDemandeDialog";
+import { useServices } from "@/hooks/useServices";
+import { searchServices } from "@/lib/axios/services/search";
 
 export function ServicesNav() {
+  const { setServices } = useServices();
   const [searchQuery, setSearchQuery] = useState<string>("");
+
+  async function search() {
+    const services = await searchServices(searchQuery);
+    setServices(services);
+  }
+
+  useEffect(() => {
+    search();
+  }, [searchQuery]);
 
   return (
     <div className="h-12 w-full bg-white rounded p-2 flex items-center justify-between">

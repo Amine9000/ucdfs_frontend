@@ -85,7 +85,6 @@ export function AddDemandeDialog({ children }: AddDemandeDialogProps) {
         `An error occured status code ${responce?.status} and status text ${responce?.statusText}`
       );
     }
-    console.log(responce);
     setOpen(false);
   }
 

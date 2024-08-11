@@ -101,8 +101,6 @@ export function TabsProvider({ children }: TabsContextProps) {
                   childIndex++
                 ) {
                   const child = item.children[childIndex];
-                  console.log(item);
-                  console.log(item);
                   if (child.title == (screen as string)) {
                     setItemSelected({
                       ...item,
