@@ -15,6 +15,9 @@ import { Label } from "@/components/ui/label";
 import { UCDAlertDialog } from "@/components/global/Dialog";
 import { ServiceUpdateSheet } from "./ServiceUpdateSheet";
 import { dataTypeColors, typesColors } from "@/constants/typesColors";
+import { deleteService } from "@/lib/axios/services/deleteService";
+import toast from "react-hot-toast";
+import { useServices } from "@/hooks/useServices";
 
 interface UCDSheetProps extends HTMLAttributes<HTMLDivElement> {
   data: Demande;
@@ -29,6 +32,23 @@ const deleteMessage: AlertMessageType = {
 
 export function ServiceSheet({ children, options, data }: UCDSheetProps) {
   const [open, setOpen] = useState<boolean>(false);
+  const { setServices } = useServices();
+
+  async function handleDeleteConfirmation() {
+    if (data.id) {
+      const res = await deleteService(data.id);
+      if (res)
+        if (res.status === 200) {
+          setServices((prevServices) =>
+            prevServices.filter((service) => service.id !== data.id)
+          );
+          toast.success("Service deleted successfully.");
+        } else {
+          toast.error("Error deleting service.");
+        }
+      setOpen(false);
+    }
+  }
 
   return (
     <Sheet open={open} onOpenChange={setOpen}>
@@ -93,7 +113,7 @@ export function ServiceSheet({ children, options, data }: UCDSheetProps) {
                     <UCDAlertDialog
                       key={option.label}
                       message={deleteMessage}
-                      confirmAction={() => console.log("Deleted")}
+                      confirmAction={() => handleDeleteConfirmation()}
                     >
                       <div className="flex gap-4 text-slate-700 bg-slate-100 w-full rounded-sm py-2 px-4 cursor-pointer items-center justify-start">
                         <option.icon size={20} />
