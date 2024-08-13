@@ -32,7 +32,7 @@ export function TypesList({ handleSemesterSelection }: TypesListProps) {
   };
 
   return (
-    <div className="relative h-10 w-[250px] bg-slate-50 rounded">
+    <div className="relative h-10 w-full bg-slate-50 rounded">
       <div className="w-auto h-full flex items-center justify-between gap-4 pl-4 rounded focus:ring-0 focus:ring-offset-0 border-none cursor-pointer">
         <div className="text-slate-500 text-sm">
           {selectedType ? selectedType.label : "Sélectionner un type"}

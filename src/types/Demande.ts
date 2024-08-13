@@ -8,7 +8,7 @@ export enum Status {
 }
 
 export interface Demande {
-  numero?: string;
+  id?: string;
   name: string;
   description: string;
   date?: string;

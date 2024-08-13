@@ -17,9 +17,10 @@ import { setStateType } from "@/types/setState";
 import { Alert, AlertDescription, AlertTitle } from "../ui/alert";
 import { AlertCircle } from "lucide-react";
 import { DataRecord } from "@/types/DataRecord";
+import { Demande } from "@/types/Demande";
 
 interface UCDSheetProps extends HTMLAttributes<HTMLDivElement> {
-  data: DataRecord | EtapeDataType;
+  data: DataRecord | EtapeDataType | Demande;
   callback: (
     value: string,
     data?: DataRecord,

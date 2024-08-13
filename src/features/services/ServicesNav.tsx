@@ -1,7 +1,7 @@
 import { SearchForm } from "@/components/global/Search";
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
-import { AddDemandeDialog } from "./AddDemandeDialog";
+import { AddServiceDialog } from "./AddServiceDialog";
 import { useServices } from "@/hooks/useServices";
 import { searchServices } from "@/lib/axios/services/search";
 
@@ -25,11 +25,11 @@ export function ServicesNav() {
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
       />
-      <AddDemandeDialog>
+      <AddServiceDialog>
         <Button className="bg-blue-500 hover:bg-blue-500 text-white">
           Ajouter
         </Button>
-      </AddDemandeDialog>
+      </AddServiceDialog>
     </div>
   );
 }

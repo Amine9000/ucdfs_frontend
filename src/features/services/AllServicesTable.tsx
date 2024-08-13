@@ -7,17 +7,35 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Ellipsis } from "lucide-react";
+import { Ellipsis, Settings2, Trash2 } from "lucide-react";
 import { HoverPopup } from "./HoverPopup";
 import { useServices } from "@/hooks/useServices";
+import { ServiceSheet } from "./ServiceSheet";
+import { Option } from "@/types/Option";
 
-export function AllDemandesTable() {
+export function AllServicesTable() {
   const { services } = useServices();
+
+  const options: Option[] = [
+    {
+      label: "Update",
+      value: "update",
+      callback: async () => {},
+      icon: Settings2,
+    },
+    {
+      label: "Delete",
+      value: "delete",
+      callback: () => {},
+      icon: Trash2,
+    },
+  ];
+
   return (
     <div className="w-full h-full bg-white rounded flex justify-center overflow-auto">
       <div className="w-full h-full min-h-[500px] lg:w-10/12 flex justify-center">
         {services.length ? (
-          <Table>
+          <Table className="mb-24">
             <TableCaption>Liste des demandes.</TableCaption>
             <TableHeader>
               <TableRow className="hover:bg-transparent">
@@ -40,9 +58,11 @@ export function AllDemandesTable() {
                       {service.description}
                     </TableCell>
                     <TableCell className="flex items-center w-full h-full">
-                      <div className="py-1 px-4 text-gray-600 group-hover:text-white bg-blue-50 group-hover:bg-blue-500 cursor-pointer rounded duration-700 transition-all">
-                        <Ellipsis size={20} />
-                      </div>
+                      <ServiceSheet data={service} options={options}>
+                        <div className="py-1 px-4 text-gray-600 group-hover:text-white bg-blue-50 group-hover:bg-blue-500 cursor-pointer rounded duration-700 transition-all">
+                          <Ellipsis size={20} />
+                        </div>
+                      </ServiceSheet>
                     </TableCell>
                   </TableRow>
                 );
