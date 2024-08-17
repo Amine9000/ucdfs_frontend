@@ -1,15 +1,27 @@
+import { Demandes } from "@/features/services/Demandes";
+import { ServicesTable } from "@/features/services/ServicesTable";
 import { fetchServices } from "@/lib/axios/services/fechAll";
 import { Demande } from "@/types/Demande";
 import { setStateType } from "@/types/setState";
-import { HTMLAttributes, createContext, useEffect, useState } from "react";
+import {
+  HTMLAttributes,
+  ReactNode,
+  createContext,
+  useEffect,
+  useState,
+} from "react";
 
 type ServicesContextType = {
   services: Demande[];
   setServices: setStateType<Demande[]>;
+  setOption: setStateType<"services" | "demandes">;
+  bodyConetent: ReactNode;
 };
 const ServicesContextInitValue: ServicesContextType = {
   services: [],
   setServices: () => {},
+  bodyConetent: <ServicesTable />,
+  setOption: () => {},
 };
 
 export const ServicesContext = createContext<ServicesContextType>(
@@ -20,6 +32,18 @@ interface ServiceProviderProps extends HTMLAttributes<HTMLDivElement> {}
 
 export function ServicesProvider({ children }: ServiceProviderProps) {
   const [services, setServices] = useState<Demande[]>([]);
+  const [bodyConetent, setBodyConetent] = useState<ReactNode>(
+    <ServicesTable />
+  );
+  const [option, setOption] = useState<"services" | "demandes">("services");
+
+  useEffect(() => {
+    if (option == "services") {
+      setBodyConetent(<ServicesTable />);
+    } else if (option == "demandes") {
+      setBodyConetent(<Demandes />);
+    }
+  }, [option]);
 
   async function getDemandes() {
     const data = await fetchServices();
@@ -33,6 +57,8 @@ export function ServicesProvider({ children }: ServiceProviderProps) {
   const contextValue = {
     services,
     setServices,
+    setOption,
+    bodyConetent,
   };
   return (
     <ServicesContext.Provider value={contextValue}>

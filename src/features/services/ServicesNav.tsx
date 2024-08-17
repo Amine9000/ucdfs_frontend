@@ -4,9 +4,10 @@ import { useEffect, useState } from "react";
 import { AddServiceDialog } from "./AddServiceDialog";
 import { useServices } from "@/hooks/useServices";
 import { searchServices } from "@/lib/axios/services/search";
+import { ServiceOptions } from "./ServiceOptions";
 
 export function ServicesNav() {
-  const { setServices } = useServices();
+  const { setServices, setOption } = useServices();
   const [searchQuery, setSearchQuery] = useState<string>("");
 
   async function search() {
@@ -25,11 +26,14 @@ export function ServicesNav() {
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
       />
-      <AddServiceDialog>
-        <Button className="bg-blue-500 hover:bg-blue-500 text-white">
-          Ajouter
-        </Button>
-      </AddServiceDialog>
+      <div className="h-full w-auto flex gap-2">
+        <ServiceOptions onChange={setOption} />
+        <AddServiceDialog>
+          <Button className="bg-blue-500 hover:bg-blue-500 text-white h-full">
+            Ajouter
+          </Button>
+        </AddServiceDialog>
+      </div>
     </div>
   );
 }

@@ -13,7 +13,7 @@ import { useServices } from "@/hooks/useServices";
 import { ServiceSheet } from "./ServiceSheet";
 import { Option } from "@/types/Option";
 
-export function AllServicesTable() {
+export function ServicesTable() {
   const { services } = useServices();
 
   const options: Option[] = [
@@ -32,7 +32,7 @@ export function AllServicesTable() {
   ];
 
   return (
-    <div className="w-full h-full bg-white rounded flex justify-center overflow-auto">
+    <div className="w-full h-full flex justify-center overflow-auto">
       <div className="w-full h-full min-h-[500px] lg:w-10/12 flex justify-center">
         {services.length ? (
           <Table className="mb-24">
