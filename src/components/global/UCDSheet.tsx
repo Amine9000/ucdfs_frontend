@@ -67,7 +67,7 @@ export function UCDSheet({ children, data, callback }: UCDSheetProps) {
                   id="name"
                   name={key}
                   onChange={handleInputChange}
-                  value={dataState[key]}
+                  value={dataState[key] ?? ""}
                   className="col-span-3 focus-visible:ring-0 focus-visible:ring-offset-0"
                 />
               </div>

@@ -7,10 +7,12 @@ export async function studentsFileupload(
   file: string | Blob | null,
   modules_codes: string[]
 ) {
+  console.log("HELLO");
   if (file) {
     const formData = new FormData();
     formData.append("file", file);
     formData.append("modules", JSON.stringify(modules_codes));
+    console.log(formData);
     const access_token = ls.getAccessToken();
     try {
       const response: AxiosResponse = await axios.post(

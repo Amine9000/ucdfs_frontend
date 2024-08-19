@@ -9,7 +9,6 @@ import {
 } from "@/components/ui/dialog";
 import { setStateType } from "@/types/setState";
 import { FileDropArea } from "./FileDropArea";
-import { useScreen } from "@/hooks/useScreen";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { Label } from "../ui/label";
@@ -36,7 +35,6 @@ export function StudentsFileDialog({
   setFileUploadedDialog,
   fileUploader,
 }: FileDialogProps) {
-  const { screenSelectedHandler } = useScreen();
   const { semester } = useStudentsData();
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
   const [selectedModules, setSelectedModules] = useState<
@@ -63,27 +61,28 @@ export function StudentsFileDialog({
     if (semester.length > 0) getModules();
   }, [semester]);
 
-  function handleSubmit() {
-    if (screenSelectedHandler) {
-      toast.promise(
-        fileUploader(
-          uploadedFile,
-          selectedModules.map((mod) => mod.value)
-        ),
-        {
-          loading: "Uploading ...",
-          success: (
-            <p className="text-teal-600">
-              your file was uploaded successfully.
-            </p>
-          ),
-          error: <p className="text-red-500">Could not upload file.</p>,
-        }
-      );
+  async function handleFileUpload() {
+    fileUploader(
+      uploadedFile,
+      selectedModules.map((mod) => mod.value)
+    ).then(() => {
       setUploadedFile(null);
+      setFileUploadedDialog(true);
+      setOpen(false);
+    });
+  }
+
+  function handleSubmit() {
+    console.log("HERE");
+    if (selectedModules.length > 0) {
+      toast.promise(handleFileUpload(), {
+        loading: "Uploading ...",
+        success: (
+          <p className="text-teal-600">your file was uploaded successfully.</p>
+        ),
+        error: <p className="text-red-500">Could not upload file.</p>,
+      });
     }
-    setFileUploadedDialog(true);
-    setOpen(false);
   }
   return (
     <Dialog open={open} onOpenChange={setOpen}>

@@ -48,7 +48,7 @@ export function OptionsSheet({ children, options, data }: UCDSheetProps) {
               return (
                 <div
                   key={i}
-                  className="w-full rounded py-4 px-4 flex justify-center bg-gray-50 rounded"
+                  className="w-full rounded py-4 px-4 flex justify-center bg-gray-50"
                 >
                   <img
                     className="h-32 w-32 rounded-md"
