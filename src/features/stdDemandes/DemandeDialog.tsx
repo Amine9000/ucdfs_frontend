@@ -12,6 +12,9 @@ import { HTMLAttributes, useState } from "react";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Demande } from "@/types/Demande";
+import { FieldsType } from "@/types/FieldsType";
+import { FieldValue, ServiceRequestType } from "@/types/serviceRequestDataType";
+import { addStdServicerequest } from "@/lib/axios/serviceRequests/addServiceRequest";
 
 interface DemandeDialogProps extends HTMLAttributes<HTMLDivElement> {
   demande?: Demande;
@@ -19,13 +22,27 @@ interface DemandeDialogProps extends HTMLAttributes<HTMLDivElement> {
 
 export function DemandeDialog({ children, demande }: DemandeDialogProps) {
   const [open, setOpen] = useState<boolean>();
-  const [data, setData] = useState(
-    demande?.fields?.map((fields) => ({
-      ...fields,
-      value:
-        fields.type == "number" ? 0 : fields.type == "string" ? "" : new Date(),
-    }))
-  );
+  const [data, setData] = useState(demande?.fields);
+
+  function handleSaveClick() {
+    let filedsValues: FieldValue[] = [];
+    if (data) {
+      filedsValues = data?.map((field) => {
+        return {
+          field_id: field.id,
+          value: (field.value as string) ?? "",
+        };
+      });
+    }
+    const servicerequest: ServiceRequestType = {
+      service_id: "",
+      fieldsValues: filedsValues,
+    };
+    if (demande && demande.id) servicerequest.service_id = demande.id;
+    console.log(servicerequest);
+    addStdServicerequest(servicerequest);
+    setOpen(false);
+  }
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -37,34 +54,105 @@ export function DemandeDialog({ children, demande }: DemandeDialogProps) {
         </DialogHeader>
         {data && data.length > 0 && (
           <div className="grid gap-4 py-4">
-            {data.map((d, i) => {
+            {data.map((d: FieldsType, i: number) => {
               return (
                 <div key={i} className="grid grid-cols-7 items-center gap-4">
                   <Label htmlFor="name" className="text-right col-span-1">
                     {d.name}
                   </Label>
-                  <Input
-                    {...d}
-                    value={d.value as string}
-                    onChange={(e) => {
-                      setData(
-                        data.map((dt) => {
-                          if (dt.name == d.name)
-                            return { ...d, value: e.target.value };
-                          return dt;
+                  {d.type == "number" && (
+                    <Input
+                      className="col-span-6"
+                      placeholder={"Enter " + d.name}
+                      min={d.min !== undefined ? d.min : 0}
+                      max={d.max !== undefined ? d.max : 0}
+                      type="number"
+                      id={d.name}
+                      name={d.name}
+                      value={
+                        d.value !== undefined
+                          ? (d.value as number)
+                          : d.min !== undefined
+                          ? d.min
+                          : 0
+                      }
+                      required={d.required !== undefined ? d.required : true}
+                      onChange={(e) =>
+                        setData((prev) => {
+                          if (!prev) return prev;
+                          const newData = [...prev];
+                          newData[i].value = Number(e.target.value);
+                          return newData;
                         })
-                      );
-                    }}
-                    className="focus-visible:ring-0 focus-visible:ring-offset-0 col-span-6"
-                    placeholder={"Enter " + d.name}
-                  />
+                      }
+                    />
+                  )}
+                  {d.type == "string" && (
+                    <Input
+                      className="col-span-6"
+                      placeholder={"Enter " + d.name}
+                      type="text"
+                      id={d.name}
+                      name={d.name}
+                      value={d.value !== undefined ? (d.value as string) : ""}
+                      required={d.required !== undefined ? d.required : true}
+                      onChange={(e) =>
+                        setData((prev) => {
+                          if (!prev) return prev;
+                          const newData = [...prev];
+                          newData[i].value = e.target.value;
+                          return newData;
+                        })
+                      }
+                    />
+                  )}
+                  {d.type == "date" && (
+                    <Input
+                      className="col-span-6"
+                      placeholder={"Enter " + d.name}
+                      type="date"
+                      id={d.name}
+                      name={d.name}
+                      value={d.value !== undefined ? (d.value as string) : ""}
+                      required={d.required !== undefined ? d.required : true}
+                      onChange={(e) =>
+                        setData((prev) => {
+                          if (!prev) return prev;
+                          const newData = [...prev];
+                          newData[i].value = e.target.value;
+                          return newData;
+                        })
+                      }
+                    />
+                  )}
+                  {d.type == "boolean" && (
+                    <Input
+                      className="col-span-6"
+                      type="checkbox"
+                      id={d.name}
+                      name={d.name}
+                      checked={
+                        d.value !== undefined
+                          ? (d.value as unknown as boolean)
+                          : true
+                      }
+                      onChange={(e) =>
+                        setData((prev) => {
+                          if (!prev) return prev;
+                          const newData = [...prev];
+                          newData[i].value = e.target.checked;
+                          return newData;
+                        })
+                      }
+                    />
+                  )}
                 </div>
               );
             })}
           </div>
         )}
         <DialogFooter>
-          <Button onClick={() => setOpen(false)} type="submit">
+          <Button onClick={handleSaveClick} type="submit">
             Save changes
           </Button>
         </DialogFooter>

@@ -8,9 +8,11 @@ export async function studentSignIn(data: StudentSignInDataType) {
       cne: data.cne,
       password: data.password,
     });
-    return res.data;
+    console.log(res.data);
+    if (res.data) return res.data;
   } catch (err: unknown) {
     if (err instanceof AxiosError) console.error(err.message);
     else console.error(err);
   }
+  return {};
 }

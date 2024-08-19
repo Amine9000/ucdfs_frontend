@@ -1,5 +1,7 @@
 import { AllDemandesTable } from "@/features/stdDemandes/AllDemandesTable";
 import { SentDemandesTable } from "@/features/stdDemandes/SentDemandesTable";
+import { Demande } from "@/types/Demande";
+import { DemandeRequestType } from "@/types/serviceRequestType";
 import { setStateType } from "@/types/setState";
 import {
   HTMLAttributes,
@@ -10,16 +12,20 @@ import {
 } from "react";
 
 interface DemandeContextType {
-  data: object[];
-  setData: setStateType<object[]>;
+  services: Demande[];
+  setServices: setStateType<Demande[]>;
+  demandes: DemandeRequestType[];
+  setDemandes: setStateType<DemandeRequestType[]>;
   option: string;
   setOption: setStateType<string>;
   bodyContent: ReactNode;
 }
 
 const DemandeContextInitValue: DemandeContextType = {
-  data: [],
-  setData: () => {},
+  services: [],
+  setServices: () => {},
+  demandes: [],
+  setDemandes: () => {},
   option: "",
   setOption: () => {},
   bodyContent: <AllDemandesTable />,
@@ -32,11 +38,13 @@ export const demandesContext = createContext<DemandeContextType>(
 interface DemandesProviderProps extends HTMLAttributes<HTMLDivElement> {}
 
 export function DemandesProvider({ children }: DemandesProviderProps) {
-  const [data, setData] = useState<object[]>([]);
+  const [services, setServices] = useState<Demande[]>([]);
+  const [demandes, setDemandes] = useState<DemandeRequestType[]>([]);
   const [option, setOption] = useState<string>("list");
   const [bodyContent, setBodyContent] = useState<ReactNode>(
     <AllDemandesTable />
   );
+
   useEffect(() => {
     switch (option) {
       case "list":
@@ -50,8 +58,10 @@ export function DemandesProvider({ children }: DemandesProviderProps) {
     }
   }, [option]);
   const initValue: DemandeContextType = {
-    data,
-    setData,
+    services,
+    setServices,
+    demandes,
+    setDemandes,
     option,
     setOption,
     bodyContent,

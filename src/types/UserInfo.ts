@@ -1,4 +1,5 @@
 export type UserInfoType = {
+  user_id: string;
   user_fname: string;
   user_lname: string;
   user_email: string;
