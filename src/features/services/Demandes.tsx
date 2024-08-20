@@ -14,8 +14,13 @@ import { DemandeRequestType } from "@/types/serviceRequestType";
 import { statusColors } from "@/types/Demande";
 import { fetchServiceRequests } from "@/lib/axios/serviceRequests/fetchServicerequests";
 import { ServiceRequestOptions } from "./ServiceRequestOptions";
+import { setStateType } from "@/types/setState";
 
-export function Demandes() {
+type DemandesProps = {
+  setSelectedDemande: setStateType<DemandeRequestType | undefined>;
+};
+
+export function Demandes({ setSelectedDemande }: DemandesProps) {
   const { serviceRequests, setServiceRequests } = useServiceRequests();
 
   async function fetchServicerequests() {
@@ -30,7 +35,7 @@ export function Demandes() {
 
   return (
     <div className="w-full h-full flex justify-center overflow-auto">
-      <div className="w-full h-full min-h-[500px] lg:w-10/12 flex justify-center">
+      <div className="w-full h-full min-h-[500px] flex justify-center">
         {serviceRequests.length ? (
           <Table className="mb-24">
             <TableCaption>Liste des demandes.</TableCaption>
@@ -47,7 +52,11 @@ export function Demandes() {
             <TableBody>
               {serviceRequests.map((serviceReq, i) => {
                 return (
-                  <TableRow className="hover:bg-gray-50 group" key={i}>
+                  <TableRow
+                    onClick={() => setSelectedDemande(serviceReq)}
+                    className="hover:bg-gray-50 group"
+                    key={i}
+                  >
                     <TableCell className="text-gray-600">
                       {serviceReq.student.student_fname +
                         " " +

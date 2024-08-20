@@ -1,4 +1,4 @@
-import { Demandes } from "@/features/services/Demandes";
+import { ResizableDemande } from "@/features/services/ResizableDemande";
 import { ServicesTable } from "@/features/services/ServicesTable";
 import { fetchServices } from "@/lib/axios/services/fechAll";
 import { Demande } from "@/types/Demande";
@@ -41,7 +41,7 @@ export function ServicesProvider({ children }: ServiceProviderProps) {
     if (option == "services") {
       setBodyConetent(<ServicesTable />);
     } else if (option == "demandes") {
-      setBodyConetent(<Demandes />);
+      setBodyConetent(<ResizableDemande />);
     }
   }, [option]);
 
