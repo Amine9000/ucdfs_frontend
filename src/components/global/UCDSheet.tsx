@@ -58,6 +58,7 @@ export function UCDSheet({ children, data, callback }: UCDSheetProps) {
         )}
         <div className="grid gap-4 py-4">
           {Object.keys(data).map((key) => {
+            if (key == "id") return null;
             return (
               <div key={key} className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="name" className="text-right">
@@ -80,14 +81,15 @@ export function UCDSheet({ children, data, callback }: UCDSheetProps) {
           </SheetClose>
           <SheetClose asChild>
             <Button
-              onClick={() =>
+              onClick={() => {
+                console.log(data);
                 callback(
-                  ((data as DataRecord)["CNE"] as string) ||
+                  ((data as DataRecord)["id"] as string) ||
                     ((data as DataRecord)["code"] as string),
                   dataState,
                   setError as setStateType<string>
-                )
-              }
+                );
+              }}
               type="submit"
               variant={"default"}
             >

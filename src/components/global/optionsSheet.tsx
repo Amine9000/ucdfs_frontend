@@ -44,6 +44,7 @@ export function OptionsSheet({ children, options, data }: UCDSheetProps) {
         </SheetHeader>
         <div className="flex flex-col gap-2 my-2">
           {Object.entries(data).map(([key, value], i) => {
+            if (key == "id") return null;
             if (key == "avatar")
               return (
                 <div

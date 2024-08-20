@@ -40,17 +40,18 @@ export function StudentsTable() {
   }
 
   async function handleUpdateAction(
-    cne: string,
+    id: string,
     data?: DataRecord,
     setError?: setStateType<string>
   ) {
+    console.log(id, data);
     try {
-      const res = await updateStudent(cne, data ?? {});
+      const res = await updateStudent(id, data ?? {});
       if (res && res.status != 200 && setError) {
         setError(res.data.message);
       } else {
         const nData = studentsList.map((std) => {
-          return std["CNE"] == cne ? data : std;
+          return std["id"] == id ? data : std;
         });
         setData(nData as DataRecord[]);
         toast.promise(Promise.resolve(res?.data.message), {
@@ -93,7 +94,7 @@ export function StudentsTable() {
 
   useEffect(() => {
     if (studentsList.length > 0) {
-      setColumns(Object.keys(studentsList[0]));
+      setColumns(Object.keys(studentsList[0]).filter((key) => key != "id"));
     }
   }, [studentsList]);
   return (
@@ -126,7 +127,8 @@ function MapFileData(
   return studentsList.map((student, index) => {
     return (
       <TableRow className="cursor-pointer py-1" key={index}>
-        {Object.values(student).map((value, index) => {
+        {Object.entries(student).map(([key, value], index) => {
+          if (key == "id") return null;
           return (
             <TableCell className="text-sm text-slate-700" key={index}>
               {value}

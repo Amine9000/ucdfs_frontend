@@ -4,13 +4,13 @@ import { handleUnauthorized } from "../utils";
 import { HOST_LINK } from "@/constants/host";
 import { DataRecord } from "@/types/DataRecord";
 
-export async function updateStudent(cne: string, studentData: DataRecord) {
-  if (cne.length > 0) {
+export async function updateStudent(id: string, studentData: DataRecord) {
+  if (id.length > 0) {
     const access_token = ls.getAccessToken();
     if (access_token.length == 0) handleUnauthorized();
     try {
       const response: AxiosResponse = await axios.patch(
-        `${HOST_LINK}students/${cne}`,
+        `${HOST_LINK}students/${id}`,
         {
           student_code: studentData["Code"],
           student_fname: studentData["Prenom"],
