@@ -39,7 +39,6 @@ export function DemandeDialog({ children, demande }: DemandeDialogProps) {
       fieldsValues: filedsValues,
     };
     if (demande && demande.id) servicerequest.service_id = demande.id;
-    console.log(servicerequest);
     addStdServicerequest(servicerequest);
     setOpen(false);
   }

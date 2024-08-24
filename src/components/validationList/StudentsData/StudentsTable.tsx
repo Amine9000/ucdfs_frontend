@@ -44,7 +44,6 @@ export function StudentsTable() {
     data?: DataRecord,
     setError?: setStateType<string>
   ) {
-    console.log(id, data);
     try {
       const res = await updateStudent(id, data ?? {});
       if (res && res.status != 200 && setError) {

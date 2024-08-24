@@ -14,12 +14,16 @@ export function StudentValidation({ className }: StudentValidationProps) {
   );
 
   async function fetchSemesters() {
-    const nSemesters: Semester[] | undefined = await getStudentSemesters();
+    const nSemesters: Semester[] = await getStudentSemesters();
     if (nSemesters) setSemesters(nSemesters);
   }
   useEffect(() => {
     fetchSemesters();
   }, []);
+
+  useEffect(() => {
+    console.log(selectedSemesters);
+  }, [selectedSemesters]);
 
   function handleSemesterSelection(code: string) {
     const selectedSms = semesters.filter((sms) => sms.semester_code == code);
@@ -43,23 +47,17 @@ export function StudentValidation({ className }: StudentValidationProps) {
       </div>
       <div className="w-full h-auto px-4 flex flex-col gap-2">
         <div className="flex justify-between gap-4">
-          {selectedSemesters != null &&
-            selectedSemesters?.modules.length > 0 &&
-            Object.keys(selectedSemesters?.modules[0]).map((key) => {
-              return (
-                <div
-                  key={key}
-                  className="w-1/2 h-auto py-2 text-sm text-blue-500 bg-slate-100 px-4 rounded uppercase"
-                >
-                  {key}
-                </div>
-              );
-            })}
+          <div className="w-1/2 h-auto py-2 text-sm text-blue-500 bg-slate-100 px-4 rounded uppercase">
+            Nom
+          </div>
+          <div className="w-1/2 h-auto py-2 text-sm text-blue-500 bg-slate-100 px-4 rounded uppercase">
+            Status
+          </div>
         </div>
         {selectedSemesters != null ? (
-          selectedSemesters?.modules.map((mod) => {
+          selectedSemesters?.modules.map((mod, i) => {
             return (
-              <div key={mod.nom} className="flex justify-between gap-4">
+              <div key={i} className="flex justify-between gap-4">
                 <div className="w-1/2 h-auto py-2 text-sm text-gray-900 bg-slate-50 px-4 rounded">
                   {mod.nom}
                 </div>

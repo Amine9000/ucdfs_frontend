@@ -19,7 +19,6 @@ export function SentDemandesTable() {
 
   async function getDemandes() {
     const dmds = await fetchStdDemandes();
-    console.log(dmds);
     if (Array.isArray(dmds)) setDemandes(dmds);
   }
 

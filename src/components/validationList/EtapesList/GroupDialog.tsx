@@ -15,6 +15,8 @@ import makeAnimated from "react-select/animated";
 import { Input } from "@/components/ui/input";
 import { fetchEtapes } from "@/lib/axios/fetchEtapes";
 import { meregerBranchs } from "@/lib/axios/mergeBranches";
+import { useEtapesData } from "@/hooks/useEtapesData";
+import { ToastError } from "@/lib/ToastError";
 
 const animatedComponents = makeAnimated();
 
@@ -28,7 +30,10 @@ export function GroupDialog({ children }: GroupDialogProps) {
     { value: string; label: string }[]
   >([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [NomBranch, setNGroupes] = useState<string>("");
+  const [open, setOpen] = useState<boolean>(true);
+  const [NomBranch, setNomBranch] = useState<string>("");
+  const [codeBranch, setCodeBranch] = useState<string>("");
+  const { setEtapes } = useEtapesData();
 
   async function fetchBranches() {
     const res = await fetchEtapes();
@@ -46,15 +51,31 @@ export function GroupDialog({ children }: GroupDialogProps) {
     fetchBranches();
   }, []);
 
-  function handleDownloadButton() {
-    meregerBranchs(
-      selectedBranches.map((b) => b.value),
-      NomBranch
-    );
+  async function handleDownloadButton() {
+    if (
+      selectedBranches.length > 0 &&
+      NomBranch.length > 0 &&
+      codeBranch.length > 0
+    ) {
+      const etapes = await meregerBranchs(
+        selectedBranches.map((b) => b.value),
+        NomBranch,
+        codeBranch
+      );
+      if (etapes) {
+        // clear all data and set etapes and close dialog
+        setEtapes(etapes);
+        setOpen(false);
+        setNomBranch("");
+        setCodeBranch("");
+      }
+    } else {
+      ToastError("vous devez remplir tous les dossiers.");
+    }
   }
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent className="sm:max-w-[900px]">
         <DialogHeader>
@@ -86,13 +107,26 @@ export function GroupDialog({ children }: GroupDialogProps) {
           </div>
           <div className="grid grid-cols-7 items-center gap-4">
             <Label htmlFor="name" className="text-right col-span-1">
+              Code de la filière
+            </Label>
+            <Input
+              type="text"
+              value={codeBranch}
+              onChange={(e) => {
+                setCodeBranch(e.target.value);
+              }}
+              className="focus-visible:ring-0 focus-visible:ring-offset-0 col-span-6"
+            />
+          </div>
+          <div className="grid grid-cols-7 items-center gap-4">
+            <Label htmlFor="name" className="text-right col-span-1">
               Nom de la filière
             </Label>
             <Input
               type="text"
               value={NomBranch}
               onChange={(e) => {
-                setNGroupes(e.target.value);
+                setNomBranch(e.target.value);
               }}
               className="focus-visible:ring-0 focus-visible:ring-offset-0 col-span-6"
             />

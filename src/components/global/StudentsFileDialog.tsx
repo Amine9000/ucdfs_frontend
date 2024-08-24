@@ -73,7 +73,6 @@ export function StudentsFileDialog({
   }
 
   function handleSubmit() {
-    console.log("HERE");
     if (selectedModules.length > 0) {
       toast.promise(handleFileUpload(), {
         loading: "Uploading ...",

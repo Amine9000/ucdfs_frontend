@@ -18,8 +18,8 @@ export async function getStudentSemesters() {
       }
     );
     if (Array.isArray(response.data)) return response.data;
-    else return [];
   } catch (error) {
     console.error(error);
   }
+  return [];
 }

@@ -19,7 +19,6 @@ export async function fetchStdDemandes() {
         },
       }
     );
-    console.log(response);
     if (response.data) return response.data;
   } catch (error) {
     console.error(error);

@@ -82,7 +82,6 @@ export function UCDSheet({ children, data, callback }: UCDSheetProps) {
           <SheetClose asChild>
             <Button
               onClick={() => {
-                console.log(data);
                 callback(
                   ((data as DataRecord)["id"] as string) ||
                     ((data as DataRecord)["code"] as string),
