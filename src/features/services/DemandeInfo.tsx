@@ -40,7 +40,7 @@ export function DemandeInfo({
               className="rounded-md size-24"
             />
           </div>
-          <div className="flex justify-start items-center h-8 gap-4 bg-slate-100 text-sm px-4 py-1 rounded">
+          <div className="flex justify-start items-center h-6 gap-4 text-sm px-4 py-1 rounded">
             <label className="text-slate-500 w-1/3" htmlFor="">
               Nom complete
             </label>
@@ -49,7 +49,7 @@ export function DemandeInfo({
             </div>
           </div>
           {student.student_cin && (
-            <div className="flex justify-start items-center h-8 gap-4 bg-slate-100 text-sm px-4 py-1 rounded">
+            <div className="flex justify-start items-center h-6 gap-4 text-sm px-4 py-1 rounded">
               <label className="text-slate-500 w-1/3" htmlFor="">
                 CIN
               </label>
@@ -59,7 +59,7 @@ export function DemandeInfo({
             </div>
           )}
           {student.student_cne && (
-            <div className="flex justify-start items-center h-8 gap-4 bg-slate-100 text-sm px-4 py-1 rounded">
+            <div className="flex justify-start items-center h-6 gap-4 text-sm px-4 py-1 rounded">
               <label className="text-slate-500 w-1/3" htmlFor="">
                 CNE
               </label>
@@ -69,7 +69,7 @@ export function DemandeInfo({
             </div>
           )}
           {student.student_code && (
-            <div className="flex justify-start items-center h-8 gap-4 bg-slate-100 text-sm px-4 py-1 rounded">
+            <div className="flex justify-start items-center h-6 gap-4 text-sm px-4 py-1 rounded">
               <label className="text-slate-500 w-1/3" htmlFor="">
                 Code
               </label>
@@ -79,7 +79,7 @@ export function DemandeInfo({
             </div>
           )}
           {student.student_birthdate && (
-            <div className="flex justify-start items-center h-8 gap-4 bg-slate-100 text-sm px-4 py-1 rounded">
+            <div className="flex justify-start items-center h-6 gap-4 text-sm px-4 py-1 rounded">
               <label className="text-slate-500 w-1/3" htmlFor="">
                 BirthDate
               </label>
@@ -94,7 +94,7 @@ export function DemandeInfo({
       <div className="w-full bg-slate-50 rounded my-1 p-4">
         <div className="text-slate-500 text-sm my-1">Service</div>
         <div className="flex flex-col gap-2">
-          <div className="flex justify-start items-center h-8 gap-4 bg-slate-100 text-sm px-4 py-1 rounded">
+          <div className="flex justify-start items-center h-6 gap-4 text-sm px-4 py-1 rounded">
             <label className="text-slate-500 w-1/3" htmlFor="">
               Titre
             </label>
@@ -102,7 +102,7 @@ export function DemandeInfo({
               {service.name}
             </div>
           </div>
-          <div className="flex justify-start items-center h-8 gap-4 bg-slate-100 text-sm px-4 py-1 rounded">
+          <div className="flex justify-start items-center h-6 gap-4 text-sm px-4 py-1 rounded">
             <label className="text-slate-500 w-1/3" htmlFor="">
               Description
             </label>
@@ -110,7 +110,7 @@ export function DemandeInfo({
               {service.description}
             </div>
           </div>
-          <div className="flex justify-start items-center h-8 gap-4 bg-slate-100 text-sm px-4 py-1 rounded">
+          <div className="flex justify-start items-center h-6 gap-4 text-sm px-4 py-1 rounded">
             <label className="text-slate-500 w-1/3" htmlFor="">
               Date de début
             </label>
@@ -118,7 +118,7 @@ export function DemandeInfo({
               {moment(created_at).format("MMMM, Do") ?? "None"}
             </div>
           </div>
-          <div className="flex justify-start items-center h-8 gap-4 bg-slate-100 text-sm px-4 py-1 rounded">
+          <div className="flex justify-start items-center h-6 gap-4 text-sm px-4 py-1 rounded">
             <label className="text-slate-500 w-1/3" htmlFor="">
               Etat
             </label>
@@ -142,7 +142,7 @@ export function DemandeInfo({
               return (
                 <div
                   key={i}
-                  className="flex justify-start items-center h-8 gap-4 bg-slate-100 text-sm px-4 py-1 rounded"
+                  className="flex justify-start items-center h-6 gap-4 text-sm px-4 py-1 rounded"
                 >
                   <label className="text-slate-500 w-1/3" htmlFor="">
                     {stdData.field.name}

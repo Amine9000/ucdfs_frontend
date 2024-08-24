@@ -13,8 +13,8 @@ export async function fetchServices() {
       },
     });
     if (response.data) return response.data;
-    else return [];
   } catch (error) {
     console.error(error);
   }
+  return [];
 }

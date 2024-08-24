@@ -14,7 +14,7 @@ import { HTMLAttributes, useEffect, useState } from "react";
 import makeAnimated from "react-select/animated";
 import { Input } from "@/components/ui/input";
 import { fetchEtapes } from "@/lib/axios/fetchEtapes";
-import { getProccessedDataFileByEtapes } from "@/lib/axios/downlaodMergedEtapesFiles";
+import { meregerBranchs } from "@/lib/axios/mergeBranches";
 
 const animatedComponents = makeAnimated();
 
@@ -28,7 +28,7 @@ export function GroupDialog({ children }: GroupDialogProps) {
     { value: string; label: string }[]
   >([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [NGroupes, setNGroupes] = useState<number>(1);
+  const [NomBranch, setNGroupes] = useState<string>("");
 
   async function fetchBranches() {
     const res = await fetchEtapes();
@@ -47,9 +47,9 @@ export function GroupDialog({ children }: GroupDialogProps) {
   }, []);
 
   function handleDownloadButton() {
-    getProccessedDataFileByEtapes(
+    meregerBranchs(
       selectedBranches.map((b) => b.value),
-      NGroupes
+      NomBranch
     );
   }
 
@@ -86,15 +86,13 @@ export function GroupDialog({ children }: GroupDialogProps) {
           </div>
           <div className="grid grid-cols-7 items-center gap-4">
             <Label htmlFor="name" className="text-right col-span-1">
-              N.Groupes
+              Nom de la filière
             </Label>
             <Input
-              type="number"
-              min={1}
-              value={NGroupes}
+              type="text"
+              value={NomBranch}
               onChange={(e) => {
-                if (parseInt(e.target.value) > 0)
-                  setNGroupes(parseInt(e.target.value));
+                setNGroupes(e.target.value);
               }}
               className="focus-visible:ring-0 focus-visible:ring-offset-0 col-span-6"
             />

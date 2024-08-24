@@ -3,9 +3,9 @@ import { ls } from "../LocalStorage";
 import { handleUnauthorized } from "../utils";
 import { HOST_LINK } from "@/constants/host";
 
-export async function getProccessedDataFileByEtapes(
+export async function meregerBranchs(
   branches_codes: string[],
-  groupNum: number
+  branchName: string
 ) {
   if (branches_codes) {
     try {
@@ -15,7 +15,7 @@ export async function getProccessedDataFileByEtapes(
         `${HOST_LINK}files/download/etapes`,
         {
           etape_codes: branches_codes,
-          groupNum,
+          branchName,
         },
         {
           responseType: "blob",
