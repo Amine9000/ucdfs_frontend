@@ -106,6 +106,19 @@ export function OptionsSheet({ children, options, data }: UCDSheetProps) {
                       {option.label}
                     </div>
                   );
+                case "regeneratepwd":
+                  return (
+                    <div
+                      key={option.label}
+                      onClick={() => {
+                        option.callback((data as DataRecord)["Code"] as string);
+                      }}
+                      className="flex gap-4 text-slate-700 bg-slate-100 w-full rounded-sm py-2 px-4 cursor-pointer items-center justify-start"
+                    >
+                      <option.icon size={20} />
+                      {option.label}
+                    </div>
+                  );
                 default:
                   return (
                     <UCDSheet

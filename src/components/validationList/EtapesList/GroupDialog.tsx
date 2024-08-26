@@ -30,7 +30,7 @@ export function GroupDialog({ children }: GroupDialogProps) {
     { value: string; label: string }[]
   >([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [open, setOpen] = useState<boolean>(true);
+  const [open, setOpen] = useState<boolean>(false);
   const [NomBranch, setNomBranch] = useState<string>("");
   const [codeBranch, setCodeBranch] = useState<string>("");
   const { setEtapes } = useEtapesData();

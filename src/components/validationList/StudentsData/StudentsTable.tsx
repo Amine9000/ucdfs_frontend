@@ -17,6 +17,8 @@ import { setStateType } from "@/types/setState";
 import { Cog, EllipsisVertical, Settings2, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import { PasswordToast } from "./PasswordToast";
+import { regeneratePassword } from "@/lib/axios/regeneratePassword";
 
 export function StudentsTable() {
   const { data: studentsList, setData, SVOption } = useStudentsData();
@@ -66,6 +68,33 @@ export function StudentsTable() {
     }
   }
 
+  async function handleRegeneratePassword(code: string) {
+    try {
+      const data: { password: string; message: string } =
+        await regeneratePassword(code);
+
+      toast.promise(Promise.resolve(data.message), {
+        loading: "Regenerating password...",
+        success: (
+          <small className="text-sm">Password regenerated successfully</small>
+        ),
+        error: (
+          <small className="text-sm">
+            An error occurred while regenerating the password.
+          </small>
+        ),
+      });
+
+      if (data && data.password) {
+        toast.custom((t) => <PasswordToast t={t} password={data.password} />);
+      } else {
+        toast.error("An error occurred while regenerating the password.");
+      }
+    } catch (error) {
+      toast.error("An error occurred while regenerating the password.");
+    }
+  }
+
   const options: Option[] = [
     {
       label: "Update",
@@ -86,7 +115,9 @@ export function StudentsTable() {
     {
       label: "Regenerate Password",
       value: "regeneratepwd",
-      callback: () => console.log("password regenerated."),
+      callback: (code: string) => {
+        handleRegeneratePassword(code);
+      },
       icon: Cog,
     },
   ];

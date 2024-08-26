@@ -87,8 +87,18 @@ export function AddStudentDialog({ children }: GroupDialogProps) {
       student_birthdate: student.student_birthdate,
       modules: selectedModules.map((md) => md.value),
     });
-    console.log(response);
-    setIsLoading(false);
+    if (response && response.status === 200) {
+      setIsLoading(false);
+      setStudent({
+        student_code: "",
+        student_fname: "",
+        student_lname: "",
+        student_cin: "",
+        student_birthdate: "1900-01-01",
+        student_pwd: "",
+        student_cne: "",
+      });
+    }
   }
 
   return (

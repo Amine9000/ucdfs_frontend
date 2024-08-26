@@ -21,10 +21,6 @@ export function StudentValidation({ className }: StudentValidationProps) {
     fetchSemesters();
   }, []);
 
-  useEffect(() => {
-    console.log(selectedSemesters);
-  }, [selectedSemesters]);
-
   function handleSemesterSelection(code: string) {
     const selectedSms = semesters.filter((sms) => sms.semester_code == code);
     if (selectedSms.length > 0) setSelectedSemesters(selectedSms[0]);

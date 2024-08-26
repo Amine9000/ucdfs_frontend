@@ -41,5 +41,18 @@ export async function studentsFileupload(
 }
 
 async function downloadstudentsPasswordsFile(response: AxiosResponse) {
-  console.log(response.data);
+  if (response.data) {
+    const url = window.URL.createObjectURL(
+      new Blob([response.data], {
+        type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      })
+    );
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "passwords.xlsx";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    window.URL.revokeObjectURL(url);
+  }
 }
