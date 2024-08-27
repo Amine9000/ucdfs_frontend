@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useServiceRequests } from "@/hooks/useServiceRequests";
 import { updateState } from "@/lib/axios/serviceRequests/updateState";
+import { tofrench } from "@/lib/toFrench";
 import { Status, statusColors } from "@/types/Demande";
 import { DemandeRequestType } from "@/types/serviceRequestType";
 import { HTMLAttributes, useState } from "react";
@@ -64,14 +65,10 @@ export function ServiceRequestOptions({
         <DropdownMenuSeparator />
         <DropdownMenuRadioGroup value={state} onValueChange={handleStateChange}>
           <DropdownMenuRadioItem
-            className={
-              statusColors[Status.InProgress].text +
-              " focus:" +
-              statusColors[Status.InProgress].text
-            }
+            className={"text-slate-800"}
             value="inProgress"
           >
-            In Progress
+            {tofrench(Status.InProgress)}
           </DropdownMenuRadioItem>
           <DropdownMenuRadioItem
             className={
@@ -81,7 +78,7 @@ export function ServiceRequestOptions({
             }
             value="pending"
           >
-            Pending
+            {tofrench(Status.Pending)}
           </DropdownMenuRadioItem>
           <DropdownMenuRadioItem
             className={
@@ -91,7 +88,7 @@ export function ServiceRequestOptions({
             }
             value="rejected"
           >
-            Rejected
+            {tofrench(Status.Rejected)}
           </DropdownMenuRadioItem>
           <DropdownMenuRadioItem
             className={
@@ -101,7 +98,7 @@ export function ServiceRequestOptions({
             }
             value="approved"
           >
-            Approved
+            {tofrench(Status.Approved)}
           </DropdownMenuRadioItem>
         </DropdownMenuRadioGroup>
       </DropdownMenuContent>

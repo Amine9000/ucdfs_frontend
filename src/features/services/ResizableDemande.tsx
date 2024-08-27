@@ -18,11 +18,11 @@ export function ResizableDemande() {
       className="w-full rounded-lg border"
     >
       <ResizablePanel defaultSize={50}>
-        <div className="flex items-center justify-center p-2">
+        <div className="flex items-center justify-center p-2 min-w-[500px]">
           {<Demandes setSelectedDemande={setSelectedDemande} />}
         </div>
       </ResizablePanel>
-      {selectedDemande && <ResizableHandle />}
+      {selectedDemande && <ResizableHandle className="bg-slate-200 w-1 mx-1" />}
       {selectedDemande && (
         <ResizablePanel defaultSize={50} maxSize={500}>
           <DemandeInfo

@@ -4,7 +4,7 @@ import { StdDemandesNav } from "./StdDemandesNav";
 
 export function StdDemandes() {
   return (
-    <div className="w-full h-full bg-white flex flex-col gap-2 p-2">
+    <div className="w-full h-full bg-slate-100 flex flex-col gap-2">
       <DemandesProvider>
         <StdDemandesNav />
         <StdDemandesBody />

@@ -1,9 +1,13 @@
+import { Button } from "@/components/ui/button";
 import { HOST_LINK } from "@/constants/host";
+import { useServiceRequests } from "@/hooks/useServiceRequests";
+import { updateState } from "@/lib/axios/serviceRequests/updateState";
 import { Status, statusColors } from "@/types/Demande";
 import { DemandeRequestType } from "@/types/serviceRequestType";
 import { setStateType } from "@/types/setState";
 import { X } from "lucide-react";
 import moment from "moment";
+import toast from "react-hot-toast";
 
 type DemandeInfoProps = {
   selectedDemande: DemandeRequestType | undefined;
@@ -23,11 +27,17 @@ export function DemandeInfo({
         <h2 className="text-lg font-bold text-slate-700">
           Demande d'inscription
         </h2>
-        <div
-          className="p-2 hover:bg-slate-100 rounded cursor-pointer"
-          onClick={() => setSelectedDemande(undefined)}
-        >
-          <X className="text-slate-400" size={20} />
+        <div className="h-full w-auto flex gap-4 items-center justify-between">
+          <StatusBtn
+            selectedDemande={selectedDemande}
+            setSelectedDemande={setSelectedDemande}
+          />
+          <div
+            className="p-2 hover:bg-slate-100 rounded cursor-pointer"
+            onClick={() => setSelectedDemande(undefined)}
+          >
+            <X className="text-slate-400" size={20} />
+          </div>
         </div>
       </div>
       <div className="w-full bg-slate-50 rounded my-1 p-4">
@@ -156,6 +166,110 @@ export function DemandeInfo({
           </div>
         </div>
       )}
+    </div>
+  );
+}
+
+function StatusBtn({
+  selectedDemande,
+  setSelectedDemande,
+}: {
+  selectedDemande: DemandeRequestType | undefined;
+  setSelectedDemande: setStateType<DemandeRequestType | undefined>;
+}) {
+  const { setServiceRequests } = useServiceRequests();
+  function handleStateChange(newState: Status) {
+    if (selectedDemande) {
+      toast.promise(updateState(selectedDemande?.id, newState), {
+        loading: "Updating ...",
+        success: <p className="text-teal-600">State updated successfully</p>,
+        error: <p className="text-red-500">Failed to update state</p>,
+      });
+      setServiceRequests((pre) => {
+        const nServicerequests = pre.map((serviceReq) => {
+          if (serviceReq.id == selectedDemande.id)
+            return {
+              ...serviceReq,
+              state: newState,
+            };
+          else return serviceReq;
+        });
+        return nServicerequests;
+      });
+    }
+    setSelectedDemande((pre) => {
+      if (!pre) return pre;
+
+      return { ...pre, state: newState };
+    });
+  }
+
+  if (selectedDemande && selectedDemande.state == Status.Pending)
+    return (
+      <Button
+        className={
+          "px-4 w-2/3 focus-visible:ring-0 focus-visible:ring-offset-0 " +
+          statusColors[Status.InProgress].text +
+          " " +
+          statusColors[Status.InProgress].background +
+          " hover:" +
+          statusColors[Status.InProgress].background
+        }
+        onClick={() => handleStateChange(Status.InProgress)}
+      >
+        En cours
+      </Button>
+    );
+  if (selectedDemande && selectedDemande.state == Status.InProgress)
+    return (
+      <div className="flex justify-center items-center gap-2">
+        <Button
+          className={
+            "px-4 w-2/3 bg-slate-100 hover:bg-slate-100 text-slate-700"
+          }
+          onClick={() => handleStateChange(Status.Pending)}
+        >
+          annuler
+        </Button>
+        <Button
+          className={
+            "px-4 w-2/3 " +
+            statusColors[Status.Approved].text +
+            " " +
+            statusColors[Status.Approved].background +
+            " hover:" +
+            statusColors[Status.Approved].background
+          }
+          onClick={() => handleStateChange(Status.Approved)}
+        >
+          Approuvé
+        </Button>
+        <Button
+          className={
+            "px-4 w-2/3 " +
+            statusColors[Status.Rejected].text +
+            " " +
+            statusColors[Status.Rejected].background +
+            " hover:" +
+            statusColors[Status.Rejected].background
+          }
+          onClick={() => handleStateChange(Status.Rejected)}
+        >
+          Refusé
+        </Button>
+      </div>
+    );
+  return (
+    <div className="flex items-center justify-between gap-2">
+      <Button
+        className={"px-4 w-2/3 bg-slate-100 hover:bg-slate-100 text-slate-700"}
+        onClick={() => handleStateChange(Status.InProgress)}
+      >
+        annuler
+      </Button>
+      <div className="h-10 px-4 bg-gray-100 text-gray-600 rounded-md flex items-center justify-center text-sm">
+        Complété
+      </div>
     </div>
   );
 }

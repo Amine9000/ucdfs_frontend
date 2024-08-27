@@ -15,6 +15,7 @@ type ServicesContextType = {
   services: Demande[];
   setServices: setStateType<Demande[]>;
   setOption: setStateType<"services" | "demandes">;
+  option: "services" | "demandes";
   bodyConetent: ReactNode;
 };
 const ServicesContextInitValue: ServicesContextType = {
@@ -22,6 +23,7 @@ const ServicesContextInitValue: ServicesContextType = {
   setServices: () => {},
   bodyConetent: <ServicesTable />,
   setOption: () => {},
+  option: "services",
 };
 
 export const ServicesContext = createContext<ServicesContextType>(
@@ -58,6 +60,7 @@ export function ServicesProvider({ children }: ServiceProviderProps) {
     services,
     setServices,
     setOption,
+    option,
     bodyConetent,
   };
   return (

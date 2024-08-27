@@ -7,14 +7,13 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Ellipsis } from "lucide-react";
 import { useServiceRequests } from "@/hooks/useServiceRequests";
 import { useEffect } from "react";
 import { DemandeRequestType } from "@/types/serviceRequestType";
 import { statusColors } from "@/types/Demande";
 import { fetchServiceRequests } from "@/lib/axios/serviceRequests/fetchServicerequests";
-import { ServiceRequestOptions } from "./ServiceRequestOptions";
 import { setStateType } from "@/types/setState";
+import { tofrench } from "@/lib/toFrench";
 
 type DemandesProps = {
   setSelectedDemande: setStateType<DemandeRequestType | undefined>;
@@ -35,7 +34,7 @@ export function Demandes({ setSelectedDemande }: DemandesProps) {
 
   return (
     <div className="w-full h-full flex justify-center overflow-auto">
-      <div className="w-full h-full min-h-[500px] flex justify-center">
+      <div className="w-full h-full min-w-[500px] min-h-[500px] flex justify-center">
         {serviceRequests.length ? (
           <Table className="mb-24">
             <TableCaption>Liste des demandes.</TableCaption>
@@ -46,7 +45,6 @@ export function Demandes({ setSelectedDemande }: DemandesProps) {
                 <TableHead>Service</TableHead>
                 <TableHead>Date</TableHead>
                 <TableHead>Statut</TableHead>
-                <TableHead>Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -74,21 +72,14 @@ export function Demandes({ setSelectedDemande }: DemandesProps) {
                     <TableCell className="text-gray-600">
                       <span
                         className={
-                          "py-2 px-4 rounded " +
+                          "py-2 px-4 rounded truncate " +
                           statusColors[serviceReq.state].background +
                           " " +
                           statusColors[serviceReq.state].text
                         }
                       >
-                        {serviceReq.state}
+                        {tofrench(serviceReq.state)}
                       </span>
-                    </TableCell>
-                    <TableCell className="flex items-center w-full h-full">
-                      <ServiceRequestOptions serviceRequest={serviceReq}>
-                        <div className="py-1 px-4 text-gray-600 group-hover:text-white bg-blue-50 group-hover:bg-blue-500 cursor-pointer rounded duration-700 transition-all">
-                          <Ellipsis size={20} />
-                        </div>
-                      </ServiceRequestOptions>
                     </TableCell>
                   </TableRow>
                 );

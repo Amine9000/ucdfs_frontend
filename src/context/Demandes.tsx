@@ -16,8 +16,8 @@ interface DemandeContextType {
   setServices: setStateType<Demande[]>;
   demandes: DemandeRequestType[];
   setDemandes: setStateType<DemandeRequestType[]>;
-  option: string;
-  setOption: setStateType<string>;
+  option: "services" | "demandes";
+  setOption: setStateType<"services" | "demandes">;
   bodyContent: ReactNode;
 }
 
@@ -26,7 +26,7 @@ const DemandeContextInitValue: DemandeContextType = {
   setServices: () => {},
   demandes: [],
   setDemandes: () => {},
-  option: "",
+  option: "services",
   setOption: () => {},
   bodyContent: <AllDemandesTable />,
 };
@@ -40,17 +40,17 @@ interface DemandesProviderProps extends HTMLAttributes<HTMLDivElement> {}
 export function DemandesProvider({ children }: DemandesProviderProps) {
   const [services, setServices] = useState<Demande[]>([]);
   const [demandes, setDemandes] = useState<DemandeRequestType[]>([]);
-  const [option, setOption] = useState<string>("list");
+  const [option, setOption] = useState<"services" | "demandes">("services");
   const [bodyContent, setBodyContent] = useState<ReactNode>(
     <AllDemandesTable />
   );
 
   useEffect(() => {
     switch (option) {
-      case "list":
+      case "services":
         setBodyContent(<AllDemandesTable />);
         break;
-      case "sent":
+      case "demandes":
         setBodyContent(<SentDemandesTable />);
         break;
       default:

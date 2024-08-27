@@ -7,7 +7,7 @@ import { searchServices } from "@/lib/axios/services/search";
 import { ServiceOptions } from "./ServiceOptions";
 
 export function ServicesNav() {
-  const { setServices, setOption } = useServices();
+  const { setServices, setOption, option } = useServices();
   const [searchQuery, setSearchQuery] = useState<string>("");
 
   async function search() {
@@ -20,12 +20,19 @@ export function ServicesNav() {
   }, [searchQuery]);
 
   return (
-    <div className="h-12 w-full bg-white rounded p-2 flex items-center justify-between">
-      <SearchForm
-        className="w-[400px]"
-        searchQuery={searchQuery}
-        setSearchQuery={setSearchQuery}
-      />
+    <div
+      className={
+        "h-12 w-full bg-white rounded p-2 flex items-center " +
+        (option == "services" ? "justify-between" : "justify-end")
+      }
+    >
+      {option == "services" && (
+        <SearchForm
+          className="w-[400px]"
+          searchQuery={searchQuery}
+          setSearchQuery={setSearchQuery}
+        />
+      )}
       <div className="h-full w-auto flex gap-2">
         <ServiceOptions onChange={setOption} />
         <AddServiceDialog>
