@@ -38,8 +38,8 @@ export function AllDemandesTable() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {services.map((demande) => (
-                <TableRow className="hover:bg-gray-50 group" key={demande.name}>
+              {services.map((demande, i) => (
+                <TableRow className="hover:bg-gray-50 group" key={i}>
                   <TableCell className="font-medium text-gray-600">
                     {demande.name}
                   </TableCell>

@@ -9,20 +9,20 @@ export enum Status {
 
 export const statusColors = {
   [Status.Pending]: {
-    background: "bg-yellow-100",
-    text: "text-yellow-700",
+    background: "bg-yellow-50",
+    text: "text-yellow-500",
   },
   [Status.Approved]: {
-    background: "bg-green-100",
-    text: "text-green-700",
+    background: "bg-green-50",
+    text: "text-green-500",
   },
   [Status.Rejected]: {
-    background: "bg-red-100",
-    text: "text-red-700",
+    background: "bg-red-50",
+    text: "text-red-500",
   },
   [Status.InProgress]: {
-    background: "bg-blue-100",
-    text: "text-blue-700",
+    background: "bg-blue-50",
+    text: "text-blue-500",
   },
 };
 

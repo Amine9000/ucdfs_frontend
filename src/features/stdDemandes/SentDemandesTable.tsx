@@ -9,13 +9,15 @@ import {
 } from "@/components/ui/table";
 import { useDemandes } from "@/hooks/useDemandes";
 import { fetchStdDemandes } from "@/lib/axios/serviceRequests/fetchStdDemandes";
+import { tofrench } from "@/lib/toFrench";
 import { cn } from "@/lib/utils";
 import { Status, statusColors } from "@/types/Demande";
+import { Circle, CircleCheckBig, CircleDashed, CircleX } from "lucide-react";
 import moment from "moment";
 import { useEffect } from "react";
 
 export function SentDemandesTable() {
-  const { demandes, setDemandes } = useDemandes();
+  const { demandes, setDemandes, setSelectedDemande } = useDemandes();
 
   async function getDemandes() {
     const dmds = await fetchStdDemandes();
@@ -36,14 +38,20 @@ export function SentDemandesTable() {
                 <TableHead className="w-3/12">Nom</TableHead>
                 <TableHead className="w-4/12">Description</TableHead>
                 <TableHead className="w-2/12">Envoyé à</TableHead>
-                <TableHead className="w-2/12">Status</TableHead>
+                <TableHead className="w-1/12">Status</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              {demandes.map((demande) => (
+              {demandes.map((demande, i) => (
                 <TableRow
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    if (demande.state == Status.Pending)
+                      setSelectedDemande(demande);
+                    else setSelectedDemande(null);
+                  }}
                   className="hover:bg-transparent"
-                  key={demande.service?.name ?? Math.random()}
+                  key={i}
                 >
                   <TableCell className="font-medium text-gray-600">
                     {demande.service?.name ?? "None"}
@@ -59,12 +67,24 @@ export function SentDemandesTable() {
                   <TableCell>
                     <div
                       className={cn(
-                        "py-1 px-4 rounded-md text-center text-sm",
+                        "py-1 px-4 rounded-md flex items-center justify-start gap-2 text-sm",
                         statusColors[demande.state as Status].text,
                         statusColors[demande.state as Status].background
                       )}
                     >
-                      {demande.state ?? "None"}
+                      {demande.state == Status.Pending && (
+                        <CircleDashed size={20} />
+                      )}
+                      {demande.state == Status.InProgress && (
+                        <Circle size={20} />
+                      )}
+                      {demande.state == Status.Approved && (
+                        <CircleCheckBig size={20} />
+                      )}
+                      {demande.state == Status.Rejected && (
+                        <CircleX size={20} />
+                      )}
+                      {tofrench(demande.state) ?? "None"}
                     </div>
                   </TableCell>
                 </TableRow>

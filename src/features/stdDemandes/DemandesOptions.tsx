@@ -15,7 +15,7 @@ export function DemandesOptions({ onChange }: DemandesOptionsProps) {
 
   return (
     <ToggleGroup
-      defaultValue="list"
+      defaultValue="services"
       type="single"
       onValueChange={(value) => setOption(value as "services" | "demandes")}
     >

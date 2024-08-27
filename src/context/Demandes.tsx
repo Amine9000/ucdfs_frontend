@@ -19,6 +19,8 @@ interface DemandeContextType {
   option: "services" | "demandes";
   setOption: setStateType<"services" | "demandes">;
   bodyContent: ReactNode;
+  selectedDemande: DemandeRequestType | null;
+  setSelectedDemande: setStateType<DemandeRequestType | null>;
 }
 
 const DemandeContextInitValue: DemandeContextType = {
@@ -29,6 +31,8 @@ const DemandeContextInitValue: DemandeContextType = {
   option: "services",
   setOption: () => {},
   bodyContent: <AllDemandesTable />,
+  selectedDemande: null,
+  setSelectedDemande: () => {},
 };
 
 export const demandesContext = createContext<DemandeContextType>(
@@ -44,6 +48,8 @@ export function DemandesProvider({ children }: DemandesProviderProps) {
   const [bodyContent, setBodyContent] = useState<ReactNode>(
     <AllDemandesTable />
   );
+  const [selectedDemande, setSelectedDemande] =
+    useState<DemandeRequestType | null>(null);
 
   useEffect(() => {
     switch (option) {
@@ -52,8 +58,6 @@ export function DemandesProvider({ children }: DemandesProviderProps) {
         break;
       case "demandes":
         setBodyContent(<SentDemandesTable />);
-        break;
-      default:
         break;
     }
   }, [option]);
@@ -65,6 +69,8 @@ export function DemandesProvider({ children }: DemandesProviderProps) {
     option,
     setOption,
     bodyContent,
+    selectedDemande,
+    setSelectedDemande,
   };
   return (
     <demandesContext.Provider value={initValue}>
