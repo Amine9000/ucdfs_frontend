@@ -15,13 +15,13 @@ export function FileDropArea({
   const { getRootProps, getInputProps } = useDropzone({
     onDrop: (acceptedFiles) => {
       const filteredFiles = acceptedFiles.filter((file) => {
-        const MAX_FILE_SIZE = 5 * 1024 * 1024;
+        const MAX_FILE_SIZE = 20 * 1024 * 1024;
         // Validate file type and size
         const isValidType = [
           "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
           "application/vnd.ms-excel",
         ].includes(file.type);
-        const isValidSize = file.size <= MAX_FILE_SIZE; // 5 MB limit
+        const isValidSize = file.size <= MAX_FILE_SIZE; // 20 MB limit
         if (!isValidType) {
           toast.error(`Invalid file type: ${file.type}`);
         }
@@ -48,7 +48,7 @@ export function FileDropArea({
       >
         <input {...getInputProps()} />
         <small className="absolute top-1 right-1 rounded-sm px-2 py-1 bg-slate-50 text-slate-800 text-sm">
-          Max size : 5 Mb
+          Max size : 20 Mb
         </small>
         <p className="text-slate-600 flex flex-col gap-1 items-center">
           Drag and drop files here or click to browse.

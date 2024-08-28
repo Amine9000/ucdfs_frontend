@@ -24,7 +24,7 @@ export async function uploadFile(file: string | Blob | null) {
         loading: "Downloading passwords file ...",
         success: (
           <p className="text-teal-600">
-            your file was downloaded successfully.
+            votre fichier a été téléchargé avec succès.
           </p>
         ),
         error: (

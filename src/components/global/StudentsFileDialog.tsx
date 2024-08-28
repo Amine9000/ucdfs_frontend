@@ -77,7 +77,9 @@ export function StudentsFileDialog({
       toast.promise(handleFileUpload(), {
         loading: "Uploading ...",
         success: (
-          <p className="text-teal-600">your file was uploaded successfully.</p>
+          <p className="text-teal-600">
+            votre fichier a été téléchargé avec succès.
+          </p>
         ),
         error: <p className="text-red-500">Could not upload file.</p>,
       });

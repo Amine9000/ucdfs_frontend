@@ -37,7 +37,7 @@ export const topList: SidebarItemType[] = [
         element: <StudentsListScreen />,
       },
     ],
-    roles: [Roles.STUDENTS_MANAGER],
+    roles: [Roles.STUDENTS_MANAGER, Roles.ADMIN],
     hidden: false,
   },
   {

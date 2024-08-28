@@ -77,7 +77,7 @@ export function DownloadDialog({ open, onOpenChane }: DownloadDialogProps) {
                 loading: "Downloading your file ...",
                 success: (
                   <p className="text-teal-600">
-                    your file was downloaded successfully.
+                    votre fichier a été téléchargé avec succès.
                   </p>
                 ),
                 error: (

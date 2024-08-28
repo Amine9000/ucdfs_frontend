@@ -70,6 +70,7 @@ export async function getEtapes(pageNum: number, pageLength: number) {
   try {
     const access_token = ls.getAccessToken();
     if (access_token.length == 0) handleUnauthorized();
+    if (pageNum <= 0) pageNum = 1;
     const responce = await axios.get(
       `${HOST_LINK}etapes?skip=${
         pageLength * (pageNum - 1)
