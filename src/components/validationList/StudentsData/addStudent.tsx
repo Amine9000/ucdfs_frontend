@@ -18,8 +18,8 @@ import Select from "react-select";
 import makeAnimated from "react-select/animated";
 import { DatePicker } from "./DatePicker";
 import { StudentDataType } from "@/types/studentDataType";
-import { addStudent } from "@/lib/axios/addStudent";
-import { fetchModules } from "@/lib/axios/fetchModules";
+import { addStudent } from "@/lib/axios/students/addStudent";
+import { fetchModules } from "@/lib/axios/etapes/fetchModules";
 import { useStudentsData } from "@/hooks/useStudentsData";
 
 interface GroupDialogProps extends HTMLAttributes<HTMLDivElement> {

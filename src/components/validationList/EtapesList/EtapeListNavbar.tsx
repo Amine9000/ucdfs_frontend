@@ -3,7 +3,6 @@ import { Group, Plus, Upload } from "lucide-react";
 import { SearchForm } from "../../global/Search";
 import { FileDialog } from "../../global/FileDialog";
 import { useEffect, useState } from "react";
-import { getEtapes, searchEtapes } from "@/lib/axios/studentsData";
 import { useStudentsData } from "@/hooks/useStudentsData";
 import { Pagination } from "../../global/Pagination";
 import { pageLength } from "@/constants/pagination";
@@ -11,9 +10,11 @@ import { GroupDialog } from "./GroupDialog";
 import { AddBranchDialog } from "./AddBranchDialog";
 import { AddModuleDialog } from "./addModule";
 import { useEtapesData } from "@/hooks/useEtapesData";
-import { uploadFile } from "@/lib/axios/fileUpload";
+import { uploadFile } from "@/lib/axios/etapes/fileUpload";
 import { ToastError } from "@/lib/ToastError";
 import { EraseAlertDialog } from "./EraseDialog";
+import { getEtapes } from "@/lib/axios/students/getEtapes";
+import { searchEtapes } from "@/lib/axios/etapes/searchEtapes";
 
 export function EtapeListNavbar() {
   const { setData } = useStudentsData();

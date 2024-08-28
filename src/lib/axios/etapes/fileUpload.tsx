@@ -1,26 +1,23 @@
 import axios, { AxiosResponse } from "axios";
-import { ls } from "../LocalStorage";
+import { ls } from "../../LocalStorage";
 import { HOST_LINK } from "@/constants/host";
 import toast from "react-hot-toast";
 
-export async function studentsFileupload(
-  file: string | Blob | null,
-  modules_codes: string[]
-) {
+export async function uploadFile(file: string | Blob | null) {
   if (file) {
     const formData = new FormData();
     formData.append("file", file);
-    formData.append("modules", JSON.stringify(modules_codes));
     const access_token = ls.getAccessToken();
     try {
       const response: AxiosResponse = await axios.post(
-        `${HOST_LINK}files/students`,
+        `${HOST_LINK}files`,
         formData,
         {
           headers: {
             "Content-Type": "multipart/form-data",
             Authorization: `Bearer ${access_token}`,
           },
+          responseType: "blob",
         }
       );
       toast.promise(downloadstudentsPasswordsFile(response), {

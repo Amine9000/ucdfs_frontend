@@ -13,8 +13,8 @@ import Select from "react-select";
 import { HTMLAttributes, useEffect, useState } from "react";
 import makeAnimated from "react-select/animated";
 import { Input } from "@/components/ui/input";
-import { fetchEtapes } from "@/lib/axios/fetchEtapes";
-import { meregerBranchs } from "@/lib/axios/mergeBranches";
+import { fetchEtapes } from "@/lib/axios/etapes/fetchEtapes";
+import { meregerBranchs } from "@/lib/axios/etapes/mergeBranches";
 import { useEtapesData } from "@/hooks/useEtapesData";
 import { ToastError } from "@/lib/ToastError";
 

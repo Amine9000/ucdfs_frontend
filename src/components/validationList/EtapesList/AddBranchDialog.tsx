@@ -12,7 +12,7 @@ import { Label } from "@/components/ui/label";
 import { HTMLAttributes, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { addEtape } from "@/lib/axios/addEtape";
+import { addEtape } from "@/lib/axios/etapes/addEtape";
 import { EtapeDataType } from "@/types/EtapeDataType";
 import { setStateType } from "@/types/setState";
 

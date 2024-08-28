@@ -9,8 +9,8 @@ import {
   Table,
 } from "@/components/ui/table";
 import { useStudentsData } from "@/hooks/useStudentsData";
-import { deleteStudent } from "@/lib/axios/deleteStudent";
-import { updateStudent } from "@/lib/axios/updateStudent";
+import { deleteStudent } from "@/lib/axios/students/deleteStudent";
+import { updateStudent } from "@/lib/axios/students/updateStudent";
 import { DataRecord } from "@/types/DataRecord";
 import { Option } from "@/types/Option";
 import { setStateType } from "@/types/setState";
@@ -18,7 +18,7 @@ import { Cog, EllipsisVertical, Settings2, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { PasswordToast } from "./PasswordToast";
-import { regeneratePassword } from "@/lib/axios/regeneratePassword";
+import { regeneratePassword } from "@/lib/axios/students/regeneratePassword";
 
 export function StudentsTable() {
   const { data: studentsList, setData, SVOption } = useStudentsData();

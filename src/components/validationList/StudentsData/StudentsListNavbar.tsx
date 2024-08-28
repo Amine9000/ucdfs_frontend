@@ -1,24 +1,22 @@
 import { Button } from "@/components/ui/button";
-import { ChevronLeft, Download, FileUp, Plus } from "lucide-react";
+import { ChevronLeft, Download, Plus } from "lucide-react";
 import { StudentsDataOptions } from "./StudentsDataOptions";
 import { EtapeCodeInput } from "./EtapeCodeInput";
 import { useStudentsData } from "@/hooks/useStudentsData";
 import { useEffect, useState } from "react";
-import {
-  getStudentsByEtape,
-  getStudentsValidationByEtape,
-  search,
-  searchStudents,
-} from "@/lib/axios/studentsData";
 import { DownloadDialog } from "./DownloadDialog";
 import { Pagination } from "../../global/Pagination";
 import { pageLength } from "@/constants/pagination";
 import { SearchForm } from "../../global/Search";
 import { AddStudentDialog } from "./addStudent";
-import { studentsFileupload } from "@/lib/axios/studentsFileUpload";
+import { studentsFileupload } from "@/lib/axios/students/studentsFileUpload";
 import { StudentsFileDialog } from "@/components/global/StudentsFileDialog";
 import { useTabs } from "@/hooks/useTabs";
 import { Screen } from "@/enums/Screens";
+import { getStudentsValidationByEtape } from "@/lib/axios/students/getStudentsValidationByEtape";
+import { getStudentsByEtape } from "@/lib/axios/students/getStudentsByEtape";
+import { search } from "@/lib/axios/students/search";
+import { searchStudents } from "@/lib/axios/students/searchStudents";
 
 export function StudentsListNavbar() {
   const [downloadDialogState, setDownloadDialogState] =
@@ -28,37 +26,34 @@ export function StudentsListNavbar() {
   const [pageNum, setPageNum] = useState<number>(1);
   const [morePage, setMorePages] = useState<boolean>(true);
   const [searchQuery, setSearchQuery] = useState<string>("");
-  const [fileDialogOpen, setFileDialogOpen] = useState(false);
-  const [fileUploadedDialogOpen, setFileUploadedDialog] = useState(false);
 
-  useEffect(() => {
-    if (!fileUploadedDialogOpen) {
-      dialogOpenChangeHandler(pageNum, pageLength);
+  async function fetchStudents() {
+    if (SVOption == "validation")
+      getStudentsValidationByEtape(setData, pageLength, pageNum, semester);
+    if (SVOption == "students")
+      getStudentsByEtape(setData, pageLength, pageNum, semester);
+  }
+
+  async function updateData() {
+    if (searchQuery.length > 0) {
+      if (SVOption == "validation")
+        search(setData, searchQuery, pageLength, pageNum, semester);
+      if (SVOption == "students")
+        searchStudents(setData, searchQuery, pageLength, pageNum, semester);
     }
-  }, [fileUploadedDialogOpen]);
-
-  async function dialogOpenChangeHandler(pageNum: number, pageLength: number) {
-    // re-fetch students from the DB afetr file upload
-    console.log(pageNum, pageLength);
-
-    // setData(newData);
-    setFileUploadedDialog(false);
+    if (searchQuery.length == 0) {
+      fetchStudents();
+    }
   }
 
   useEffect(() => {
     if (semester !== "") {
-      if (SVOption == "validation")
-        getStudentsValidationByEtape(setData, pageLength, pageNum, semester);
-      if (SVOption == "students")
-        getStudentsByEtape(setData, pageLength, pageNum, semester);
+      fetchStudents();
     }
   }, [semester, setData, pageNum, SVOption]);
 
   useEffect(() => {
     getStudentsByEtape(setData, pageLength, pageNum, semester);
-  }, []);
-
-  useEffect(() => {
     setSemester((tabsSharedData as { etapeCode: string }).etapeCode ?? "");
   }, []);
 
@@ -68,18 +63,7 @@ export function StudentsListNavbar() {
   }, [data]);
 
   useEffect(() => {
-    if (searchQuery.length > 0) {
-      if (SVOption == "validation")
-        search(setData, searchQuery, pageLength, pageNum, semester);
-      if (SVOption == "students")
-        searchStudents(setData, searchQuery, pageLength, pageNum, semester);
-    }
-    if (searchQuery.length == 0) {
-      if (SVOption == "validation")
-        getStudentsValidationByEtape(setData, pageLength, pageNum, semester);
-      if (SVOption == "students")
-        getStudentsByEtape(setData, pageLength, pageNum, semester);
-    }
+    updateData();
   }, [searchQuery]);
 
   return (
@@ -101,6 +85,12 @@ export function StudentsListNavbar() {
         <Pagination pageNum={pageNum} setPageNum={setPageNum} more={morePage} />
         <EtapeCodeInput />
         <StudentsDataOptions pageNum={pageNum} pageLength={pageLength} />
+        <StudentsFileDialog
+          fileUploader={async (file: File | null, modules: string[]) => {
+            studentsFileupload(file, modules);
+            updateData();
+          }}
+        />
         <Button
           onClick={() => setDownloadDialogState(true)}
           className="text-white bg-sky-500 hover:bg-sky-700 flex items-center gap-2"
@@ -116,18 +106,6 @@ export function StudentsListNavbar() {
       <DownloadDialog
         open={downloadDialogState}
         onOpenChane={() => setDownloadDialogState(false)}
-      />
-      <Button
-        onClick={() => setFileDialogOpen(true)}
-        className="text-white bg-sky-500 hover:bg-sky-700"
-      >
-        Charger <FileUp size={20} className="text-white ml-2" />
-      </Button>
-      <StudentsFileDialog
-        fileUploader={studentsFileupload}
-        open={fileDialogOpen}
-        setFileUploadedDialog={setFileUploadedDialog}
-        setOpen={setFileDialogOpen}
       />
     </div>
   );

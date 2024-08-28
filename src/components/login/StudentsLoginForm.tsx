@@ -6,7 +6,7 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { Icons } from "../icons";
 import { cn } from "@/lib/utils";
-import { studentSignIn } from "@/lib/axios/studentSignIn";
+import { studentSignIn } from "@/lib/axios/students/studentSignIn";
 
 interface StudentsLoginFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 

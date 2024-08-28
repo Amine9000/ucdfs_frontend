@@ -9,7 +9,7 @@ import {
   Table,
 } from "@/components/ui/table";
 import { HOST_LINK } from "@/constants/host";
-import { fetchUsers } from "@/lib/axios/fetchUsers";
+import { fetchUsers } from "@/lib/axios/users/fetchUsers";
 import { DataRecord } from "@/types/DataRecord";
 import { EtapeDataType } from "@/types/EtapeDataType";
 import { Option } from "@/types/Option";

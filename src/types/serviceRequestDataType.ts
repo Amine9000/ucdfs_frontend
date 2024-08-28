@@ -6,6 +6,6 @@ export type ServiceRequestType = {
 };
 
 export type FieldValue = {
-  field_id: number;
-  value: string;
+  field_id?: number;
+  value?: string | number | Date | boolean;
 };

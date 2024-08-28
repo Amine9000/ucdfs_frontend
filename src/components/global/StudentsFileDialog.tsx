@@ -6,35 +6,25 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
+  DialogTrigger,
 } from "@/components/ui/dialog";
-import { setStateType } from "@/types/setState";
 import { FileDropArea } from "./FileDropArea";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { Label } from "../ui/label";
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
-import { fetchModules } from "@/lib/axios/fetchModules";
+import { fetchModules } from "@/lib/axios/etapes/fetchModules";
 import { useStudentsData } from "@/hooks/useStudentsData";
+import { Upload } from "lucide-react";
 
 const animatedComponents = makeAnimated();
 
 type FileDialogProps = {
-  open: boolean;
-  setOpen: setStateType<boolean>;
-  setFileUploadedDialog: setStateType<boolean>;
-  fileUploader: (
-    file: string | Blob | null,
-    modules: string[]
-  ) => Promise<void>;
+  fileUploader: (file: File | null, modules: string[]) => Promise<void>;
 };
 
-export function StudentsFileDialog({
-  open,
-  setOpen,
-  setFileUploadedDialog,
-  fileUploader,
-}: FileDialogProps) {
+export function StudentsFileDialog({ fileUploader }: FileDialogProps) {
   const { semester } = useStudentsData();
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
   const [selectedModules, setSelectedModules] = useState<
@@ -43,6 +33,7 @@ export function StudentsFileDialog({
   const [modules, setModules] = useState<{ label: string; value: string }[]>(
     []
   );
+  const [open, setOpen] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   async function getModules() {
@@ -67,7 +58,6 @@ export function StudentsFileDialog({
       selectedModules.map((mod) => mod.value)
     ).then(() => {
       setUploadedFile(null);
-      setFileUploadedDialog(true);
       setOpen(false);
     });
   }
@@ -87,6 +77,9 @@ export function StudentsFileDialog({
   }
   return (
     <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger className="h-10 rounded-md text-gray-700 bg-gray-50 hover:bg-gray-50 px-4 hover:text-sky-600">
+        <Upload size={20} />
+      </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Edit profile</DialogTitle>

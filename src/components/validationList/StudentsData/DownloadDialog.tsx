@@ -10,7 +10,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useStudentsData } from "@/hooks/useStudentsData";
-import { getProccessedDataFile } from "@/lib/axios/studentsData";
+import { getProccessedDataFile } from "@/lib/axios/students/getProccessedDataFile";
 import { setStateType } from "@/types/setState";
 import { useState } from "react";
 import toast from "react-hot-toast";

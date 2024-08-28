@@ -1,7 +1,7 @@
 export type FieldType = "string" | "number" | "date" | "boolean";
 
 export interface FieldsType {
-  id: number;
+  id?: number;
   name: string;
   type: FieldType;
   required: boolean;

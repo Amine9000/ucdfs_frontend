@@ -1,6 +1,6 @@
 import { UserInfoType } from "@/types/UserInfo";
-import { ls } from "../LocalStorage";
-import { handleUnauthorized } from "../utils";
+import { ls } from "../../LocalStorage";
+import { handleUnauthorized } from "../../utils";
 import axios, { AxiosResponse } from "axios";
 import { HOST_LINK } from "@/constants/host";
 

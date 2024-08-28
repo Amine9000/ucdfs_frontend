@@ -1,6 +1,6 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
-import { ls } from "../LocalStorage";
-import { handleUnauthorized } from "../utils";
+import { ls } from "../../LocalStorage";
+import { handleUnauthorized } from "../../utils";
 import { HOST_LINK } from "@/constants/host";
 import { StudentDataType } from "@/types/studentDataType";
 

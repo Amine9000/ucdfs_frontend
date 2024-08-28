@@ -27,9 +27,9 @@ export function DemandeDialog({ children, demande }: DemandeDialogProps) {
   function handleSaveClick() {
     let filedsValues: FieldValue[] = [];
     if (data) {
-      filedsValues = data?.map((field) => {
+      filedsValues = data.map((field) => {
         return {
-          field_id: field.id,
+          field_id: field.id ?? Math.floor(Math.random() * 9999),
           value: (field.value as string) ?? "",
         };
       });

@@ -1,5 +1,5 @@
 import { pageLength } from "@/constants/pagination";
-import { getEtapes } from "@/lib/axios/studentsData";
+import { getEtapes } from "@/lib/axios/students/getEtapes";
 import { EtapeDataType } from "@/types/EtapeDataType";
 import { setStateType } from "@/types/setState";
 import { createContext, useEffect, useState } from "react";

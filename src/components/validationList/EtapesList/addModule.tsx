@@ -16,8 +16,8 @@ import { EtapeDataType } from "@/types/EtapeDataType";
 import { setStateType } from "@/types/setState";
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
-import { fetchEtapes } from "@/lib/axios/fetchEtapes";
-import { addModule } from "@/lib/axios/addModule";
+import { fetchEtapes } from "@/lib/axios/etapes/fetchEtapes";
+import { addModule } from "@/lib/axios/etapes/addModule";
 
 interface GroupDialogProps extends HTMLAttributes<HTMLDivElement> {
   data: EtapeDataType[];

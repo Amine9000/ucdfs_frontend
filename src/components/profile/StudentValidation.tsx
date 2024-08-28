@@ -1,6 +1,6 @@
 import { HTMLAttributes, useEffect, useState } from "react";
 import { SemestersList } from "./SemestersList";
-import { getStudentSemesters } from "@/lib/axios/fetchStudentData";
+import { getStudentSemesters } from "@/lib/axios/students/fetchStudentData";
 import { Semester } from "@/types/Semester";
 
 interface StudentValidationProps extends HTMLAttributes<HTMLDivElement> {

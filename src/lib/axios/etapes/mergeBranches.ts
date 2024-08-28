@@ -1,8 +1,8 @@
 import axios, { AxiosError } from "axios";
-import { ls } from "../LocalStorage";
-import { handleUnauthorized } from "../utils";
+import { ls } from "../../LocalStorage";
+import { handleUnauthorized } from "../../utils";
 import { HOST_LINK } from "@/constants/host";
-import { ToastError } from "../ToastError";
+import { ToastError } from "../../ToastError";
 
 export async function meregerBranchs(
   branches_codes: string[],

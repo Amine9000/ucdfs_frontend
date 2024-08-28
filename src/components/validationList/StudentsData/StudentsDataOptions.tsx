@@ -2,10 +2,8 @@ import { FileCog, FileText } from "lucide-react";
 
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { useStudentsData } from "@/hooks/useStudentsData";
-import {
-  getStudentsByEtape,
-  getStudentsValidationByEtape,
-} from "@/lib/axios/studentsData";
+import { getStudentsValidationByEtape } from "@/lib/axios/students/getStudentsValidationByEtape";
+import { getStudentsByEtape } from "@/lib/axios/students/getStudentsByEtape";
 
 type FileContentOptionsProps = {
   pageNum: number;
