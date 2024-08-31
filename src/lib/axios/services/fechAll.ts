@@ -12,6 +12,7 @@ export async function fetchServices() {
         Authorization: `Bearer ${access_token}`,
       },
     });
+    console.log(response.data);
     if (response.data) return response.data;
   } catch (error) {
     console.error(error);

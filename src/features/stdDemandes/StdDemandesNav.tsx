@@ -73,7 +73,7 @@ export function StdDemandesNav() {
           {selectedDemande != null && (
             <Button
               onClick={handleCancelClick}
-              className="bg-slate-200 hover:bg-slate-300 text-slate-900"
+              className="bg-slate-100 hover:bg-slate-200 text-slate-900"
             >
               annuler la demande
             </Button>

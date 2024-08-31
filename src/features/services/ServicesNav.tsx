@@ -33,10 +33,10 @@ export function ServicesNav() {
           setSearchQuery={setSearchQuery}
         />
       )}
-      <div className="h-full w-auto flex gap-2">
+      <div className="h-full w-auto flex items-center gap-2">
         <ServiceOptions onChange={setOption} />
         <AddServiceDialog>
-          <Button className="bg-blue-500 hover:bg-blue-500 text-white h-full">
+          <Button className="bg-blue-500 hover:bg-blue-500 text-white">
             Ajouter
           </Button>
         </AddServiceDialog>

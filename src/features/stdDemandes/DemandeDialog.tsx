@@ -8,7 +8,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { HTMLAttributes, useState } from "react";
+import { HTMLAttributes, useEffect, useState } from "react";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Demande } from "@/types/Demande";
@@ -22,7 +22,11 @@ interface DemandeDialogProps extends HTMLAttributes<HTMLDivElement> {
 
 export function DemandeDialog({ children, demande }: DemandeDialogProps) {
   const [open, setOpen] = useState<boolean>();
-  const [data, setData] = useState(demande?.fields);
+  const [data, setData] = useState<FieldsType[]>([]);
+
+  useEffect(() => {
+    setData(demande?.fields || []);
+  }, [demande]);
 
   function handleSaveClick() {
     let filedsValues: FieldValue[] = [];
@@ -150,6 +154,7 @@ export function DemandeDialog({ children, demande }: DemandeDialogProps) {
             })}
           </div>
         )}
+        {!data && <span>TEST</span>}
         <DialogFooter>
           <Button onClick={handleSaveClick} type="submit">
             Save changes

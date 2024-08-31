@@ -17,7 +17,8 @@ import moment from "moment";
 import { useEffect } from "react";
 
 export function SentDemandesTable() {
-  const { demandes, setDemandes, setSelectedDemande } = useDemandes();
+  const { demandes, setDemandes, setSelectedDemande, selectedDemande } =
+    useDemandes();
 
   async function getDemandes() {
     const dmds = await fetchStdDemandes();
@@ -37,8 +38,8 @@ export function SentDemandesTable() {
               <TableRow className="hover:bg-transparent">
                 <TableHead className="w-3/12">Nom</TableHead>
                 <TableHead className="w-4/12">Description</TableHead>
-                <TableHead className="w-2/12">Envoyé à</TableHead>
-                <TableHead className="w-1/12">Status</TableHead>
+                <TableHead className="w-3/12">Envoyé à</TableHead>
+                <TableHead className="w-2/12">Status</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -50,7 +51,11 @@ export function SentDemandesTable() {
                       setSelectedDemande(demande);
                     else setSelectedDemande(null);
                   }}
-                  className="hover:bg-transparent"
+                  className={cn(
+                    selectedDemande && selectedDemande.id == demande.id
+                      ? "bg-slate-50 hover:bg-slate-50"
+                      : "hover:bg-transparent bg-transparent"
+                  )}
                   key={i}
                 >
                   <TableCell className="font-medium text-gray-600">

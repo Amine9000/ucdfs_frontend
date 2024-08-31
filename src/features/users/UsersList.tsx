@@ -15,6 +15,9 @@ import { UserOption } from "@/types/UserOption";
 import { Cog, EllipsisVertical, PencilLine, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { UserOptionsSheet } from "./UserOptionsSheet";
+import toast from "react-hot-toast";
+import { regenerateUserPwd } from "@/lib/axios/users/regenrateUserPwd";
+import { PasswordToast } from "@/components/validationList/StudentsData/PasswordToast";
 
 const updateUserCallback = (id: string, userData?: UserDto) => {
   console.log(id, userData);
@@ -25,8 +28,36 @@ const deleteUserCallback = (id: string) => {
 };
 
 const regeneratePasswordCallback = (id: string) => {
-  console.log(id);
+  handleRegeneratePassword(id);
 };
+
+async function handleRegeneratePassword(id: string) {
+  try {
+    const data: { password: string; message: string } = await regenerateUserPwd(
+      id
+    );
+
+    toast.promise(Promise.resolve(data.message), {
+      loading: "Regenerating password...",
+      success: (
+        <small className="text-sm">Password regenerated successfully</small>
+      ),
+      error: (
+        <small className="text-sm">
+          An error occurred while regenerating the password.
+        </small>
+      ),
+    });
+
+    if (data && data.password) {
+      toast.custom((t) => <PasswordToast t={t} password={data.password} />);
+    } else {
+      toast.error("An error occurred while regenerating the password.");
+    }
+  } catch (error) {
+    toast.error("An error occurred while regenerating the password.");
+  }
+}
 
 const options: UserOption[] = [
   {
@@ -44,7 +75,7 @@ const options: UserOption[] = [
   {
     label: "Regenerer le mot de passe",
     icon: Cog,
-    value: "regeratepwd",
+    value: "regeneratepwd",
     callback: regeneratePasswordCallback,
   },
 ];
