@@ -1,26 +1,33 @@
 import { SearchForm } from "@/components/global/Search";
-import { Button } from "@/components/ui/button";
-import { Plus } from "lucide-react";
 import { useEffect, useState } from "react";
+import { AddUserDialog } from "./AddUserDialog";
+import { searchUsers } from "@/lib/axios/users/searchUsers";
+import { useUsers } from "@/hooks/useUsers";
+import { fetchUsers } from "@/lib/axios/users/fetchUsers";
 
 export function UsersNavbar() {
-  //   const [pageNum, setPageNum] = useState<number>(1);
   const [searchQuery, setSearchQuery] = useState<string>("");
+  const { setUsers } = useUsers();
 
   async function fetchData() {
-    // if (searchQuery.length > 0)
-    //   searchEtapes(setEtapes, searchQuery, pageLength, pageNum);
-    // if (searchQuery.length == 0) {
-    //   const newData = await getEtapes(pageNum, pageLength);
-    //   setEtapes(newData);
-    // }
+    if (searchQuery.length > 0) {
+      const data = await searchUsers(searchQuery);
+      if (Array.isArray(data)) {
+        setUsers(data);
+      }
+    } else {
+      const data = await fetchUsers();
+      if (Array.isArray(data) && data.length) {
+        setUsers(data);
+      }
+    }
   }
   useEffect(() => {
     fetchData();
   }, [searchQuery]);
 
   return (
-    <div className="h-12 w-full bg-white flex-shrink-0 rounded flex items-center justify-between gap-2 px-4">
+    <div className="h-12 w-full bg-white flex-shrink-0 rounded flex items-center justify-between gap-2 px-2">
       <SearchForm
         className="w-[400px]"
         searchQuery={searchQuery}
@@ -28,9 +35,7 @@ export function UsersNavbar() {
       />
       <div className="h-full w-auto flex items-center gap-2">
         {/* <Pagination pageNum={pageNum} setPageNum={setPageNum} more={morePage} /> */}
-        <Button className="text-white bg-sky-500 hover:bg-sky-700">
-          Ajouter <Plus size={20} className="text-white ml-2" />
-        </Button>{" "}
+        <AddUserDialog />
       </div>
     </div>
   );

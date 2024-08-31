@@ -76,7 +76,7 @@ export function EtapeListNavbar() {
   }, [searchQuery]);
 
   return (
-    <div className="h-12 w-full bg-white flex-shrink-0 rounded flex items-center justify-between gap-2 px-4">
+    <div className="h-12 w-full bg-white flex-shrink-0 rounded flex items-center justify-between gap-2 px-2">
       <SearchForm
         className="w-[400px]"
         searchQuery={searchQuery}

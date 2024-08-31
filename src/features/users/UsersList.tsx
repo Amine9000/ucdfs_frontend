@@ -1,4 +1,3 @@
-import { OptionsSheet } from "@/components/global/optionsSheet";
 import {
   TableCaption,
   TableHeader,
@@ -9,70 +8,60 @@ import {
   Table,
 } from "@/components/ui/table";
 import { HOST_LINK } from "@/constants/host";
-import { fetchUsers } from "@/lib/axios/users/fetchUsers";
-import { DataRecord } from "@/types/DataRecord";
-import { EtapeDataType } from "@/types/EtapeDataType";
-import { Option } from "@/types/Option";
-import { setStateType } from "@/types/setState";
-import { Cog, EllipsisVertical, Plus, Trash2 } from "lucide-react";
+import { useUsers } from "@/hooks/useUsers";
+import { deleteUser } from "@/lib/axios/users/deleteUser";
+import { UserDto } from "@/types/user/UserDto";
+import { UserOption } from "@/types/UserOption";
+import { Cog, EllipsisVertical, PencilLine, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
+import { UserOptionsSheet } from "./UserOptionsSheet";
+
+const updateUserCallback = (id: string, userData?: UserDto) => {
+  console.log(id, userData);
+};
+
+const deleteUserCallback = (id: string) => {
+  deleteUser(id);
+};
+
+const regeneratePasswordCallback = (id: string) => {
+  console.log(id);
+};
+
+const options: UserOption[] = [
+  {
+    label: "Modifier l'utilisateur",
+    icon: PencilLine,
+    value: "update",
+    callback: updateUserCallback,
+  },
+  {
+    label: "Supprimer un utilisateur",
+    icon: Trash2,
+    value: "delete",
+    callback: deleteUserCallback,
+  },
+  {
+    label: "Regenerer le mot de passe",
+    icon: Cog,
+    value: "regeratepwd",
+    callback: regeneratePasswordCallback,
+  },
+];
 
 export function UsersList() {
   const [columns, setColumns] = useState<string[]>([]);
-  const [options, setOptions] = useState<Option[]>([
-    {
-      label: "Modifier l'utilisateur",
-      icon: Plus,
-      value: "update",
-      callback: function (
-        value: string,
-        data?: DataRecord | EtapeDataType | undefined,
-        setError?: setStateType<string> | undefined
-      ): void | Promise<void> | Promise<unknown> | null {
-        throw new Error("Function not implemented.");
-      },
-    },
-    {
-      label: "Supprimer un utilisateur",
-      icon: Trash2,
-      value: "delete",
-      callback: function (
-        value: string,
-        data?: DataRecord | EtapeDataType | undefined,
-        setError?: setStateType<string> | undefined
-      ): void | Promise<void> | Promise<unknown> | null {
-        throw new Error("Function not implemented.");
-      },
-    },
-    {
-      label: "regenerer le mot de passe",
-      icon: Cog,
-      value: "regeratepwd",
-      callback: function (
-        value: string,
-        data?: DataRecord | EtapeDataType | undefined,
-        setError?: setStateType<string> | undefined
-      ): void | Promise<void> | Promise<unknown> | null {
-        throw new Error("Function not implemented.");
-      },
-    },
-  ]);
-  const [userssList, setUserssList] = useState<DataRecord[]>([]);
-
-  async function getUsers() {
-    const data = await fetchUsers();
-    if (Array.isArray(data) && data.length) {
-      const cols = Object.keys(data[0] ?? {});
-      setColumns(cols);
-      setUserssList(data);
-    }
-  }
+  const { users } = useUsers();
 
   useEffect(() => {
-    getUsers();
-  }, []);
+    if (Array.isArray(users) && users.length) {
+      const cols = Object.keys(users[0] ?? {}).filter((col) => col !== "id");
+      setColumns(cols);
+    }
+  }, [users]);
+
   return (
-    <div className="w-full h-full">
+    <div className="w-full h-full bg-white rounded overflow-auto">
       <Table>
         <TableCaption>Liste des utilisateurs</TableCaption>
         <TableHeader>
@@ -85,60 +74,82 @@ export function UsersList() {
                 {column}
               </TableHead>
             ))}
-            <TableHead className="text-slate-900">actions</TableHead>
+            <TableHead className="text-slate-900">Actions</TableHead>
           </TableRow>
         </TableHeader>
-        <TableBody>{MapUsersData(userssList, options)}</TableBody>
+        <TableBody>
+          {users.length > 0 ? (
+            users.map((user, index) => <UserTableRow key={index} user={user} />)
+          ) : (
+            <TableRow>
+              <TableCell
+                className="text-sm text-sky-700 text-center"
+                colSpan={columns.length + 1}
+              >
+                Aucun utilisateur trouvé
+              </TableCell>
+            </TableRow>
+          )}
+        </TableBody>
       </Table>
     </div>
   );
 }
 
-function MapUsersData(userssList: DataRecord[], options: Option[]) {
-  return userssList.map((user, index) => {
+interface UserTableRowProps {
+  user: UserDto;
+}
+
+function UserTableRow({ user }: UserTableRowProps) {
+  return (
+    <TableRow className="cursor-pointer py-1 group/row">
+      {Object.entries(user).map(([key, val], index) => {
+        if (key === "id") return null;
+        return <UserTableCell key={index} keyName={key} value={val} />;
+      })}
+      <TableCell>
+        <UserOptionsSheet options={options} data={user}>
+          <EllipsisVertical className="text-slate-600" />
+        </UserOptionsSheet>
+      </TableCell>
+    </TableRow>
+  );
+}
+
+interface UserTableCellProps {
+  keyName: string;
+  value: string | number | string[];
+}
+
+function UserTableCell({ keyName, value }: UserTableCellProps) {
+  if (keyName === "roles") {
     return (
-      <TableRow className="cursor-pointer py-1 group/row" key={index}>
-        {Object.keys(user).map((key, index) => {
-          if (key == "roles")
-            return (
-              <TableCell
-                className="text-sm text-slate-700 flex flex-wrap gap-2"
-                key={index}
-              >
-                {(user[key] as string[]).map((role, index) => (
-                  <div
-                    key={index}
-                    className="w-auto bg-purple-50 rounded-sm py-1 px-4 text-sm text-purple-800"
-                  >
-                    {role}
-                  </div>
-                ))}
-              </TableCell>
-            );
-          if (key == "avatar")
-            return (
-              <TableCell className="text-sm text-slate-700" key={index}>
-                <div className="size-8 group-hover/row:scale-[1.6] rounded-sm transition-all duration-300 overflow-hidden">
-                  <img
-                    className="h-full w-auto"
-                    src={(HOST_LINK + "static/" + user[key]) as string}
-                    alt="avatar"
-                  />
-                </div>
-              </TableCell>
-            );
-          return (
-            <TableCell className="text-sm text-slate-700" key={index}>
-              {user[key]}
-            </TableCell>
-          );
-        })}
-        <TableCell>
-          <OptionsSheet options={options} data={user}>
-            <EllipsisVertical className="text-slate-600" />
-          </OptionsSheet>
-        </TableCell>
-      </TableRow>
+      <TableCell className="text-sm text-slate-700 flex flex-wrap gap-2">
+        {(value as string[]).map((role, index) => (
+          <div
+            key={index}
+            className="w-auto bg-purple-50 rounded-sm py-1 px-4 text-sm text-purple-800"
+          >
+            {role}
+          </div>
+        ))}
+      </TableCell>
     );
-  });
+  }
+
+  if (keyName === "avatar") {
+    return (
+      <TableCell className="text-sm text-slate-700">
+        <div className="size-8 group-hover/row:scale-[1.6] rounded-sm transition-all duration-300 overflow-hidden">
+          <img
+            className="h-full w-auto"
+            src={`${HOST_LINK}static/${value}`}
+            alt="avatar"
+          />
+        </div>
+      </TableCell>
+    );
+  }
+
+  return <TableCell className="text-sm text-slate-700">{value}</TableCell>;
 }
