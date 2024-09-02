@@ -14,7 +14,7 @@ export async function meregerBranchs(
       const access_token = ls.getAccessToken();
       if (access_token.length == 0) handleUnauthorized();
       const res = await axios.post(
-        `${HOST_LINK}etapes/merge`,
+        `${HOST_LINK}modules/merge`,
         {
           etape_codes: branches_codes,
           branchName,

@@ -3,7 +3,7 @@ import { HOST_LINK } from "@/constants/host";
 import { ls } from "@/lib/LocalStorage";
 import { handleUnauthorized } from "@/lib/utils";
 
-export async function eraseAllEtapes() {
+export async function eraseAllData() {
   const access_token = ls.getAccessToken();
   if (access_token.length == 0) handleUnauthorized();
   try {

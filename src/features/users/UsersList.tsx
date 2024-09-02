@@ -19,10 +19,6 @@ import toast from "react-hot-toast";
 import { regenerateUserPwd } from "@/lib/axios/users/regenrateUserPwd";
 import { PasswordToast } from "@/components/validationList/StudentsData/PasswordToast";
 
-const updateUserCallback = (id: string, userData?: UserDto) => {
-  console.log(id, userData);
-};
-
 const deleteUserCallback = (id: string) => {
   deleteUser(id);
 };
@@ -64,7 +60,7 @@ const options: UserOption[] = [
     label: "Modifier l'utilisateur",
     icon: PencilLine,
     value: "update",
-    callback: updateUserCallback,
+    callback: () => {}, // this logic is moved to => UpdateUserDialog
   },
   {
     label: "Supprimer un utilisateur",

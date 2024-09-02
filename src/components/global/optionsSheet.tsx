@@ -16,6 +16,7 @@ import { UCDAlertDialog } from "./Dialog";
 import { AlertMessageType } from "@/types/AlertMessage";
 import { DataRecord } from "@/types/DataRecord";
 import { HOST_LINK } from "@/constants/host";
+import toast from "react-hot-toast";
 
 interface UCDSheetProps extends HTMLAttributes<HTMLDivElement> {
   data: EtapeDataType | DataRecord;
@@ -82,12 +83,22 @@ export function OptionsSheet({ children, options, data }: UCDSheetProps) {
                     <UCDAlertDialog
                       key={option.label}
                       message={deleteMessage}
-                      confirmAction={() =>
-                        option.callback(
-                          ((data as DataRecord)["CNE"] as string) ||
-                            ((data as DataRecord)["code"] as string)
-                        )
-                      }
+                      confirmAction={(setOpen) => {
+                        toast.promise(
+                          (async () => {
+                            option.callback(
+                              ((data as DataRecord)["CNE"] as string) ||
+                                ((data as DataRecord)["code"] as string)
+                            );
+                            setOpen(false);
+                          })(),
+                          {
+                            loading: "Deleting ...",
+                            success: "deleted successfully",
+                            error: "Failed to delete",
+                          }
+                        );
+                      }}
                     >
                       <div className="flex gap-4 text-slate-700 bg-slate-100 w-full rounded-sm py-2 px-4 cursor-pointer items-center justify-start">
                         <option.icon size={20} />

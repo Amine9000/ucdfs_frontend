@@ -18,9 +18,11 @@ import Select from "react-select";
 import makeAnimated from "react-select/animated";
 import { DatePicker } from "./DatePicker";
 import { StudentDataType } from "@/types/studentDataType";
-import { addStudent } from "@/lib/axios/students/addStudent";
+import { addStudent, addStudentRes } from "@/lib/axios/students/addStudent";
 import { fetchModules } from "@/lib/axios/etapes/fetchModules";
 import { useStudentsData } from "@/hooks/useStudentsData";
+import { ToastError } from "@/lib/ToastError";
+import toast from "react-hot-toast";
 
 interface GroupDialogProps extends HTMLAttributes<HTMLDivElement> {
   data?: EtapeDataType[];
@@ -30,7 +32,11 @@ interface GroupDialogProps extends HTMLAttributes<HTMLDivElement> {
 const animatedComponents = makeAnimated();
 
 export function AddStudentDialog({ children }: GroupDialogProps) {
-  const { semester } = useStudentsData();
+  const {
+    semester,
+    data: studentsList,
+    setData: setStudentsList,
+  } = useStudentsData();
   const [open, setOpen] = useState<boolean>();
   const [error, setError] = useState<string>("");
   const [selectedModules, setSelectedModules] = useState<
@@ -82,13 +88,28 @@ export function AddStudentDialog({ children }: GroupDialogProps) {
       setIsLoading(false);
       return;
     }
-    const response = await addStudent({
+    const response: addStudentRes | null = await addStudent({
       ...student,
       student_birthdate: student.student_birthdate,
-      modules: selectedModules.map((md) => md.value),
+      modules: selectedModules.map((md) => ({
+        module_code: md.value,
+        etape_code: semester,
+      })),
     });
-    if (response && response.status === 200) {
+    if (response && response.status == 201) {
       setIsLoading(false);
+      setStudentsList([
+        ...studentsList,
+        {
+          id: response.user.id,
+          Code: response.user.student_code,
+          Prenom: response.user.student_fname,
+          Nom: response.user.student_lname,
+          CIN: response.user.student_cin,
+          CNE: response.user.student_cne,
+          "Date Naissance": response.user.student_birthdate,
+        },
+      ]);
       setStudent({
         student_code: "",
         student_fname: "",
@@ -98,6 +119,16 @@ export function AddStudentDialog({ children }: GroupDialogProps) {
         student_pwd: "",
         student_cne: "",
       });
+      setSelectedModules([]);
+      setError("");
+      setOpen(false);
+      toast.success(response.message ?? "L'étudiant a été ajouté avec succès.");
+    } else {
+      ToastError(
+        response && response.message
+          ? response.message
+          : "Erreur lors de l'ajout du student"
+      );
     }
   }
 

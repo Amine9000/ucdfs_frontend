@@ -43,10 +43,10 @@ export function StudentValidation({ className }: StudentValidationProps) {
       </div>
       <div className="w-full h-auto px-4 flex flex-col gap-2">
         <div className="flex justify-between gap-4">
-          <div className="w-1/2 h-auto py-2 text-sm text-blue-500 bg-slate-100 px-4 rounded uppercase">
+          <div className="w-1/2 h-auto py-2 text-sm font-medium text-gray-500 bg-slate-100 px-4 rounded uppercase">
             Nom
           </div>
-          <div className="w-1/2 h-auto py-2 text-sm text-blue-500 bg-slate-100 px-4 rounded uppercase">
+          <div className="w-1/2 h-auto py-2 text-sm font-medium text-gray-500 bg-slate-100 px-4 rounded uppercase">
             Status
           </div>
         </div>
@@ -64,7 +64,7 @@ export function StudentValidation({ className }: StudentValidationProps) {
             );
           })
         ) : (
-          <small className="text-gray-500 text-center text-sm">
+          <small className="text-gray-500 flex items-center justify-center text-sm h-20">
             Aucun module n'a été trouvé. Veuillez en sélectionner une semester
             s'il y en a.
           </small>

@@ -123,7 +123,6 @@ export function UpdateUserDialog({ data, children }: UpdateUserDialogPropse) {
   }
 
   async function handleAddUserClick() {
-    console.log(userData);
     if (validateForm() && userData.id) {
       const resData = await updateUser(userData.id, userData);
       if (resData !== null) {

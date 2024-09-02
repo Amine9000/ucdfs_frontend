@@ -1,4 +1,4 @@
-import { NotifySection } from "@/components/global/NotifySection";
+import { NotifySection } from "@/features/notifications/NotifySection";
 import { cn } from "@/lib/utils";
 import { HTMLAttributes } from "react";
 

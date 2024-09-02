@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { HOST_LINK } from "@/constants/host";
 import { useServiceRequests } from "@/hooks/useServiceRequests";
 import { updateState } from "@/lib/axios/serviceRequests/updateState";
+import { tofrench } from "@/lib/toFrench";
 import { Status, statusColors } from "@/types/Demande";
 import { DemandeRequestType } from "@/types/serviceRequestType";
 import { setStateType } from "@/types/setState";
@@ -91,7 +92,7 @@ export function DemandeInfo({
           {student.student_birthdate && (
             <div className="flex justify-start items-center h-6 gap-4 text-sm px-4 py-1 rounded">
               <label className="text-slate-500 w-1/3" htmlFor="">
-                BirthDate
+                Date de naissance
               </label>
               <div className="text-slate-800 border-l-2 border-slate-800 px-4 w-2/3">
                 {student.student_birthdate}
@@ -138,7 +139,7 @@ export function DemandeInfo({
                 statusColors[state as Status].text
               }
             >
-              {state}
+              {tofrench(state) ?? "None"}
             </div>
           </div>
         </div>

@@ -9,9 +9,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { useEtapesData } from "@/hooks/useEtapesData";
-import { eraseAllEtapes } from "@/lib/axios/eraseAll/eraseAllEtapes";
-import { eraseAllModules } from "@/lib/axios/eraseAll/eraseAllModules";
-import { eraseAllStudents } from "@/lib/axios/eraseAll/eraseAllStudents";
+import { eraseAllData } from "@/lib/axios/eraseAll/eraseAllData";
 import { cn } from "@/lib/utils";
 import { Eraser, Loader } from "lucide-react";
 import { useState } from "react";
@@ -25,9 +23,8 @@ export function EraseAlertDialog() {
   async function eraseAction() {
     setOpen(false);
     setProcessing(true);
-    await eraseAllStudents();
-    await eraseAllModules();
-    await eraseAllEtapes();
+    await eraseAllData();
+
     setEtapes([]);
     setProcessing(false);
   }
