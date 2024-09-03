@@ -58,7 +58,7 @@ export function AddStudentDialog({ children }: GroupDialogProps) {
   });
 
   async function getModules() {
-    const res = await fetchModules(semester);
+    const res = await fetchModules(semester.code);
     const modules = res?.data.map(
       (module: { module_name: string; module_code: string }) => ({
         label: module.module_name,
@@ -70,7 +70,7 @@ export function AddStudentDialog({ children }: GroupDialogProps) {
   }
 
   useEffect(() => {
-    if (semester.length > 0) getModules();
+    if (semester.code.length > 0) getModules();
   }, [semester]);
 
   async function handleSubmitClick() {
@@ -93,7 +93,7 @@ export function AddStudentDialog({ children }: GroupDialogProps) {
       student_birthdate: student.student_birthdate,
       modules: selectedModules.map((md) => ({
         module_code: md.value,
-        etape_code: semester,
+        etape_code: semester.code,
       })),
     });
     if (response && response.status == 201) {

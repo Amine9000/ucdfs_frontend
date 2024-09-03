@@ -14,6 +14,7 @@ export default function Navbar() {
   useEffect(() => {
     const access_token: string = ls.getAccessToken();
     const infos: UserInfoType = ls.userInfo();
+    // console.log(infos);
     const user_roles: string[] = ls.roles();
     if (user_roles.length > 0) setRoles(user_roles);
     if (access_token.length > 0) setUserInfo(infos);

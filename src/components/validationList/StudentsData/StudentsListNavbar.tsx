@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, Download, Plus } from "lucide-react";
 import { StudentsDataOptions } from "./StudentsDataOptions";
-import { EtapeCodeInput } from "./EtapeCodeInput";
+import { EtapeName } from "./EtapeName";
 import { useStudentsData } from "@/hooks/useStudentsData";
 import { useEffect, useState } from "react";
 import { DownloadDialog } from "./DownloadDialog";
@@ -29,17 +29,23 @@ export function StudentsListNavbar() {
 
   async function fetchStudents() {
     if (SVOption == "validation")
-      getStudentsValidationByEtape(setData, pageLength, pageNum, semester);
+      getStudentsValidationByEtape(setData, pageLength, pageNum, semester.code);
     if (SVOption == "students")
-      getStudentsByEtape(setData, pageLength, pageNum, semester);
+      getStudentsByEtape(setData, pageLength, pageNum, semester.code);
   }
 
   async function updateData() {
     if (searchQuery.length > 0) {
       if (SVOption == "validation")
-        search(setData, searchQuery, pageLength, pageNum, semester);
+        search(setData, searchQuery, pageLength, pageNum, semester.code);
       if (SVOption == "students")
-        searchStudents(setData, searchQuery, pageLength, pageNum, semester);
+        searchStudents(
+          setData,
+          searchQuery,
+          pageLength,
+          pageNum,
+          semester.code
+        );
     }
     if (searchQuery.length == 0) {
       fetchStudents();
@@ -47,14 +53,21 @@ export function StudentsListNavbar() {
   }
 
   useEffect(() => {
-    if (semester !== "") {
+    if (semester.code !== "") {
       fetchStudents();
     }
   }, [semester, setData, pageNum, SVOption]);
 
   useEffect(() => {
-    getStudentsByEtape(setData, pageLength, pageNum, semester);
-    setSemester((tabsSharedData as { etapeCode: string }).etapeCode ?? "");
+    getStudentsByEtape(setData, pageLength, pageNum, semester.code);
+    setSemester({
+      name:
+        (tabsSharedData as { etapeName: string; etapeCode: string })
+          .etapeName ?? "",
+      code:
+        (tabsSharedData as { etapeCode: string; etapeName: string })
+          .etapeCode ?? "",
+    });
   }, []);
 
   useEffect(() => {
@@ -83,7 +96,7 @@ export function StudentsListNavbar() {
       </div>
       <div className="h-full w-auto flex items-center gap-4">
         <Pagination pageNum={pageNum} setPageNum={setPageNum} more={morePage} />
-        <EtapeCodeInput />
+        <EtapeName />
         <StudentsDataOptions pageNum={pageNum} pageLength={pageLength} />
         <StudentsFileDialog
           fileUploader={async (

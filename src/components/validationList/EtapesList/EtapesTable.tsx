@@ -78,8 +78,11 @@ export function EtapesTable() {
     {
       label: "Students",
       value: "showstudents",
-      callback: (etapeCode: string) => {
-        setShareTabsdata({ etapeCode });
+      callback: (etapeCode: string, data?: DataRecord | EtapeDataType) => {
+        setShareTabsdata({
+          etapeCode,
+          etapeName: (data?.nom ?? "None") as string,
+        });
         navigateTo(Screen.StudentsData);
       },
       icon: SquareArrowOutUpRight,

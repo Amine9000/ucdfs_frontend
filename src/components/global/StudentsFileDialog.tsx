@@ -40,7 +40,7 @@ export function StudentsFileDialog({ fileUploader }: FileDialogProps) {
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   async function getModules() {
-    const res = await fetchModules(semester);
+    const res = await fetchModules(semester.code);
     const modules = res?.data.map(
       (module: { module_name: string; module_code: string }) => ({
         label: module.module_name,
@@ -52,7 +52,7 @@ export function StudentsFileDialog({ fileUploader }: FileDialogProps) {
   }
 
   useEffect(() => {
-    if (semester.length > 0) getModules();
+    if (semester.code.length > 0) getModules();
   }, [semester]);
 
   async function handleFileUpload() {
@@ -60,7 +60,7 @@ export function StudentsFileDialog({ fileUploader }: FileDialogProps) {
       uploadedFile,
       selectedModules.map((mod) => ({
         module_code: mod.value,
-        etape_code: semester,
+        etape_code: semester.code,
       }))
     ).then(() => {
       setUploadedFile(null);

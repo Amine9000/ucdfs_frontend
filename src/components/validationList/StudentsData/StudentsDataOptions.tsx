@@ -21,24 +21,29 @@ export function StudentsDataOptions({
       <ToggleGroupItem
         onClick={() => {
           setSVOption("validation");
-          getStudentsValidationByEtape(setData, pageLength, pageNum, semester);
+          getStudentsValidationByEtape(
+            setData,
+            pageLength,
+            pageNum,
+            semester.code
+          );
         }}
         value="validation"
         aria-label="Toggle Validation"
         className="flex items-center gap-2 text-slate-500"
       >
-        <FileCog size={20} /> Validation
+        <FileCog size={20} /> état d'inscription
       </ToggleGroupItem>
       <ToggleGroupItem
         onClick={() => {
           setSVOption("students");
-          getStudentsByEtape(setData, pageLength, pageNum, semester);
+          getStudentsByEtape(setData, pageLength, pageNum, semester.code);
         }}
         value="students"
         aria-label="Toggle Content"
         className="flex items-center gap-2 text-slate-500"
       >
-        <FileText size={20} /> Students
+        <FileText size={20} /> Etudiants
       </ToggleGroupItem>
     </ToggleGroup>
   );

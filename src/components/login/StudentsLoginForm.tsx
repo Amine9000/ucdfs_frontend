@@ -31,7 +31,6 @@ export function StudentsLoginForm({
       if (!data.access_token) {
         setErrorMessage(data.message);
       } else {
-        console.log(data);
         ls.setAccessToken(data.access_token);
         ls.setRoles(data.user.roles);
         ls.setUserInfo(data.user);

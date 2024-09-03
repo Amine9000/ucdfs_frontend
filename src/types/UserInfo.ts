@@ -8,4 +8,5 @@ export type UserInfoType = {
   user_cin: string;
   user_birthdate: string;
   user_avatar_path: string;
+  is_first_login: boolean;
 };

@@ -25,7 +25,7 @@ export function DownloadDialog({ open, onOpenChane }: DownloadDialogProps) {
   const [groupNum, setGroupNum] = useState<number | string>(1);
 
   async function handleSubmit() {
-    await getProccessedDataFile(semester, groupNum as number);
+    await getProccessedDataFile(semester.code, groupNum as number);
     onOpenChane(false);
   }
 
@@ -45,8 +45,10 @@ export function DownloadDialog({ open, onOpenChane }: DownloadDialogProps) {
             </Label>
             <Input
               id="code-etape"
-              value={semester}
-              onChange={(e) => e && setSemester(e.target.value)}
+              value={semester.code}
+              onChange={(e) =>
+                e && setSemester({ ...semester, code: e.target.value })
+              }
               className="col-span-3 focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0"
             />
           </div>

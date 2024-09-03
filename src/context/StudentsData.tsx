@@ -4,16 +4,16 @@ import { createContext, useState } from "react";
 
 type StudentsDataContextType = {
   data: DataRecord[];
-  semester: string;
+  semester: { code: string; name: string };
   setData: setStateType<DataRecord[]>;
-  setSemester: setStateType<string>;
+  setSemester: setStateType<{ code: string; name: string }>;
   SVOption: string;
   setSVOption: setStateType<string>;
 };
 
 const StudentsDataContextInitValue = {
   data: [],
-  semester: "",
+  semester: { code: "", name: "" },
   SVOption: "",
   setData: () => {},
   setSemester: () => {},
@@ -30,7 +30,10 @@ type StudentsDataProviderProps = {
 
 export function StudentsDataProvider({ children }: StudentsDataProviderProps) {
   const [data, setData] = useState<DataRecord[]>([]);
-  const [semester, setSemester] = useState<string>("");
+  const [semester, setSemester] = useState<{ code: string; name: string }>({
+    code: "",
+    name: "",
+  });
   const [SVOption, setSVOption] = useState<string>("students");
 
   const StudentsDataContextValue = {

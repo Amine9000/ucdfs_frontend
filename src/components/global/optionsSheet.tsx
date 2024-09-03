@@ -31,7 +31,6 @@ const deleteMessage: AlertMessageType = {
 
 export function OptionsSheet({ children, options, data }: UCDSheetProps) {
   const [open, setOpen] = useState<boolean>(false);
-
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>{children}</SheetTrigger>
@@ -110,7 +109,7 @@ export function OptionsSheet({ children, options, data }: UCDSheetProps) {
                   return (
                     <div
                       key={option.label}
-                      onClick={() => option.callback(data.code as string)}
+                      onClick={() => option.callback(data.code as string, data)}
                       className="flex gap-4 text-slate-700 bg-slate-100 w-full rounded-sm py-2 px-4 cursor-pointer items-center justify-start"
                     >
                       <option.icon size={20} />

@@ -852,10 +852,6 @@ body {
   height: 2rem;
 }
 
-.h-1 {
-  height: 0.25rem;
-}
-
 .h-10 {
   height: 2.5rem;
 }
@@ -1030,6 +1026,10 @@ body {
 
 .w-2\/3 {
   width: 66.666667%;
+}
+
+.w-20 {
+  width: 5rem;
 }
 
 .w-3 {
@@ -1628,6 +1628,15 @@ body {
   background-color: rgb(254 252 232 / var(--tw-bg-opacity));
 }
 
+.bg-red-600 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(220 38 38 / var(--tw-bg-opacity));
+}
+
+.bg-accent {
+  background-color: hsl(var(--accent));
+}
+
 .fill-current {
   fill: currentColor;
 }
@@ -2010,6 +2019,11 @@ body {
 .text-zinc-800 {
   --tw-text-opacity: 1;
   color: rgb(39 39 42 / var(--tw-text-opacity));
+}
+
+.text-sky-900 {
+  --tw-text-opacity: 1;
+  color: rgb(12 74 110 / var(--tw-text-opacity));
 }
 
 .underline {
