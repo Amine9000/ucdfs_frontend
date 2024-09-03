@@ -79,7 +79,7 @@ export function UserInfo({ className }: UserInfoProps) {
                   </div>
                   <div className="text-gray-700 w-1/2">
                     {item[0] == "user_birthdate"
-                      ? moment(item[1]).format("dddd, MMMM Do YYYY")
+                      ? moment(item[1] as string).format("dddd, MMMM Do YYYY")
                       : item[1]}{" "}
                   </div>
                 </div>

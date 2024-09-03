@@ -11,10 +11,11 @@ import { cn } from "@/lib/utils";
 import { AlertMessageType } from "@/types/AlertMessage";
 import { HTMLAttributes, useState } from "react";
 import { Button } from "../ui/button";
+import { setStateType } from "@/types/setState";
 
 interface UCDAlertDialogOptions extends HTMLAttributes<HTMLDivElement> {
   message: AlertMessageType;
-  confirmAction: () => void;
+  confirmAction: (setOpen: setStateType<boolean>) => void;
 }
 
 const colors = {
@@ -41,7 +42,7 @@ export function UCDAlertDialog({
         </DialogHeader>
         <DialogFooter>
           <Button
-            onClick={() => confirmAction()}
+            onClick={() => confirmAction(setOpen)}
             className={cn(colors[message.type], "text-white")}
             type="submit"
           >

@@ -9,7 +9,7 @@ export function StudentsValidationTab({ className }: StudentsValidationProps) {
     <div
       className={cn(className, "w-full h-full flex items-start justify-center")}
     >
-      <StudentValidation className="bg-white p-2 rounded w-full lg:w-2/3 h-auto" />
+      <StudentValidation className="bg-white p-2 rounded w-full lg:w-2/3 h-auto flex flex-col gap-2 min-h-[200px]" />
     </div>
   );
 }

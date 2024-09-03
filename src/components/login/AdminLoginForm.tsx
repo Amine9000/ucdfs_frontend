@@ -6,7 +6,7 @@ import { Label } from "@/components/ui/label";
 import { useState } from "react";
 import { ls } from "@/lib/LocalStorage";
 import { UCDAlert } from "./UCDAlert";
-import { adminSignIn } from "@/lib/axios/adminSignIn";
+import { adminSignIn } from "@/lib/axios/users/adminSignIn";
 
 interface loginFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 

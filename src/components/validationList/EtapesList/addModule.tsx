@@ -16,8 +16,9 @@ import { EtapeDataType } from "@/types/EtapeDataType";
 import { setStateType } from "@/types/setState";
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
-import { fetchEtapes } from "@/lib/axios/fetchEtapes";
-import { addModule } from "@/lib/axios/addModule";
+import { fetchEtapes } from "@/lib/axios/etapes/fetchEtapes";
+import { addModule } from "@/lib/axios/etapes/addModule";
+import toast from "react-hot-toast";
 
 interface GroupDialogProps extends HTMLAttributes<HTMLDivElement> {
   data: EtapeDataType[];
@@ -55,7 +56,7 @@ export function AddModuleDialog({ children, data, setData }: GroupDialogProps) {
     fetchBranches();
   }, [open]);
 
-  async function handleSubmitClick() {
+  function validate() {
     if (selectedBranches.length == 0) {
       setError("Veuillez choisir au moins une branche");
     } else if (moduleName.length == 0) {
@@ -64,26 +65,47 @@ export function AddModuleDialog({ children, data, setData }: GroupDialogProps) {
       setError("Veuillez entrer un code de module");
     } else {
       setError("");
+      return true;
     }
-    const selectedEtapes = selectedBranches.map((br) => br.value);
-    const res = await addModule(moduleName, moduleCode, selectedEtapes);
-    if (res?.status == 201) {
-      const ntetapes = data.map((etape) => {
-        if (selectedEtapes.includes(etape.code)) {
-          return {
-            ...etape,
-            semester: moduleCode[4] ?? "unknown",
-            modules: etape.modules + 1,
-          };
+    return false;
+  }
+
+  async function handleSubmitClick() {
+    toast.promise(
+      (async () => {
+        if (validate()) {
+          const selectedEtapes = selectedBranches.map((br) => br.value);
+          const res = await addModule(moduleName, moduleCode, selectedEtapes);
+          if (res != null) {
+            const ntetapes = data.map((etape) => {
+              if (selectedEtapes.includes(etape.code)) {
+                return {
+                  ...etape,
+                  semester: moduleCode[4] ?? "unknown",
+                  modules: etape.modules + 1,
+                };
+              }
+              return etape;
+            });
+            setData(ntetapes);
+            setOpen(false);
+            setError("");
+          } else {
+            setError("Erreur lors de l'ajout de l'étape");
+            throw new Error("Erreur lors de l'ajout du module");
+          }
+        } else {
+          throw new Error(
+            "Veuillez remplir tous les champs avant de soumettre"
+          );
         }
-        return etape;
-      });
-      setData(ntetapes);
-      setOpen(false);
-      setError("");
-    } else {
-      setError("Erreur lors de l'ajout de l'étape");
-    }
+      })(),
+      {
+        loading: "En cours...",
+        success: "Module ajouté avec succès",
+        error: "Erreur lors de l'ajout de l'étape",
+      }
+    );
   }
 
   return (

@@ -9,14 +9,16 @@ import {
   Table,
 } from "@/components/ui/table";
 import { useStudentsData } from "@/hooks/useStudentsData";
-import { deleteStudent } from "@/lib/axios/deleteStudent";
-import { updateStudent } from "@/lib/axios/updateStudent";
+import { deleteStudent } from "@/lib/axios/students/deleteStudent";
+import { updateStudent } from "@/lib/axios/students/updateStudent";
 import { DataRecord } from "@/types/DataRecord";
 import { Option } from "@/types/Option";
 import { setStateType } from "@/types/setState";
 import { Cog, EllipsisVertical, Settings2, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import { PasswordToast } from "./PasswordToast";
+import { regeneratePassword } from "@/lib/axios/students/regeneratePassword";
 
 export function StudentsTable() {
   const { data: studentsList, setData, SVOption } = useStudentsData();
@@ -40,17 +42,17 @@ export function StudentsTable() {
   }
 
   async function handleUpdateAction(
-    cne: string,
+    id: string,
     data?: DataRecord,
     setError?: setStateType<string>
   ) {
     try {
-      const res = await updateStudent(cne, data ?? {});
+      const res = await updateStudent(id, data ?? {});
       if (res && res.status != 200 && setError) {
         setError(res.data.message);
       } else {
         const nData = studentsList.map((std) => {
-          return std["CNE"] == cne ? data : std;
+          return std["id"] == id ? data : std;
         });
         setData(nData as DataRecord[]);
         toast.promise(Promise.resolve(res?.data.message), {
@@ -63,6 +65,33 @@ export function StudentsTable() {
       }
     } catch (error) {
       toast.error("An error occurred while deleting.");
+    }
+  }
+
+  async function handleRegeneratePassword(code: string) {
+    try {
+      const data: { password: string; message: string } =
+        await regeneratePassword(code);
+
+      toast.promise(Promise.resolve(data.message), {
+        loading: "Regenerating password...",
+        success: (
+          <small className="text-sm">Password regenerated successfully</small>
+        ),
+        error: (
+          <small className="text-sm">
+            An error occurred while regenerating the password.
+          </small>
+        ),
+      });
+
+      if (data && data.password) {
+        toast.custom((t) => <PasswordToast t={t} password={data.password} />);
+      } else {
+        toast.error("An error occurred while regenerating the password.");
+      }
+    } catch (error) {
+      toast.error("An error occurred while regenerating the password.");
     }
   }
 
@@ -86,14 +115,16 @@ export function StudentsTable() {
     {
       label: "Regenerate Password",
       value: "regeneratepwd",
-      callback: () => console.log("password regenerated."),
+      callback: (code: string) => {
+        handleRegeneratePassword(code);
+      },
       icon: Cog,
     },
   ];
 
   useEffect(() => {
     if (studentsList.length > 0) {
-      setColumns(Object.keys(studentsList[0]));
+      setColumns(Object.keys(studentsList[0]).filter((key) => key != "id"));
     }
   }, [studentsList]);
   return (
@@ -126,7 +157,8 @@ function MapFileData(
   return studentsList.map((student, index) => {
     return (
       <TableRow className="cursor-pointer py-1" key={index}>
-        {Object.values(student).map((value, index) => {
+        {Object.entries(student).map(([key, value], index) => {
+          if (key == "id") return null;
           return (
             <TableCell className="text-sm text-slate-700" key={index}>
               {value}

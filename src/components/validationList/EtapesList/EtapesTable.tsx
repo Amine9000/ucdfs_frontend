@@ -15,26 +15,19 @@ import {
   Trash2,
 } from "lucide-react";
 import { useEffect, useState } from "react";
-import { UCDAlertDialog } from "./Dialog";
-import { AlertMessageType } from "@/types/AlertMessage";
-import { useScreen } from "@/hooks/useScreen";
 import { OptionsSheet } from "@/components/global/optionsSheet";
 import { Option } from "@/types/Option";
-import { deleteEtape } from "@/lib/axios/deleteEtape";
-import { updateEtape } from "@/lib/axios/uppdateEtape";
+import { deleteEtape } from "@/lib/axios/etapes/deleteEtape";
+import { updateEtape } from "@/lib/axios/etapes/uppdateEtape";
 import { DataRecord } from "@/types/DataRecord";
 import { useEtapesData } from "@/hooks/useEtapesData";
-
-const deleteMessageDialog: AlertMessageType = {
-  title: "Delete File",
-  description: "Are you sure you want to delete this file?",
-  type: "error",
-};
+import { useTabs } from "@/hooks/useTabs";
+import { Screen } from "@/enums/Screens";
+import toast from "react-hot-toast";
 
 export function EtapesTable() {
-  const { screenSelectedHandler } = useScreen();
+  const { navigateTo, setData: setShareTabsdata } = useTabs();
   const { etapes, setEtapes } = useEtapesData();
-  const [deleteDialog, setDeleteAlert] = useState(false);
   const [columns, setColumns] = useState<string[]>([]);
   const options: Option[] = [
     {
@@ -44,16 +37,29 @@ export function EtapesTable() {
         etape_code: string,
         etape?: EtapeDataType | DataRecord
       ) => {
-        const res = await updateEtape(etape_code, etape as EtapeDataType);
-        if (res) {
-          const index = etapes.findIndex((item) => item.code === etape_code);
-          const ndata = [
-            ...etapes.slice(0, index),
-            etape,
-            ...etapes.slice(index + 1),
-          ];
-          setEtapes(ndata as EtapeDataType[]);
-        }
+        toast.promise(
+          (async () => {
+            const res = await updateEtape(etape_code, etape as EtapeDataType);
+            if (res.status == 201) {
+              const index = etapes.findIndex(
+                (item) => item.code === etape_code
+              );
+              const ndata = [
+                ...etapes.slice(0, index),
+                etape,
+                ...etapes.slice(index + 1),
+              ];
+              setEtapes(ndata as EtapeDataType[]);
+            } else {
+              throw new Error(res.message);
+            }
+          })(),
+          {
+            loading: "updating etape ...",
+            success: "etape updated",
+            error: "error while updating",
+          }
+        );
       },
       icon: Settings2,
     },
@@ -72,9 +78,13 @@ export function EtapesTable() {
     {
       label: "Students",
       value: "showstudents",
-      callback: (etapeCode: string) =>
-        screenSelectedHandler &&
-        screenSelectedHandler("StudentsData", etapeCode),
+      callback: (etapeCode: string, data?: DataRecord | EtapeDataType) => {
+        setShareTabsdata({
+          etapeCode,
+          etapeName: (data?.nom ?? "None") as string,
+        });
+        navigateTo(Screen.StudentsData);
+      },
       icon: SquareArrowOutUpRight,
     },
   ];
@@ -102,12 +112,6 @@ export function EtapesTable() {
           <MapFileData data={etapes} options={options} />
         </TableBody>
       </Table>
-      <UCDAlertDialog
-        message={deleteMessageDialog}
-        confirmAction={() => console.log("Deleted")}
-        deleteDialog={deleteDialog}
-        setDeleteAlert={setDeleteAlert}
-      />
     </>
   );
 }

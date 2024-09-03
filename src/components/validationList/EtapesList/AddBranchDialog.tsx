@@ -12,9 +12,10 @@ import { Label } from "@/components/ui/label";
 import { HTMLAttributes, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { addEtape } from "@/lib/axios/addEtape";
+import { addEtape } from "@/lib/axios/etapes/addEtape";
 import { EtapeDataType } from "@/types/EtapeDataType";
 import { setStateType } from "@/types/setState";
+import toast from "react-hot-toast";
 
 interface GroupDialogProps extends HTMLAttributes<HTMLDivElement> {
   data: EtapeDataType[];
@@ -27,30 +28,55 @@ export function AddBranchDialog({ children, setData }: GroupDialogProps) {
   const [etapeName, setEtapeName] = useState<string>("");
   const [error, setError] = useState<string>("");
 
-  async function handleSubmitClick() {
+  function validate() {
     if (etapeCode.length == 0) {
       setError("Veuillez saisir un code d'étape");
+      return false;
     } else if (etapeName.length == 0) {
       setError("Veuillez saisir un nom d'étape");
+      return false;
     } else {
       setError("");
+      return true;
     }
-    const res = await addEtape(etapeCode, etapeName);
-    if (res?.status == 201) {
-      setOpen(false);
-      setData((prev) => [
-        {
-          code: etapeCode,
-          nom: etapeName,
-          semester: "unknown",
-          etudiants: 0,
-          modules: 0,
-        },
-        ...prev,
-      ]);
-    } else {
-      setError("Erreur lors de l'ajout de l'étape");
-    }
+  }
+
+  async function handleSubmitClick() {
+    toast.promise(
+      (async () => {
+        if (validate()) {
+          const data = await addEtape(etapeCode, etapeName);
+          if (data != null) {
+            setOpen(false);
+            setData((prev) => [
+              {
+                code: etapeCode,
+                nom: etapeName,
+                semester: "unknown",
+                etudiants: 0,
+                modules: 0,
+              },
+              ...prev,
+            ]);
+          } else {
+            setError("Erreur lors de l'ajout de l'étape");
+            throw new Error(
+              "Une erreur est survenue lors de l'ajout de l'étape"
+            );
+          }
+        } else {
+          throw new Error(
+            "Une erreur est survenue lors de la validation des données"
+          );
+        }
+      })(),
+      {
+        loading:
+          "En cours de traitement, veuillez patienter quelques instants...",
+        success: "L'étape a été ajoutée avec succès",
+        error: "Erreur lors de l'ajout de l'étape",
+      }
+    );
   }
 
   return (

@@ -17,7 +17,7 @@ type FileDialogProps = {
   open: boolean;
   setOpen: setStateType<boolean>;
   setFileUploadedDialog: setStateType<boolean>;
-  fileUploader: (file: string | Blob | null) => Promise<void>;
+  fileUploader: (file: File | null) => Promise<void>;
 };
 
 export function FileDialog({
@@ -34,9 +34,13 @@ export function FileDialog({
       toast.promise(fileUploader(uploadedFile), {
         loading: "Uploading ...",
         success: (
-          <p className="text-teal-600">your file was uploaded successfully.</p>
+          <p className="text-teal-600">
+            votre fichier a été téléchargé avec succès.
+          </p>
         ),
-        error: <p className="text-red-500">Could not upload file.</p>,
+        error: (
+          <p className="text-red-500">Impossible de télécharger le fichier.</p>
+        ),
       });
       setUploadedFile(null);
     }

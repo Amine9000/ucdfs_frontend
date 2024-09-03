@@ -1,6 +1,6 @@
 import { HTMLAttributes, useEffect, useState } from "react";
 import { SemestersList } from "./SemestersList";
-import { getStudentSemesters } from "@/lib/axios/fetchStudentData";
+import { getStudentSemesters } from "@/lib/axios/students/fetchStudentData";
 import { Semester } from "@/types/Semester";
 
 interface StudentValidationProps extends HTMLAttributes<HTMLDivElement> {
@@ -14,7 +14,7 @@ export function StudentValidation({ className }: StudentValidationProps) {
   );
 
   async function fetchSemesters() {
-    const nSemesters: Semester[] | undefined = await getStudentSemesters();
+    const nSemesters: Semester[] = await getStudentSemesters();
     if (nSemesters) setSemesters(nSemesters);
   }
   useEffect(() => {
@@ -42,21 +42,29 @@ export function StudentValidation({ className }: StudentValidationProps) {
         <div className="border-b"></div>
       </div>
       <div className="w-full h-auto px-4 flex flex-col gap-2">
+        <div className="flex justify-between gap-4">
+          <div className="w-1/2 h-auto py-2 text-sm font-medium text-gray-500 bg-slate-100 px-4 rounded uppercase">
+            Nom
+          </div>
+          <div className="w-1/2 h-auto py-2 text-sm font-medium text-gray-500 bg-slate-100 px-4 rounded uppercase">
+            Status
+          </div>
+        </div>
         {selectedSemesters != null ? (
-          selectedSemesters?.modules.map((mod) => {
+          selectedSemesters?.modules.map((mod, i) => {
             return (
-              <div key={mod.module_code} className="flex justify-between gap-4">
-                <div className="w-1/2 h-auto py-2 text-sm text-gray-900 bg-slate-100 px-4 rounded">
-                  {mod.module_name}
+              <div key={i} className="flex justify-between gap-4">
+                <div className="w-1/2 h-auto py-2 text-sm text-gray-900 bg-slate-50 px-4 rounded">
+                  {mod.nom}
                 </div>
-                <div className="w-1/2 h-auto py-2 text-sm text-gray-500">
+                <div className="w-1/2 h-auto py-2 text-sm text-gray-500 px-4">
                   {mod.status}
                 </div>
               </div>
             );
           })
         ) : (
-          <small className="text-gray-500 text-center text-sm">
+          <small className="text-gray-500 flex items-center justify-center text-sm h-20">
             Aucun module n'a été trouvé. Veuillez en sélectionner une semester
             s'il y en a.
           </small>

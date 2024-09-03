@@ -1,4 +1,5 @@
 export type StudentDataType = {
+  id?: string;
   student_code: string;
   student_fname: string;
   student_lname: string;
@@ -6,5 +7,7 @@ export type StudentDataType = {
   student_cin: string;
   student_birthdate: string;
   student_pwd: string;
-  modules: string[];
+  modules?: string[];
+  is_first_login?: boolean;
+  student_avatar_path?: string;
 };

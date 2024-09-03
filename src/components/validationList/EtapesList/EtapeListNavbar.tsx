@@ -1,9 +1,8 @@
 import { Button } from "@/components/ui/button";
-import { FileUp, Group, Plus } from "lucide-react";
+import { Group, Plus, Upload } from "lucide-react";
 import { SearchForm } from "../../global/Search";
 import { FileDialog } from "../../global/FileDialog";
 import { useEffect, useState } from "react";
-import { getEtapes, searchEtapes } from "@/lib/axios/studentsData";
 import { useStudentsData } from "@/hooks/useStudentsData";
 import { Pagination } from "../../global/Pagination";
 import { pageLength } from "@/constants/pagination";
@@ -11,7 +10,11 @@ import { GroupDialog } from "./GroupDialog";
 import { AddBranchDialog } from "./AddBranchDialog";
 import { AddModuleDialog } from "./addModule";
 import { useEtapesData } from "@/hooks/useEtapesData";
-import { uploadFile } from "@/lib/axios/fileUpload";
+import { uploadFile } from "@/lib/axios/etapes/fileUpload";
+import { ToastError } from "@/lib/ToastError";
+import { EraseAlertDialog } from "./EraseDialog";
+import { getEtapes } from "@/lib/axios/students/getEtapes";
+import { searchEtapes } from "@/lib/axios/etapes/searchEtapes";
 
 export function EtapeListNavbar() {
   const { setData } = useStudentsData();
@@ -35,12 +38,23 @@ export function EtapeListNavbar() {
     setData(newData);
   }
 
-  useEffect(() => {
-    async function fetchFile() {
-      const newData = await getEtapes(pageNum, pageLength);
-      setEtapes(newData);
+  async function fetchEtapes() {
+    const newData = await getEtapes(pageNum, pageLength);
+    setEtapes(newData);
+  }
+
+  async function fileUploader(file: File | null) {
+    try {
+      await uploadFile(file);
+      await fetchEtapes();
+    } catch (error) {
+      ToastError("Erreur lors du téléchargement du fichier.");
+      throw error;
     }
-    fetchFile();
+  }
+
+  useEffect(() => {
+    fetchEtapes();
   }, [pageNum]);
 
   useEffect(() => {
@@ -62,7 +76,7 @@ export function EtapeListNavbar() {
   }, [searchQuery]);
 
   return (
-    <div className="h-12 w-full bg-white flex-shrink-0 rounded flex items-center justify-between gap-2 px-4">
+    <div className="h-12 w-full bg-white flex-shrink-0 rounded flex items-center justify-between gap-2 px-2">
       <SearchForm
         className="w-[400px]"
         searchQuery={searchQuery}
@@ -70,6 +84,13 @@ export function EtapeListNavbar() {
       />
       <div className="h-full w-auto flex items-center gap-2">
         <Pagination pageNum={pageNum} setPageNum={setPageNum} more={morePage} />
+        <EraseAlertDialog />
+        <Button
+          onClick={() => setFileDialogOpen(true)}
+          className="text-gray-700 bg-gray-50 hover:bg-gray-50 px-4 hover:text-sky-600"
+        >
+          <Upload size={20} />
+        </Button>
         <GroupDialog>
           <Button className="text-white bg-sky-500 hover:bg-sky-700">
             Groupe <Group size={20} className="text-white ml-2" />
@@ -85,14 +106,8 @@ export function EtapeListNavbar() {
             Module <Plus size={20} className="text-white ml-2" />
           </Button>
         </AddModuleDialog>
-        <Button
-          onClick={() => setFileDialogOpen(true)}
-          className="text-white bg-sky-500 hover:bg-sky-700"
-        >
-          Charger <FileUp size={20} className="text-white ml-2" />
-        </Button>
         <FileDialog
-          fileUploader={uploadFile}
+          fileUploader={fileUploader}
           open={fileDialogOpen}
           setFileUploadedDialog={setFileUploadedDialog}
           setOpen={setFileDialogOpen}

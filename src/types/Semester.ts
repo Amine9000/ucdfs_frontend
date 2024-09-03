@@ -1,6 +1,5 @@
 export type Module = {
-  module_code: string;
-  module_name: string;
+  nom: string;
   status: string;
 };
 

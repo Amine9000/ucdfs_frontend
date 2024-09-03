@@ -8,6 +8,12 @@ export type SidebarItemType = {
     Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>
   >;
   element: ReactElement;
+  children?: TabChild[];
   roles: Roles[];
   hidden: boolean;
+};
+
+export type TabChild = {
+  title: string;
+  element: ReactElement;
 };

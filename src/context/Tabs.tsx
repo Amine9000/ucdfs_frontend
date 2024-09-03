@@ -1,5 +1,10 @@
-import { bottomList, selectSidebar, topList } from "@/constants/sidebar";
-import { Screen, isScreens } from "@/enums/Screens";
+import {
+  bottomList,
+  initialSidebarSections,
+  selectSidebar,
+  topList,
+} from "@/constants/sidebar";
+import { Screen, isScreen } from "@/enums/Screens";
 import { ls } from "@/lib/LocalStorage";
 import { setStateType } from "@/types/setState";
 import { SidebarItemType } from "@/types/sidebarItem";
@@ -7,6 +12,8 @@ import { SidebarSectionType } from "@/types/sidebarSection";
 import { ReactNode, createContext, useEffect, useState } from "react";
 
 type TabsContextType = {
+  data: object;
+  setData: setStateType<object>;
   itemSelected: SidebarItemType | null;
   setSidebarState: setStateType<SidebarSectionType[]>;
   sidebarState: SidebarSectionType[];
@@ -14,6 +21,8 @@ type TabsContextType = {
 };
 
 const TabsContextInitValue = {
+  data: {},
+  setData: () => {},
   itemSelected: null,
   sidebarState: [],
   setSidebarState: () => {},
@@ -31,6 +40,7 @@ export function TabsProvider({ children }: TabsContextProps) {
     null
   );
   const [sidebarState, setSidebarState] = useState<SidebarSectionType[]>([]);
+  const [data, setData] = useState<object>({});
 
   useEffect(() => {
     const roles = ls.roles();
@@ -44,8 +54,8 @@ export function TabsProvider({ children }: TabsContextProps) {
     }
   }, [sidebarState]);
 
-  function navigateTo(screen: Screen | SidebarItemType) {
-    if (isScreens(screen)) {
+  function navigateTo(screen: Screen | SidebarItemType, data?: object) {
+    if (isScreen(screen)) {
       switch (screen) {
         case Screen.Students:
           setItemSelected(topList[0]);
@@ -72,12 +82,44 @@ export function TabsProvider({ children }: TabsContextProps) {
           break;
 
         default:
+          for (
+            let sectionIndex = 0;
+            sectionIndex < initialSidebarSections.length;
+            sectionIndex++
+          ) {
+            const section = initialSidebarSections[sectionIndex];
+            for (
+              let itemIndex = 0;
+              itemIndex < section.items.length;
+              itemIndex++
+            ) {
+              const item = section.items[itemIndex];
+              if (item.children)
+                for (
+                  let childIndex = 0;
+                  childIndex < item.children.length;
+                  childIndex++
+                ) {
+                  const child = item.children[childIndex];
+                  if (child.title == (screen as string)) {
+                    setItemSelected({
+                      ...item,
+                      element: child.element,
+                    } as SidebarItemType);
+                    break;
+                  }
+                }
+            }
+          }
           break;
       }
     } else setItemSelected(screen as SidebarItemType);
+    if (data) setData(data);
   }
 
   const defaultValue = {
+    data,
+    setData,
     itemSelected,
     sidebarState,
     setSidebarState,

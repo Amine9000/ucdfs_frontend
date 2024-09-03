@@ -13,8 +13,10 @@ import Select from "react-select";
 import { HTMLAttributes, useEffect, useState } from "react";
 import makeAnimated from "react-select/animated";
 import { Input } from "@/components/ui/input";
-import { fetchEtapes } from "@/lib/axios/fetchEtapes";
-import { getProccessedDataFileByEtapes } from "@/lib/axios/downlaodMergedEtapesFiles";
+import { fetchEtapes } from "@/lib/axios/etapes/fetchEtapes";
+import { meregerBranchs } from "@/lib/axios/etapes/mergeBranches";
+import { useEtapesData } from "@/hooks/useEtapesData";
+import { ToastError } from "@/lib/ToastError";
 
 const animatedComponents = makeAnimated();
 
@@ -28,7 +30,10 @@ export function GroupDialog({ children }: GroupDialogProps) {
     { value: string; label: string }[]
   >([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [NGroupes, setNGroupes] = useState<number>(1);
+  const [open, setOpen] = useState<boolean>(false);
+  const [NomBranch, setNomBranch] = useState<string>("");
+  const [codeBranch, setCodeBranch] = useState<string>("");
+  const { setEtapes } = useEtapesData();
 
   async function fetchBranches() {
     const res = await fetchEtapes();
@@ -44,17 +49,33 @@ export function GroupDialog({ children }: GroupDialogProps) {
 
   useEffect(() => {
     fetchBranches();
-  }, []);
+  }, [open]);
 
-  function handleDownloadButton() {
-    getProccessedDataFileByEtapes(
-      selectedBranches.map((b) => b.value),
-      NGroupes
-    );
+  async function handleDownloadButton() {
+    if (
+      selectedBranches.length > 0 &&
+      NomBranch.length > 0 &&
+      codeBranch.length > 0
+    ) {
+      const etapes = await meregerBranchs(
+        selectedBranches.map((b) => b.value),
+        NomBranch,
+        codeBranch
+      );
+      if (etapes) {
+        // clear all data and set etapes and close dialog
+        setEtapes(etapes);
+        setOpen(false);
+        setNomBranch("");
+        setCodeBranch("");
+      }
+    } else {
+      ToastError("vous devez remplir tous les dossiers.");
+    }
   }
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent className="sm:max-w-[900px]">
         <DialogHeader>
@@ -86,15 +107,26 @@ export function GroupDialog({ children }: GroupDialogProps) {
           </div>
           <div className="grid grid-cols-7 items-center gap-4">
             <Label htmlFor="name" className="text-right col-span-1">
-              N.Groupes
+              Code de la filière
             </Label>
             <Input
-              type="number"
-              min={1}
-              value={NGroupes}
+              type="text"
+              value={codeBranch}
               onChange={(e) => {
-                if (parseInt(e.target.value) > 0)
-                  setNGroupes(parseInt(e.target.value));
+                setCodeBranch(e.target.value);
+              }}
+              className="focus-visible:ring-0 focus-visible:ring-offset-0 col-span-6"
+            />
+          </div>
+          <div className="grid grid-cols-7 items-center gap-4">
+            <Label htmlFor="name" className="text-right col-span-1">
+              Nom de la filière
+            </Label>
+            <Input
+              type="text"
+              value={NomBranch}
+              onChange={(e) => {
+                setNomBranch(e.target.value);
               }}
               className="focus-visible:ring-0 focus-visible:ring-offset-0 col-span-6"
             />

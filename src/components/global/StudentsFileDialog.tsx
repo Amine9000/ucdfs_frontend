@@ -6,37 +6,28 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
+  DialogTrigger,
 } from "@/components/ui/dialog";
-import { setStateType } from "@/types/setState";
 import { FileDropArea } from "./FileDropArea";
-import { useScreen } from "@/hooks/useScreen";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { Label } from "../ui/label";
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
-import { fetchModules } from "@/lib/axios/fetchModules";
+import { fetchModules } from "@/lib/axios/etapes/fetchModules";
 import { useStudentsData } from "@/hooks/useStudentsData";
+import { Upload } from "lucide-react";
 
 const animatedComponents = makeAnimated();
 
 type FileDialogProps = {
-  open: boolean;
-  setOpen: setStateType<boolean>;
-  setFileUploadedDialog: setStateType<boolean>;
   fileUploader: (
-    file: string | Blob | null,
-    modules: string[]
+    file: File | null,
+    modules: { module_code: string; etape_code: string }[]
   ) => Promise<void>;
 };
 
-export function StudentsFileDialog({
-  open,
-  setOpen,
-  setFileUploadedDialog,
-  fileUploader,
-}: FileDialogProps) {
-  const { screenSelectedHandler } = useScreen();
+export function StudentsFileDialog({ fileUploader }: FileDialogProps) {
   const { semester } = useStudentsData();
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
   const [selectedModules, setSelectedModules] = useState<
@@ -45,10 +36,11 @@ export function StudentsFileDialog({
   const [modules, setModules] = useState<{ label: string; value: string }[]>(
     []
   );
+  const [open, setOpen] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   async function getModules() {
-    const res = await fetchModules(semester);
+    const res = await fetchModules(semester.code);
     const modules = res?.data.map(
       (module: { module_name: string; module_code: string }) => ({
         label: module.module_name,
@@ -60,33 +52,40 @@ export function StudentsFileDialog({
   }
 
   useEffect(() => {
-    if (semester.length > 0) getModules();
+    if (semester.code.length > 0) getModules();
   }, [semester]);
 
-  function handleSubmit() {
-    if (screenSelectedHandler) {
-      toast.promise(
-        fileUploader(
-          uploadedFile,
-          selectedModules.map((mod) => mod.value)
-        ),
-        {
-          loading: "Uploading ...",
-          success: (
-            <p className="text-teal-600">
-              your file was uploaded successfully.
-            </p>
-          ),
-          error: <p className="text-red-500">Could not upload file.</p>,
-        }
-      );
+  async function handleFileUpload() {
+    fileUploader(
+      uploadedFile,
+      selectedModules.map((mod) => ({
+        module_code: mod.value,
+        etape_code: semester.code,
+      }))
+    ).then(() => {
       setUploadedFile(null);
+      setOpen(false);
+    });
+  }
+
+  function handleSubmit() {
+    if (selectedModules.length > 0) {
+      toast.promise(handleFileUpload(), {
+        loading: "Uploading ...",
+        success: (
+          <p className="text-teal-600">
+            votre fichier a été téléchargé avec succès.
+          </p>
+        ),
+        error: <p className="text-red-500">Could not upload file.</p>,
+      });
     }
-    setFileUploadedDialog(true);
-    setOpen(false);
   }
   return (
     <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger className="h-10 rounded-md text-gray-700 bg-gray-50 hover:bg-gray-50 px-4 hover:text-sky-600">
+        <Upload size={20} />
+      </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Edit profile</DialogTitle>
