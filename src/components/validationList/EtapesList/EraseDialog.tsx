@@ -23,10 +23,10 @@ export function EraseAlertDialog() {
   async function eraseAction() {
     setOpen(false);
     setProcessing(true);
-    await eraseAllData();
-
-    setEtapes([]);
-    setProcessing(false);
+    if (await eraseAllData()) {
+      setEtapes([]);
+      setProcessing(false);
+    }
   }
 
   async function handleClick() {

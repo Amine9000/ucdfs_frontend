@@ -1,8 +1,9 @@
 import { UserInfoType } from "@/types/UserInfo";
 import { ls } from "../../LocalStorage";
 import { handleUnauthorized } from "../../utils";
-import axios, { AxiosResponse } from "axios";
+import axios, { AxiosError, AxiosResponse } from "axios";
 import { HOST_LINK } from "@/constants/host";
+import { ToastError } from "@/lib/ToastError";
 
 export async function fetchEtapes() {
   const studentsInfo: UserInfoType = ls.userInfo();
@@ -17,6 +18,7 @@ export async function fetchEtapes() {
     });
     return response;
   } catch (error) {
-    console.error(error);
+    const err = error as AxiosError;
+    ToastError((err.response?.data as { message: string }).message);
   }
 }

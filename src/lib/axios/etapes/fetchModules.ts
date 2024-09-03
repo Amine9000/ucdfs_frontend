@@ -1,8 +1,9 @@
 import { UserInfoType } from "@/types/UserInfo";
 import { ls } from "../../LocalStorage";
 import { handleUnauthorized } from "../../utils";
-import axios, { AxiosResponse } from "axios";
+import axios, { AxiosError, AxiosResponse } from "axios";
 import { HOST_LINK } from "@/constants/host";
+import { ToastError } from "@/lib/ToastError";
 
 export async function fetchModules(semester: string) {
   if (semester.length > 0) {
@@ -21,7 +22,8 @@ export async function fetchModules(semester: string) {
       );
       return response;
     } catch (error) {
-      console.error(error);
+      const err = error as AxiosError;
+      ToastError((err.response?.data as { message: string }).message);
     }
   } else return { data: [] };
 }

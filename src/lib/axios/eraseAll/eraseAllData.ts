@@ -15,9 +15,10 @@ export async function eraseAllData() {
         },
       }
     );
-    return response;
+    if (response.status == 200) return true;
   } catch (error) {
     const err = error as AxiosError;
     console.error("axios error", err.message);
   }
+  return false;
 }

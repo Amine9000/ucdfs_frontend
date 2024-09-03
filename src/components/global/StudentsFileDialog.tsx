@@ -21,7 +21,10 @@ import { Upload } from "lucide-react";
 const animatedComponents = makeAnimated();
 
 type FileDialogProps = {
-  fileUploader: (file: File | null, modules: string[]) => Promise<void>;
+  fileUploader: (
+    file: File | null,
+    modules: { module_code: string; etape_code: string }[]
+  ) => Promise<void>;
 };
 
 export function StudentsFileDialog({ fileUploader }: FileDialogProps) {
@@ -55,7 +58,10 @@ export function StudentsFileDialog({ fileUploader }: FileDialogProps) {
   async function handleFileUpload() {
     fileUploader(
       uploadedFile,
-      selectedModules.map((mod) => mod.value)
+      selectedModules.map((mod) => ({
+        module_code: mod.value,
+        etape_code: semester,
+      }))
     ).then(() => {
       setUploadedFile(null);
       setOpen(false);

@@ -49,7 +49,7 @@ export function GroupDialog({ children }: GroupDialogProps) {
 
   useEffect(() => {
     fetchBranches();
-  }, []);
+  }, [open]);
 
   async function handleDownloadButton() {
     if (

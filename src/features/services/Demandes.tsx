@@ -33,8 +33,8 @@ export function Demandes({ setSelectedDemande }: DemandesProps) {
   }, []);
 
   return (
-    <div className="w-full h-full flex justify-center overflow-auto">
-      <div className="w-full h-full min-w-[500px] min-h-[500px] flex justify-center">
+    <div className="w-full h-full flex justify-center items-center overflow-auto">
+      <div className="w-full h-full flex justify-center">
         {serviceRequests.length ? (
           <Table className="mb-24">
             <TableCaption>Liste des demandes.</TableCaption>
@@ -87,8 +87,8 @@ export function Demandes({ setSelectedDemande }: DemandesProps) {
             </TableBody>
           </Table>
         ) : (
-          <small className="text-slate-600 text-sm text-center w-full p-4">
-            No Service found.
+          <small className="text-gray-500 text-sm w-full h-full flex items-center justify-center p-4">
+            No Demandes found.
           </small>
         )}
       </div>

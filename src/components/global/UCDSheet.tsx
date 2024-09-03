@@ -28,6 +28,8 @@ interface UCDSheetProps extends HTMLAttributes<HTMLDivElement> {
   ) => Promise<void> | Promise<unknown> | void | null;
 }
 
+const excludedKeys = ["id", "semester", "modules", "etudiants"];
+
 export function UCDSheet({ children, data, callback }: UCDSheetProps) {
   const [dataState, setDataState] = useState<DataRecord>(data as DataRecord);
   const [open, setOpen] = useState<boolean>(false);
@@ -58,7 +60,7 @@ export function UCDSheet({ children, data, callback }: UCDSheetProps) {
         )}
         <div className="grid gap-4 py-4">
           {Object.keys(data).map((key) => {
-            if (key == "id") return null;
+            if (excludedKeys.includes(key)) return null;
             return (
               <div key={key} className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="name" className="text-right">

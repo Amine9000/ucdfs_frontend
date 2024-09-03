@@ -86,7 +86,10 @@ export function StudentsListNavbar() {
         <EtapeCodeInput />
         <StudentsDataOptions pageNum={pageNum} pageLength={pageLength} />
         <StudentsFileDialog
-          fileUploader={async (file: File | null, modules: string[]) => {
+          fileUploader={async (
+            file: File | null,
+            modules: { module_code: string; etape_code: string }[]
+          ) => {
             studentsFileupload(file, modules);
             updateData();
           }}

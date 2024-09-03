@@ -5,7 +5,7 @@ import toast from "react-hot-toast";
 
 export async function studentsFileupload(
   file: string | Blob | null,
-  modules_codes: string[]
+  modules_codes: { module_code: string; etape_code: string }[]
 ) {
   if (file) {
     const formData = new FormData();

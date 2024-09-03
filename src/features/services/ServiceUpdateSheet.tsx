@@ -22,7 +22,6 @@ import { FieldType, FieldsType } from "@/types/FieldsType";
 
 interface UCDSheetProps extends HTMLAttributes<HTMLDivElement> {
   data: Demande;
-  callback: () => void;
 }
 
 export function ServiceUpdateSheet({ children, data }: UCDSheetProps) {

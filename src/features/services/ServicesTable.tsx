@@ -70,7 +70,7 @@ export function ServicesTable() {
             </TableBody>
           </Table>
         ) : (
-          <small className="text-slate-600 text-sm text-center w-full p-4">
+          <small className="text-gray-500 text-sm w-full h-full flex items-center justify-center p-4">
             No Service found.
           </small>
         )}

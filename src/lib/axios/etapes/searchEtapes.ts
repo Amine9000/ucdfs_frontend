@@ -4,6 +4,7 @@ import axios, { AxiosError, AxiosResponse } from "axios";
 import { HOST_LINK } from "@/constants/host";
 import { ls } from "@/lib/LocalStorage";
 import { handleUnauthorized } from "@/lib/utils";
+import { ToastError } from "@/lib/ToastError";
 
 export function searchEtapes(
   setData: setStateType<EtapeDataType[]>,
@@ -29,6 +30,6 @@ export function searchEtapes(
       else setData([]);
     })
     .catch((err: AxiosError) => {
-      console.error("axios error", err.message);
+      ToastError((err.response?.data as { message: string }).message);
     });
 }

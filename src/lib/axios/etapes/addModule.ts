@@ -2,6 +2,7 @@ import axios, { AxiosError, AxiosResponse } from "axios";
 import { ls } from "../../LocalStorage";
 import { handleUnauthorized } from "../../utils";
 import { HOST_LINK } from "@/constants/host";
+import { ToastError } from "@/lib/ToastError";
 
 export async function addModule(
   module_name: string,
@@ -25,10 +26,12 @@ export async function addModule(
           },
         }
       );
-      return response;
+      if (response.status == 201 || response.status == 200)
+        return response.data;
     } catch (error) {
       const err = error as AxiosError;
-      console.error("axios error", err.message);
+      ToastError((err.response?.data as { message: string }).message);
     }
   }
+  return null;
 }

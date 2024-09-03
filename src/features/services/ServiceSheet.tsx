@@ -123,11 +123,7 @@ export function ServiceSheet({ children, options, data }: UCDSheetProps) {
                   );
                 default:
                   return (
-                    <ServiceUpdateSheet
-                      key={option.label}
-                      data={data}
-                      callback={() => console.log("Updated")}
-                    >
+                    <ServiceUpdateSheet key={option.label} data={data}>
                       <div className="flex gap-4 text-slate-700 bg-slate-100 w-full rounded-sm py-2 px-4 cursor-pointer items-center justify-start">
                         <option.icon size={20} />
                         {option.label}

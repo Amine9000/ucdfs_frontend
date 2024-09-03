@@ -2,6 +2,7 @@ import axios, { AxiosError, AxiosResponse } from "axios";
 import { ls } from "../../LocalStorage";
 import { handleUnauthorized } from "../../utils";
 import { HOST_LINK } from "@/constants/host";
+import { ToastError } from "@/lib/ToastError";
 
 export async function deleteEtape(etape_code: string) {
   if (etape_code.length > 0) {
@@ -19,7 +20,7 @@ export async function deleteEtape(etape_code: string) {
       return response;
     } catch (error) {
       const err = error as AxiosError;
-      console.error("axios error", err.message);
+      ToastError((err.response?.data as { message: string }).message);
     }
   }
 }

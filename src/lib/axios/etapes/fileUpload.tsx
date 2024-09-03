@@ -1,7 +1,8 @@
-import axios, { AxiosResponse } from "axios";
+import axios, { AxiosError, AxiosResponse } from "axios";
 import { ls } from "../../LocalStorage";
 import { HOST_LINK } from "@/constants/host";
 import toast from "react-hot-toast";
+import { ToastError } from "@/lib/ToastError";
 
 export async function uploadFile(file: string | Blob | null) {
   if (file) {
@@ -32,7 +33,8 @@ export async function uploadFile(file: string | Blob | null) {
         ),
       });
     } catch (error) {
-      console.error("Error uploading file", error);
+      const err = error as AxiosError;
+      ToastError((err.response?.data as { message: string }).message);
     }
   }
 }

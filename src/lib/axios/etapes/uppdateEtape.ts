@@ -3,6 +3,7 @@ import { ls } from "../../LocalStorage";
 import { handleUnauthorized } from "../../utils";
 import { HOST_LINK } from "@/constants/host";
 import { EtapeDataType } from "@/types/EtapeDataType";
+import { ToastError } from "@/lib/ToastError";
 
 export async function updateEtape(etape_code: string, etape: EtapeDataType) {
   if (etape_code.length > 0) {
@@ -21,10 +22,11 @@ export async function updateEtape(etape_code: string, etape: EtapeDataType) {
           },
         }
       );
-      return response;
+      if (response && response.data) return response.data;
     } catch (error) {
       const err = error as AxiosError;
-      console.error("axios error", err.message);
+      ToastError((err.response?.data as { message: string }).message);
     }
   }
+  return null;
 }

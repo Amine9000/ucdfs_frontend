@@ -1,7 +1,8 @@
 import { ls } from "../../LocalStorage";
 import { handleUnauthorized } from "../../utils";
-import axios, { AxiosResponse } from "axios";
+import axios, { AxiosError, AxiosResponse } from "axios";
 import { HOST_LINK } from "@/constants/host";
+import { ToastError } from "@/lib/ToastError";
 
 export async function fetchRoles() {
   const access_token = ls.getAccessToken();
@@ -16,8 +17,8 @@ export async function fetchRoles() {
       return response.data;
     }
   } catch (error) {
-    console.log(error);
-    // ToastError(error.message as string);
+    const err = error as AxiosError;
+    ToastError((err.response?.data as { message: string }).message);
   }
   return [];
 }
