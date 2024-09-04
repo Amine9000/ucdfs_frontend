@@ -26,7 +26,6 @@ export function StudentsListNavbar() {
   const [pageNum, setPageNum] = useState<number>(1);
   const [morePage, setMorePages] = useState<boolean>(true);
   const [searchQuery, setSearchQuery] = useState<string>("");
-
   async function fetchStudents() {
     if (SVOption == "validation")
       getStudentsValidationByEtape(setData, pageLength, pageNum, semester.code);

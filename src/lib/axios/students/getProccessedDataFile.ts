@@ -5,7 +5,8 @@ import { handleUnauthorized } from "@/lib/utils";
 
 export async function getProccessedDataFile(
   semester: string,
-  groupNum: number
+  groupNum: number,
+  outputType: string
 ) {
   if (semester) {
     try {
@@ -15,6 +16,7 @@ export async function getProccessedDataFile(
         `${HOST_LINK}files/download/${semester}`,
         {
           groupNum,
+          outputType,
         },
         {
           responseType: "blob",

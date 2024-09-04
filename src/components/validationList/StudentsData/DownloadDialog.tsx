@@ -14,6 +14,7 @@ import { getProccessedDataFile } from "@/lib/axios/students/getProccessedDataFil
 import { setStateType } from "@/types/setState";
 import { useState } from "react";
 import toast from "react-hot-toast";
+import { FileTypeOption } from "./FileTypeOption";
 
 type DownloadDialogProps = {
   open: boolean;
@@ -23,10 +24,17 @@ type DownloadDialogProps = {
 export function DownloadDialog({ open, onOpenChane }: DownloadDialogProps) {
   const { semester, setSemester } = useStudentsData();
   const [groupNum, setGroupNum] = useState<number | string>(1);
+  const [outputType, setOutputType] = useState<string>("excel");
 
   async function handleSubmit() {
-    await getProccessedDataFile(semester.code, groupNum as number);
-    onOpenChane(false);
+    if (outputType && outputType.length > 0) {
+      await getProccessedDataFile(
+        semester.code,
+        groupNum as number,
+        outputType
+      );
+      onOpenChane(false);
+    }
   }
 
   return (
@@ -69,6 +77,9 @@ export function DownloadDialog({ open, onOpenChane }: DownloadDialogProps) {
               type="number"
               className="col-span-3 focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0"
             />
+          </div>
+          <div className="w-full h-10 flex justify-center items-center gap-4">
+            <FileTypeOption onOptionChange={setOutputType} />
           </div>
         </div>
         <DialogFooter>

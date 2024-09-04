@@ -8,10 +8,16 @@ import { Checkbox } from "./ui/checkbox";
 import { changePwdReq } from "@/lib/axios/students/changePassword";
 import toast from "react-hot-toast";
 import { ToastError } from "@/lib/ToastError";
+import { setStateType } from "@/types/setState";
 
-export function ChangePassword() {
+export function ChangePassword({
+  setFirstTimeLogin,
+}: {
+  setFirstTimeLogin: setStateType<boolean>;
+}) {
   const [show, setShow] = useState<boolean>(false);
   const [password, setPassword] = useState<string>("");
+  const [scoreColor, setScoreColor] = useState<string>("bg-red-500");
   const [scoreData, setScoreData] = useState<PasswordScoreType>({
     score: 0,
     passwordProps: {
@@ -39,7 +45,7 @@ export function ChangePassword() {
       const data = await changePwdReq(password);
       if (data.success) {
         toast.success("Password changed successfully");
-        window.location.reload();
+        setFirstTimeLogin(false);
       } else {
         ToastError("Failed to change password");
       }
@@ -47,6 +53,16 @@ export function ChangePassword() {
       return;
     }
   }
+
+  function getScoreColor(score: number) {
+    if (score < 5) return setScoreColor("bg-red-500");
+    if (score >= 5 && score < 10) return setScoreColor("bg-orange-500");
+    if (score == 10) return setScoreColor("bg-green-500");
+  }
+
+  useEffect(() => {
+    getScoreColor(scoreData.score);
+  }, [scoreData.score]);
 
   return (
     <div className="bg-gray-50/75 flex items-center justify-center text-slate-700 absolute top-0 left-0 w-full h-full">
@@ -94,11 +110,7 @@ export function ChangePassword() {
                   <div
                     key={i}
                     className={`col-span-1 h-2 transition-colors duration-500
-                            ${
-                              i < scoreData.score
-                                ? "bg-orange-500"
-                                : "bg-gray-200"
-                            }
+                            ${i < scoreData.score ? scoreColor : "bg-gray-200"}
                             `}
                   />
                 ))}
