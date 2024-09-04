@@ -30,7 +30,7 @@ export function StudentsDataOptions({
         }}
         value="validation"
         aria-label="Toggle Validation"
-        className="flex items-center gap-2 text-slate-500"
+        className="flex items-center gap-2 text-slate-500 whitespace-nowrap"
       >
         <FileCog size={20} /> état d'inscription
       </ToggleGroupItem>
@@ -41,7 +41,7 @@ export function StudentsDataOptions({
         }}
         value="students"
         aria-label="Toggle Content"
-        className="flex items-center gap-2 text-slate-500"
+        className="flex items-center gap-2 text-slate-500 whitespace-nowrap"
       >
         <FileText size={20} /> Etudiants
       </ToggleGroupItem>

@@ -6,7 +6,7 @@ export function EtapeName() {
   return (
     <div className="flex items-center gap-4 ">
       <div className="flex items-center gap-2">
-        <span className="w-auto px-4 text-sky-900 bg-accent font-medium rounded h-10 flex items-center justify-center text-sm">
+        <span className="w-auto px-4 text-sky-900 bg-accent font-medium rounded h-10 flex items-center justify-center text-sm whitespace-nowrap">
           {semester.name}
         </span>
       </div>
