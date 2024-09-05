@@ -15,6 +15,8 @@ import { setStateType } from "@/types/setState";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { FileTypeOption } from "./FileTypeOption";
+import { SectionsNbrField } from "./SectionsNbrField";
+import { Session } from "./Session";
 
 type DownloadDialogProps = {
   open: boolean;
@@ -25,13 +27,17 @@ export function DownloadDialog({ open, onOpenChane }: DownloadDialogProps) {
   const { semester, setSemester } = useStudentsData();
   const [groupNum, setGroupNum] = useState<number | string>(1);
   const [outputType, setOutputType] = useState<string>("excel");
+  const [session, setSession] = useState<"printemps" | "automne">("printemps"); // Automne
+  const [sectionsNbr, setSectionsNbr] = useState<number>(1);
 
   async function handleSubmit() {
     if (outputType && outputType.length > 0) {
       await getProccessedDataFile(
         semester.code,
         groupNum as number,
-        outputType
+        outputType,
+        sectionsNbr,
+        session
       );
       onOpenChane(false);
     }
@@ -79,6 +85,14 @@ export function DownloadDialog({ open, onOpenChane }: DownloadDialogProps) {
             />
           </div>
           <div className="w-full h-10 flex justify-center items-center gap-4">
+            <SectionsNbrField onOptionChange={setSectionsNbr} />
+          </div>
+          <div className="w-full h-auto flex justify-center items-start gap-4 flex-col mt-2">
+            <Label className="text-gray-500 capitalize">Session</Label>
+            <Session setSession={setSession} />
+          </div>
+          <div className="w-full h-auto flex justify-center items-start gap-4 flex-col mt-2">
+            <Label className="text-gray-500 capitalize">type de fichier</Label>
             <FileTypeOption onOptionChange={setOutputType} />
           </div>
         </div>

@@ -6,7 +6,9 @@ import { handleUnauthorized } from "@/lib/utils";
 export async function getProccessedDataFile(
   semester: string,
   groupNum: number,
-  outputType: string
+  outputType: string,
+  sectionsNbr: number,
+  session: "printemps" | "automne"
 ) {
   if (semester) {
     try {
@@ -17,6 +19,8 @@ export async function getProccessedDataFile(
         {
           groupNum,
           outputType,
+          sectionsNbr,
+          session,
         },
         {
           responseType: "blob",
