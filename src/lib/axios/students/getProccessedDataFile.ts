@@ -15,10 +15,11 @@ export async function getProccessedDataFile(
       const access_token = ls.getAccessToken();
       if (access_token.length == 0) handleUnauthorized();
       const res = await axios.post(
-        `${HOST_LINK}files/download/${semester}`,
+        `${HOST_LINK}files/download/${semester}/${
+          outputType == "excel" ? "excel" : "pdf"
+        }`,
         {
           groupNum,
-          outputType,
           sectionsNbr,
           session,
         },
@@ -41,10 +42,6 @@ export async function getProccessedDataFile(
       }
     } catch (error) {
       console.dir(error);
-      // console.error(
-      //   "There has been a problem with your fetch operation:",
-      //   error
-      // );
     }
   }
 }
