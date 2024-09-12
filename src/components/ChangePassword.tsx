@@ -9,6 +9,8 @@ import { changePwdReq } from "@/lib/axios/students/changePassword";
 import toast from "react-hot-toast";
 import { ToastError } from "@/lib/ToastError";
 import { setStateType } from "@/types/setState";
+import { ls } from "@/lib/LocalStorage";
+import { changePwdReqUser } from "@/lib/axios/users/changePwdReqUser";
 
 export function ChangePassword({
   setFirstTimeLogin,
@@ -42,7 +44,10 @@ export function ChangePassword({
 
   async function handleChangePwdClick() {
     if (validatePassword()) {
-      const data = await changePwdReq(password);
+      const roles: string = ls.roles();
+      let data;
+      if (roles.includes("student")) data = await changePwdReq(password);
+      else data = await changePwdReqUser(password);
       if (data.success) {
         toast.success("Password changed successfully");
         setFirstTimeLogin(false);
