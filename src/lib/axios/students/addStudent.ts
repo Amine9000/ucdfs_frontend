@@ -26,19 +26,21 @@ export type StudentDto = {
   modules: { module_code: string; etape_code: string }[];
 };
 
+type userDto = {
+  id: string;
+  student_code: string;
+  student_cne: string;
+  student_cin: string;
+  student_pwd: string;
+  student_fname: string;
+  student_lname: string;
+  student_birthdate: string;
+};
+
 export type addStudentRes = {
   message: string;
   status: number;
-  user: {
-    id: string;
-    student_code: string;
-    student_cne: string;
-    student_cin: string;
-    student_pwd: string;
-    student_fname: string;
-    student_lname: string;
-    student_birthdate: string;
-  };
+  user: userDto;
 };
 export async function addStudent(
   studentData: StudentDto

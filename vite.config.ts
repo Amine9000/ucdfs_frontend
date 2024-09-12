@@ -3,6 +3,16 @@ import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
 
 export default defineConfig({
+  build: {
+    sourcemap: false,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor: ["react", "react-dom"], // Add libraries you want to split
+        },
+      },
+    },
+  },
   plugins: [react()],
   resolve: {
     alias: {
