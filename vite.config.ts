@@ -9,7 +9,7 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks: {
-          vendor: ["react", "react-dom"], // Add libraries you want to split
+          vendor: ["react", "react-dom"],
         },
       },
     },
