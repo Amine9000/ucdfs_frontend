@@ -4,6 +4,7 @@ import { defineConfig } from "vite";
 
 export default defineConfig({
   build: {
+    chunkSizeWarningLimit: 2000,
     sourcemap: false,
     rollupOptions: {
       output: {
