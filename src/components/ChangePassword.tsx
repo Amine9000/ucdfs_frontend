@@ -44,10 +44,11 @@ export function ChangePassword({
 
   async function handleChangePwdClick() {
     if (validatePassword()) {
-      const roles: string = ls.roles();
+      const roles: string[] = ls.roles();
       let data;
-      if (roles.includes("student")) data = await changePwdReq(password);
-      else data = await changePwdReqUser(password);
+      if (roles.includes("student")) {
+        data = await changePwdReq(password);
+      } else data = await changePwdReqUser(password);
       if (data.success) {
         toast.success("Password changed successfully");
         setFirstTimeLogin(false);

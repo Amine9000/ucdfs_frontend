@@ -6,7 +6,6 @@ import { ToastError } from "@/lib/ToastError";
 import { UserInfoType } from "@/types/UserInfo";
 
 export async function changePwdReqUser(password: string) {
-  console.log("here");
   const userInfo: UserInfoType = ls.userInfo();
   const access_token = ls.getAccessToken();
   if (

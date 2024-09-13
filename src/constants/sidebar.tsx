@@ -1,4 +1,3 @@
-import { UnderConstruction } from "@/components/UnderConstruction";
 import { EtapeListScreen } from "@/components/validationList/EtapesList/EtapeListScreen";
 import { StudentsListScreen } from "@/components/validationList/StudentsData/StudentsListScreen";
 import { Roles } from "@/enums/Roles";
@@ -6,6 +5,7 @@ import { StudentsValidationTab } from "@/features/StudentsValidation/StudentsVal
 import { Notifications } from "@/features/notifications/Notifications";
 import { Profile } from "@/features/profile/Profile";
 import { Services } from "@/features/services/Services";
+import { Paramerters } from "@/features/settings/Paramerters";
 import { StdDemandes } from "@/features/stdDemandes/StdDemandes";
 import { UsersTab } from "@/features/users/UsersTab";
 import { ValidationList } from "@/features/validationList/ValidationList";
@@ -81,7 +81,7 @@ export const bottomList: SidebarItemType[] = [
   {
     label: "parameters",
     icon: Settings,
-    element: <UnderConstruction pageName="parameters" />,
+    element: <Paramerters />,
     roles: [],
     hidden: false,
   },
