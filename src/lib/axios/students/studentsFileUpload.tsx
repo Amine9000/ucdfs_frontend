@@ -2,6 +2,7 @@ import axios, { AxiosResponse } from "axios";
 import { ls } from "../../LocalStorage";
 import { HOST_LINK } from "@/constants/host";
 import toast from "react-hot-toast";
+import { ToastError } from "@/lib/ToastError";
 
 export async function studentsFileupload(
   file: string | Blob | null,
@@ -29,14 +30,13 @@ export async function studentsFileupload(
         response.status === 202
       ) {
         toast.success("File uploaded successfully");
-        console.log(response.data);
         return response.data;
       } else {
         toast.error("Error uploading file");
         return null;
       }
     } catch (error) {
-      console.log("Error uploading file", error);
+      ToastError("Error uploading file");
     }
   }
 }
