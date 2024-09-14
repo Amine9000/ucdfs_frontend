@@ -21,39 +21,22 @@ export async function studentsFileupload(
             "Content-Type": "multipart/form-data",
             Authorization: `Bearer ${access_token}`,
           },
-          responseType: "blob",
         }
       );
-      toast.promise(downloadstudentsPasswordsFile(response), {
-        loading: "Downloading passwords file ...",
-        success: (
-          <p className="text-teal-600">
-            votre fichier a été téléchargé avec succès.
-          </p>
-        ),
-        error: (
-          <p className="text-red-500">Could not download the passwords file.</p>
-        ),
-      });
+      if (
+        response.status === 200 ||
+        response.status === 201 ||
+        response.status === 202
+      ) {
+        toast.success("File uploaded successfully");
+        console.log(response.data);
+        return response.data;
+      } else {
+        toast.error("Error uploading file");
+        return null;
+      }
     } catch (error) {
-      console.error("Error uploading file", error);
+      console.log("Error uploading file", error);
     }
-  }
-}
-
-async function downloadstudentsPasswordsFile(response: AxiosResponse) {
-  if (response.data) {
-    const url = window.URL.createObjectURL(
-      new Blob([response.data], {
-        type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-      })
-    );
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "passwords.xlsx";
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    window.URL.revokeObjectURL(url);
   }
 }

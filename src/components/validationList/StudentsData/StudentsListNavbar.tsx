@@ -17,6 +17,7 @@ import { getStudentsValidationByEtape } from "@/lib/axios/students/getStudentsVa
 import { getStudentsByEtape } from "@/lib/axios/students/getStudentsByEtape";
 import { search } from "@/lib/axios/students/search";
 import { searchStudents } from "@/lib/axios/students/searchStudents";
+import { DataRecord } from "@/types/DataRecord";
 
 export function StudentsListNavbar() {
   const [downloadDialogState, setDownloadDialogState] =
@@ -102,8 +103,8 @@ export function StudentsListNavbar() {
             file: File | null,
             modules: { module_code: string; etape_code: string }[]
           ) => {
-            studentsFileupload(file, modules);
-            updateData();
+            const ndata = await studentsFileupload(file, modules);
+            if (ndata != null) setData([...data, ...(ndata as DataRecord[])]);
           }}
         />
         <Button
