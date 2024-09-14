@@ -15,6 +15,7 @@ import { Demande } from "@/types/Demande";
 import { FieldsType } from "@/types/FieldsType";
 import { FieldValue, ServiceRequestType } from "@/types/serviceRequestDataType";
 import { addStdServicerequest } from "@/lib/axios/serviceRequests/addServiceRequest";
+import { Textarea } from "@/components/ui/textarea";
 
 interface DemandeDialogProps extends HTMLAttributes<HTMLDivElement> {
   demande?: Demande;
@@ -90,7 +91,25 @@ export function DemandeDialog({ children, demande }: DemandeDialogProps) {
                       }
                     />
                   )}
-                  {d.type == "string" && (
+                  {d.type == "textarea" && (
+                    <Textarea
+                      className="col-span-6"
+                      placeholder={"Enter " + d.name}
+                      id={d.name}
+                      name={d.name}
+                      value={d.value !== undefined ? (d.value as string) : ""}
+                      required={d.required !== undefined ? d.required : true}
+                      onChange={(e) =>
+                        setData((prev) => {
+                          if (!prev) return prev;
+                          const newData = [...prev];
+                          newData[i].value = e.target.value;
+                          return newData;
+                        })
+                      }
+                    />
+                  )}
+                  {d.type == "text" && (
                     <Input
                       className="col-span-6"
                       placeholder={"Enter " + d.name}
@@ -129,25 +148,25 @@ export function DemandeDialog({ children, demande }: DemandeDialogProps) {
                     />
                   )}
                   {d.type == "boolean" && (
-                    <Input
-                      className="col-span-6"
-                      type="checkbox"
-                      id={d.name}
-                      name={d.name}
-                      checked={
-                        d.value !== undefined
-                          ? (d.value as unknown as boolean)
-                          : true
-                      }
-                      onChange={(e) =>
-                        setData((prev) => {
-                          if (!prev) return prev;
-                          const newData = [...prev];
-                          newData[i].value = e.target.checked;
-                          return newData;
-                        })
-                      }
-                    />
+                    <div className="col-span-6 flex gap-2">
+                      <Input
+                        type="checkbox"
+                        className="bg-sky-500 h-4 w-4"
+                        id={d.name}
+                        name={d.name}
+                        checked={
+                          d.value !== undefined ? Boolean(d.value) : true
+                        }
+                        onChange={(e) =>
+                          setData((prev) => {
+                            if (!prev) return prev;
+                            const newData = [...prev];
+                            newData[i].value = e.target.checked;
+                            return newData;
+                          })
+                        }
+                      />
+                    </div>
                   )}
                 </div>
               );

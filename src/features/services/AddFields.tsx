@@ -77,7 +77,7 @@ export function AddFields({
               )}
               placeholder={"Saisir le nom du field."}
             />
-            <TypesList handleSemesterSelection={(type) => setFieldType(type)} />
+            <TypesList handleTypeSelection={(type) => setFieldType(type)} />
           </div>
           {fieldType == "number" && (
             <div className="flex items-center gap-2 justify-start w-full">
@@ -127,6 +127,7 @@ export function AddFields({
       <div className="max-h-40 overflow-auto items-center gap-4">
         <div className="w-full h-auto flex flex-wrap gap-2">
           {fields?.map((field) => {
+            console.log(field, typesColors);
             const colors = dataTypeColors[field.type as typesColors] || {
               bg: "",
               text: "",

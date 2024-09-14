@@ -982,12 +982,20 @@ body {
   max-height: 100vh;
 }
 
+.max-h-72 {
+  max-height: 18rem;
+}
+
 .min-h-\[200px\] {
   min-height: 200px;
 }
 
 .min-h-\[500px\] {
   min-height: 500px;
+}
+
+.min-h-\[80px\] {
+  min-height: 80px;
 }
 
 .w-0 {
@@ -1124,6 +1132,10 @@ body {
 
 .w-screen {
   width: 100vw;
+}
+
+.w-8 {
+  width: 2rem;
 }
 
 .min-w-\[500px\] {

@@ -3,17 +3,18 @@ import { ChevronDown } from "lucide-react";
 import { useState } from "react";
 
 interface TypesListProps {
-  handleSemesterSelection: (type: string) => void;
+  handleTypeSelection: (type: string) => void;
 }
 
 const types = [
-  { value: "string", label: "String" },
-  { value: "number", label: "Number" },
+  { value: "textarea", label: "Texte à plusieurs lignes" },
+  { value: "text", label: "Texte à une ligne" },
+  { value: "number", label: "Nombre" },
   { value: "date", label: "Date" },
-  { value: "boolean", label: "Boolean" },
+  { value: "boolean", label: "Oui/Non" },
 ];
 
-export function TypesList({ handleSemesterSelection }: TypesListProps) {
+export function TypesList({ handleTypeSelection }: TypesListProps) {
   const [selectedType, setSelectedType] = useState<{
     value: string;
     label: string;
@@ -23,7 +24,7 @@ export function TypesList({ handleSemesterSelection }: TypesListProps) {
 
   const handleTypeClick = (type: { value: string; label: string }) => {
     setSelectedType(type);
-    handleSemesterSelection(type.value);
+    handleTypeSelection(type.value);
     setIsDropdownOpen(false);
   };
 
@@ -33,14 +34,14 @@ export function TypesList({ handleSemesterSelection }: TypesListProps) {
 
   return (
     <div className="relative h-10 w-full bg-slate-50 rounded">
-      <div className="w-auto h-full flex items-center justify-between gap-4 pl-4 rounded focus:ring-0 focus:ring-offset-0 border-none cursor-pointer">
+      <div
+        onClick={toggleDropdown}
+        className="w-auto h-full flex items-center justify-between gap-4 pl-4 rounded focus:ring-0 focus:ring-offset-0 border-none cursor-pointer"
+      >
         <div className="text-slate-500 text-sm">
           {selectedType ? selectedType.label : "Sélectionner un type"}
         </div>
-        <div
-          onClick={toggleDropdown}
-          className="h-full w-auto px-4 flex items-center justify-center bg-slate-200 hover:bg-slate-300 transition-all duration-300 rounded-r"
-        >
+        <div className="h-full w-auto px-4 flex items-center justify-center bg-slate-200 hover:bg-slate-300 transition-all duration-300 rounded-r">
           <ChevronDown
             className={cn(
               "text-slate-700 transition-all duration-500",
@@ -52,7 +53,7 @@ export function TypesList({ handleSemesterSelection }: TypesListProps) {
       </div>
       <div
         className={`absolute transition-[max-height] duration-300 ease-in-out w-full overflow-hidden rounded bg-white top-11 z-10 ${
-          isDropdownOpen ? "max-h-60" : "max-h-0"
+          isDropdownOpen ? "max-h-72" : "max-h-0"
         }`}
       >
         <div className="w-full h-auto border border-slate-200 p-4">

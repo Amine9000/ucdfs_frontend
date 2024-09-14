@@ -1,4 +1,4 @@
-export type FieldType = "string" | "number" | "date" | "boolean";
+export type FieldType = "text" | "textarea" | "number" | "date" | "boolean";
 
 export interface FieldsType {
   id?: number;

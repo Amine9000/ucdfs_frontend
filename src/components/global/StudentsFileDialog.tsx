@@ -17,6 +17,7 @@ import makeAnimated from "react-select/animated";
 import { fetchModules } from "@/lib/axios/etapes/fetchModules";
 import { useStudentsData } from "@/hooks/useStudentsData";
 import { Upload } from "lucide-react";
+import { Input } from "../ui/input";
 
 const animatedComponents = makeAnimated();
 
@@ -38,6 +39,7 @@ export function StudentsFileDialog({ fileUploader }: FileDialogProps) {
   );
   const [open, setOpen] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [selectAll, setSelectAll] = useState<boolean>(false);
 
   async function getModules() {
     const res = await fetchModules(semester.code);
@@ -54,6 +56,11 @@ export function StudentsFileDialog({ fileUploader }: FileDialogProps) {
   useEffect(() => {
     if (semester.code.length > 0) getModules();
   }, [semester]);
+
+  useEffect(() => {
+    if (selectAll) setSelectedModules([...modules]);
+    else setSelectedModules([]);
+  }, [selectAll]);
 
   async function handleFileUpload() {
     fileUploader(
@@ -95,21 +102,32 @@ export function StudentsFileDialog({ fileUploader }: FileDialogProps) {
         </DialogHeader>
         <div className="flex flex-col justify-start gap-4">
           <Label htmlFor="name">Modules</Label>
-          <Select
-            isMulti
-            isLoading={isLoading}
-            components={animatedComponents}
-            onChange={(selectedMds) => {
-              setSelectedModules(
-                selectedMds as { value: string; label: string }[]
-              );
-            }}
-            name="modules"
-            options={modules}
-            className="basic-multi-select w-full"
-            classNamePrefix="select"
-            placeholder={`choisir parmi les ${modules.length} module.`}
-          />
+          <div className="flex items-center justify-start gap-2">
+            <Input
+              type="checkbox"
+              checked={selectAll}
+              className="h-8 w-8"
+              onChange={(e) => {
+                setSelectAll(e.target.checked);
+              }}
+            />
+            <Select
+              isMulti
+              isLoading={isLoading}
+              components={animatedComponents}
+              onChange={(selectedMds) => {
+                setSelectedModules(
+                  selectedMds as { value: string; label: string }[]
+                );
+              }}
+              value={selectedModules}
+              name="modules"
+              options={modules}
+              className="basic-multi-select w-full"
+              classNamePrefix="select"
+              placeholder={`choisir parmi les ${modules.length} module.`}
+            />
+          </div>
         </div>
         <FileDropArea
           uploadedFile={uploadedFile}
