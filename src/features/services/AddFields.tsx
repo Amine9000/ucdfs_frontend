@@ -127,7 +127,6 @@ export function AddFields({
       <div className="max-h-40 overflow-auto items-center gap-4">
         <div className="w-full h-auto flex flex-wrap gap-2">
           {fields?.map((field) => {
-            console.log(field, typesColors);
             const colors = dataTypeColors[field.type as typesColors] || {
               bg: "",
               text: "",

@@ -3091,6 +3091,10 @@ body {
     max-width: 24rem;
   }
 
+  .sm\:max-w-\[500px\] {
+    max-width: 500px;
+  }
+
   .sm\:flex-row {
     flex-direction: row;
   }

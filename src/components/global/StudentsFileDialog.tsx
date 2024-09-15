@@ -93,7 +93,7 @@ export function StudentsFileDialog({ fileUploader }: FileDialogProps) {
       <DialogTrigger className="h-10 rounded-md text-gray-700 bg-gray-50 hover:bg-gray-50 px-4 hover:text-sky-600">
         <Upload size={20} />
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
           <DialogTitle>Edit profile</DialogTitle>
           <DialogDescription>
@@ -102,7 +102,7 @@ export function StudentsFileDialog({ fileUploader }: FileDialogProps) {
         </DialogHeader>
         <div className="flex flex-col justify-start gap-4">
           <Label htmlFor="name">Modules</Label>
-          <div className="flex items-center justify-start gap-2">
+          <div className="flex items-center justify-start gap-2 overflow-auto">
             <Input
               type="checkbox"
               checked={selectAll}

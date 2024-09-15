@@ -20,6 +20,7 @@ export function FileDropArea({
         const isValidType = [
           "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
           "application/vnd.ms-excel",
+          "application/wps-office.xlsx",
         ].includes(file.type);
         const isValidSize = file.size <= MAX_FILE_SIZE; // 20 MB limit
         if (!isValidType) {
