@@ -7,11 +7,13 @@ import { useState } from "react";
 import { ls } from "@/lib/LocalStorage";
 import { UCDAlert } from "./UCDAlert";
 import { adminSignIn } from "@/lib/axios/users/adminSignIn";
+import { Eye, EyeOff } from "lucide-react";
 
 interface loginFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 export function AdminLoginForm({ className, ...props }: loginFormProps) {
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [showPwd, setShowPwd] = useState<boolean>(false);
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [errorMessage, setErrorMessage] = useState<string>("");
@@ -63,15 +65,24 @@ export function AdminLoginForm({ className, ...props }: loginFormProps) {
             <Label className="sr-only" htmlFor="email">
               Password
             </Label>
-            <Input
-              id="password"
-              onChange={(e) => e && setPassword(e.target.value)}
-              placeholder="***********"
-              type="password"
-              autoCapitalize="none"
-              autoCorrect="off"
-              disabled={isLoading}
-            />
+            <div className="h-10 flex gap-1 items-center justify-between">
+              <Input
+                id="password"
+                onChange={(e) => e && setPassword(e.target.value)}
+                value={password}
+                placeholder="***********"
+                type={showPwd ? "text" : "password"}
+                autoCapitalize="none"
+                autoCorrect="off"
+                disabled={isLoading}
+              />
+              <div
+                onClick={() => setShowPwd(!showPwd)}
+                className="bg-gray-50 rounded h-10 w-10 flex items-center justify-center cursor-pointer text-gray-500"
+              >
+                {!showPwd ? <Eye size={20} /> : <EyeOff size={20} />}
+              </div>
+            </div>
           </div>
           <Button disabled={isLoading}>
             {isLoading && (
