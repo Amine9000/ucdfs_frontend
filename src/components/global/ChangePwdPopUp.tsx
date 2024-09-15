@@ -1,22 +1,29 @@
-import { Eye, EyeOff } from "lucide-react";
-import { Button } from "./ui/button";
-import { Input } from "./ui/input";
-import { Label } from "./ui/label";
-import { useEffect, useState } from "react";
-import { calculatePasswordScore, PasswordScoreType } from "@/lib/passwordScore";
-import { Checkbox } from "./ui/checkbox";
+import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { changePwdReq } from "@/lib/axios/students/changePassword";
-import toast from "react-hot-toast";
-import { ToastError } from "@/lib/ToastError";
-import { setStateType } from "@/types/setState";
-import { ls } from "@/lib/LocalStorage";
 import { changePwdReqUser } from "@/lib/axios/users/changePwdReqUser";
+import { ls } from "@/lib/LocalStorage";
+import { calculatePasswordScore, PasswordScoreType } from "@/lib/passwordScore";
+import { ToastError } from "@/lib/ToastError";
+import { HTMLAttributes, useEffect, useState } from "react";
+import toast from "react-hot-toast";
+import { Label } from "../ui/label";
+import { Input } from "../ui/input";
+import { Eye, EyeOff } from "lucide-react";
+import { Checkbox } from "../ui/checkbox";
 
-export function ChangePassword({
-  setFirstTimeLogin,
-}: {
-  setFirstTimeLogin: setStateType<boolean>;
-}) {
+interface ChangePwdPopUpProps extends HTMLAttributes<HTMLDivElement> {}
+
+export function ChangePwdPopUp({ children }: ChangePwdPopUpProps) {
+  const [isOpen, setIsOpen] = useState(false);
   const [show, setShow] = useState<boolean>(false);
   const [password, setPassword] = useState<string>("");
   const [scoreColor, setScoreColor] = useState<string>("bg-red-500");
@@ -52,7 +59,7 @@ export function ChangePassword({
       } else data = await changePwdReqUser(password);
       if (data.success) {
         toast.success("Password changed successfully");
-        setFirstTimeLogin(false);
+        setIsOpen(false);
       } else {
         ToastError("Failed to change password");
       }
@@ -70,17 +77,18 @@ export function ChangePassword({
   useEffect(() => {
     getScoreColor(scoreData.score);
   }, [scoreData.score]);
-
   return (
-    <div className="max-w-[500px] bg-white rounded p-4">
-      <header className="flex flex-col gap-4">
-        <h1 className="text-3xl font-bold text-center">Change Password</h1>
-        {/* small description */}
-        <p className="text-center text-gray-500 text-sm">
-          Enter your current password and new password to change your password
-        </p>
-      </header>
-      <div className="mt-10">
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+      <DialogTrigger asChild>{children}</DialogTrigger>
+      <DialogContent className="sm:max-w-[425px]">
+        <DialogHeader>
+          <DialogTitle className="text-gray-800 text-xl">
+            Change Password
+          </DialogTitle>
+          <DialogDescription className="text-sm text text-gray-500">
+            Enter your new password and confirm it.
+          </DialogDescription>
+        </DialogHeader>
         <div className="mb-4 flex flex-col gap-1 justify-center">
           <div className="flex flex-col gap-4">
             <div className="flex flex-col gap-2">
@@ -150,12 +158,12 @@ export function ChangePassword({
             </div>
           </div>
         </div>
-        <div className="mb-4 flex items-center justify-end">
+        <DialogFooter>
           <Button onClick={handleChangePwdClick}>
             <span className="text-white text-sm">change Password</span>
           </Button>
-        </div>
-      </div>
-    </div>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   );
 }
