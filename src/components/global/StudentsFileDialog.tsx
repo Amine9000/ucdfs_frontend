@@ -100,34 +100,38 @@ export function StudentsFileDialog({ fileUploader }: FileDialogProps) {
             Make changes to your profile here. Click save when you're done.
           </DialogDescription>
         </DialogHeader>
+        <div className="h-10 flex  items-center justify-start gap-4 bg-gray-50 rounded px-4">
+          <Input
+            type="checkbox"
+            checked={selectAll}
+            className="h-6 w-6"
+            onChange={(e) => {
+              setSelectAll(e.target.checked);
+            }}
+          />
+          <Label htmlFor="name" className="text-sm text-gray-600">
+            Select All
+          </Label>
+        </div>
         <div className="flex flex-col justify-start gap-4">
           <Label htmlFor="name">Modules</Label>
-          <div className="flex items-center justify-start gap-2 overflow-auto">
-            <Input
-              type="checkbox"
-              checked={selectAll}
-              className="h-8 w-8"
-              onChange={(e) => {
-                setSelectAll(e.target.checked);
-              }}
-            />
-            <Select
-              isMulti
-              isLoading={isLoading}
-              components={animatedComponents}
-              onChange={(selectedMds) => {
+          <Select
+            isMulti
+            isLoading={isLoading}
+            components={animatedComponents}
+            onChange={(selectedMds) => {
+              if (!selectAll)
                 setSelectedModules(
                   selectedMds as { value: string; label: string }[]
                 );
-              }}
-              value={selectedModules}
-              name="modules"
-              options={modules}
-              className="basic-multi-select w-full"
-              classNamePrefix="select"
-              placeholder={`choisir parmi les ${modules.length} module.`}
-            />
-          </div>
+            }}
+            value={selectedModules}
+            name="modules"
+            options={modules}
+            className="basic-multi-select w-full"
+            classNamePrefix="select"
+            placeholder={`choisir parmi les ${modules.length} module.`}
+          />
         </div>
         <FileDropArea
           uploadedFile={uploadedFile}
