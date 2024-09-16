@@ -51,6 +51,7 @@ export function AdminLoginForm({ className, ...props }: loginFormProps) {
               Email
             </Label>
             <Input
+              className="focus-visible:ring-0 focus-visible:ring-offset-0"
               id="email"
               onChange={(e) => e && setEmail(e.target.value)}
               placeholder="name@example.com"
@@ -67,6 +68,7 @@ export function AdminLoginForm({ className, ...props }: loginFormProps) {
             </Label>
             <div className="h-10 flex gap-1 items-center justify-between">
               <Input
+                className="focus-visible:ring-0 focus-visible:ring-offset-0"
                 id="password"
                 onChange={(e) => e && setPassword(e.target.value)}
                 value={password}

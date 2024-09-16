@@ -1,10 +1,17 @@
+import { ls } from "@/lib/LocalStorage";
 import { Quote } from "lucide-react";
-import { HTMLAttributes } from "react";
+import { HTMLAttributes, useEffect } from "react";
 import { Outlet } from "react-router-dom";
 
 interface LoginProps extends HTMLAttributes<HTMLDivElement> {}
 
 export default function Login({ children }: LoginProps) {
+  useEffect(() => {
+    const access_token: string = ls.getAccessToken();
+    if (access_token && access_token.length > 0) {
+      window.location.href = "/";
+    }
+  }, []);
   return (
     <div className="h-screen w-screen p-4">
       <div className="container relative h-full flex items-center justify-center px-2 md:grid lg:max-w-none lg:grid-cols-2 lg:px-0">
@@ -43,7 +50,7 @@ export default function Login({ children }: LoginProps) {
         <div className="lg:p-8">
           <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
             <div className="flex flex-col items-center space-y-2 text-center">
-              <div className="p-2 rounded w-full h-auto py-4 px-2 bg-gray-50 flex items-center justify-center">
+              <div className="p-2 rounded w-full h-auto py-4 px-2 flex items-center justify-center">
                 <img
                   src="/logo_ucd_fs_short.svg"
                   className="h-[200px]"
