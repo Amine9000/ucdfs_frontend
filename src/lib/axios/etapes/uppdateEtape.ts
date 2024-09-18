@@ -5,15 +5,15 @@ import { HOST_LINK } from "@/constants/host";
 import { EtapeDataType } from "@/types/EtapeDataType";
 import { ToastError } from "@/lib/ToastError";
 
-export async function updateEtape(etape_code: string, etape: EtapeDataType) {
-  if (etape_code.length > 0) {
+export async function updateEtape(etape_id: string, etape: EtapeDataType) {
+  if (etape_id.length > 0) {
     const access_token = ls.getAccessToken();
     if (access_token.length == 0) handleUnauthorized();
     try {
       const response: AxiosResponse = await axios.patch(
-        `${HOST_LINK}etapes/${etape_code}`,
+        `${HOST_LINK}etapes/${etape_id}`,
         {
-          etape_code: etape.code,
+          etape_id: etape.code,
           etape_name: etape.nom,
         },
         {

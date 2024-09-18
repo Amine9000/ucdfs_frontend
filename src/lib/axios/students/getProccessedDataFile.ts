@@ -4,18 +4,18 @@ import { ls } from "@/lib/LocalStorage";
 import { handleUnauthorized } from "@/lib/utils";
 
 export async function getProccessedDataFile(
-  semester: string,
+  etape_id: string,
   groupNum: number,
   outputType: string,
   sectionsNbr: number,
   session: "printemps" | "automne"
 ) {
-  if (semester) {
+  if (etape_id) {
     try {
       const access_token = ls.getAccessToken();
       if (access_token.length == 0) handleUnauthorized();
       const res = await axios.post(
-        `${HOST_LINK}files/download/${semester}/${
+        `${HOST_LINK}files/download/${etape_id}/${
           outputType == "excel" ? "excel" : "pdf"
         }`,
         {

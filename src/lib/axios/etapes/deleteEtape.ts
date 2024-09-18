@@ -4,13 +4,13 @@ import { handleUnauthorized } from "../../utils";
 import { HOST_LINK } from "@/constants/host";
 import { ToastError } from "@/lib/ToastError";
 
-export async function deleteEtape(etape_code: string) {
-  if (etape_code.length > 0) {
+export async function deleteEtape(etape_id: string) {
+  if (etape_id.length > 0) {
     const access_token = ls.getAccessToken();
     if (access_token.length == 0) handleUnauthorized();
     try {
       const response: AxiosResponse = await axios.delete(
-        `${HOST_LINK}etapes/${etape_code}`,
+        `${HOST_LINK}etapes/${etape_id}`,
         {
           headers: {
             Authorization: `Bearer ${access_token}`,

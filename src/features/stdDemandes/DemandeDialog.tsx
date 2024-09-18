@@ -41,6 +41,7 @@ export function DemandeDialog({ children, demande }: DemandeDialogProps) {
     }
     const servicerequest: ServiceRequestType = {
       service_id: "",
+      user_id: "",
       fieldsValues: filedsValues,
     };
     if (demande && demande.id) servicerequest.service_id = demande.id;
@@ -60,13 +61,13 @@ export function DemandeDialog({ children, demande }: DemandeDialogProps) {
           <div className="grid gap-4 py-4">
             {data.map((d: FieldsType, i: number) => {
               return (
-                <div key={i} className="grid grid-cols-7 items-center gap-4">
-                  <Label htmlFor="name" className="text-right col-span-1">
+                <div key={i} className="flex items-start gap-4 justify-start">
+                  <Label htmlFor="name" className="text-right w-[100px] py-2">
                     {d.name}
                   </Label>
                   {d.type == "number" && (
                     <Input
-                      className="col-span-6"
+                      className="flex-grow focus-visible:ring-0 focus-visible:ring-offset-0 rounded"
                       placeholder={"Enter " + d.name}
                       min={d.min !== undefined ? d.min : 0}
                       max={d.max !== undefined ? d.max : 0}
@@ -93,7 +94,7 @@ export function DemandeDialog({ children, demande }: DemandeDialogProps) {
                   )}
                   {d.type == "textarea" && (
                     <Textarea
-                      className="col-span-6"
+                      className="flex-grow focus-visible:ring-0 focus-visible:ring-offset-0 rounded"
                       placeholder={"Enter " + d.name}
                       id={d.name}
                       name={d.name}
@@ -111,7 +112,7 @@ export function DemandeDialog({ children, demande }: DemandeDialogProps) {
                   )}
                   {d.type == "text" && (
                     <Input
-                      className="col-span-6"
+                      className="flex-grow focus-visible:ring-0 focus-visible:ring-offset-0 rounded"
                       placeholder={"Enter " + d.name}
                       type="text"
                       id={d.name}
@@ -130,7 +131,7 @@ export function DemandeDialog({ children, demande }: DemandeDialogProps) {
                   )}
                   {d.type == "date" && (
                     <Input
-                      className="col-span-6"
+                      className="flex-grow focus-visible:ring-0 focus-visible:ring-offset-0 rounded"
                       placeholder={"Enter " + d.name}
                       type="date"
                       id={d.name}

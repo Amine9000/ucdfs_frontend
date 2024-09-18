@@ -8,11 +8,11 @@ import { DemandeRequestType } from "@/types/serviceRequestType";
 export async function fetchStdDemandes() {
   const access_token = ls.getAccessToken();
   const stdInfo: UserInfoType = ls.userInfo();
-  if (access_token.length == 0 || stdInfo.user_cne.length == 0)
+  if (access_token.length == 0 || stdInfo.user_id.length == 0)
     handleUnauthorized();
   try {
     const response: AxiosResponse = await axios.get(
-      `${HOST_LINK}demandes/student/${stdInfo.user_cne}`,
+      `${HOST_LINK}demandes/${stdInfo.user_id}`,
       {
         headers: {
           Authorization: `Bearer ${access_token}`,

@@ -20,7 +20,7 @@ export function DemandeInfo({
   setSelectedDemande,
 }: DemandeInfoProps) {
   if (selectedDemande == undefined) return null;
-  const { state, service, student, created_at, studentServiceData } =
+  const { state, service, user, created_at, studentServiceData } =
     selectedDemande;
   return (
     <div className="w-full min-w-[500px] h-full flex flex-col justify-start p-2 overflow-auto">
@@ -42,12 +42,14 @@ export function DemandeInfo({
         </div>
       </div>
       <div className="w-full bg-slate-50 rounded my-1 p-4">
-        <div className="text-slate-500 text-sm my-1">Student</div>
+        <div className="text-slate-500 text-sm my-1 first-letter:uppercase">
+          l'utilisateur
+        </div>
         <div className="flex flex-col gap-2">
           <div className="flex items-center justify-center">
             <img
-              src={HOST_LINK + "static/" + student.student_avatar_path}
-              alt={student.student_fname + " " + student.student_lname}
+              src={HOST_LINK + "static/" + user.user_avatar_path}
+              alt={user.user_fname + " " + user.user_lname}
               className="rounded-md size-24"
             />
           </div>
@@ -56,46 +58,56 @@ export function DemandeInfo({
               Nom complete
             </label>
             <div className="text-slate-800 border-l-2 border-slate-800 px-4 w-2/3">
-              {student.student_fname} {student.student_lname}
+              {user.user_fname} {user.user_lname}
             </div>
           </div>
-          {student.student_cin && (
+          {user.user_email && (
+            <div className="flex justify-start items-center h-6 gap-4 text-sm px-4 py-1 rounded">
+              <label className="text-slate-500 w-1/3" htmlFor="">
+                Email
+              </label>
+              <div className="text-slate-800 border-l-2 border-slate-800 px-4 w-2/3">
+                {user.user_email}
+              </div>
+            </div>
+          )}
+          {user.student?.student_cin && (
             <div className="flex justify-start items-center h-6 gap-4 text-sm px-4 py-1 rounded">
               <label className="text-slate-500 w-1/3" htmlFor="">
                 CIN
               </label>
               <div className="text-slate-800 border-l-2 border-slate-800 px-4 w-2/3">
-                {student.student_cin}
+                {user.student?.student_cin}
               </div>
             </div>
           )}
-          {student.student_cne && (
+          {user.student?.student_cne && (
             <div className="flex justify-start items-center h-6 gap-4 text-sm px-4 py-1 rounded">
               <label className="text-slate-500 w-1/3" htmlFor="">
                 CNE
               </label>
               <div className="text-slate-800 border-l-2 border-slate-800 px-4 w-2/3">
-                {student.student_cne}
+                {user.student?.student_cne}
               </div>
             </div>
           )}
-          {student.student_code && (
+          {user.student?.student_code && (
             <div className="flex justify-start items-center h-6 gap-4 text-sm px-4 py-1 rounded">
               <label className="text-slate-500 w-1/3" htmlFor="">
                 Code
               </label>
               <div className="text-slate-800 border-l-2 border-slate-800 px-4 w-2/3">
-                {student.student_code}
+                {user.student?.student_code}
               </div>
             </div>
           )}
-          {student.student_birthdate && (
+          {user.student?.student_birthdate && (
             <div className="flex justify-start items-center h-6 gap-4 text-sm px-4 py-1 rounded">
               <label className="text-slate-500 w-1/3" htmlFor="">
                 Date de naissance
               </label>
               <div className="text-slate-800 border-l-2 border-slate-800 px-4 w-2/3">
-                {student.student_birthdate}
+                {user.student?.student_birthdate}
               </div>
             </div>
           )}

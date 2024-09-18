@@ -33,7 +33,7 @@ export function DownloadDialog({ open, onOpenChane }: DownloadDialogProps) {
   async function handleSubmit() {
     if (outputType && outputType.length > 0) {
       await getProccessedDataFile(
-        semester.code,
+        semester.id,
         groupNum as number,
         outputType,
         sectionsNbr,

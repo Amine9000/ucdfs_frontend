@@ -41,7 +41,7 @@ export function Demandes({ setSelectedDemande }: DemandesProps) {
             <TableHeader>
               <TableRow className="hover:bg-white">
                 <TableHead>Full Name</TableHead>
-                <TableHead>CNE</TableHead>
+                <TableHead>Role</TableHead>
                 <TableHead>Service</TableHead>
                 <TableHead>Date</TableHead>
                 <TableHead>Statut</TableHead>
@@ -56,12 +56,14 @@ export function Demandes({ setSelectedDemande }: DemandesProps) {
                     key={i}
                   >
                     <TableCell className="text-gray-600">
-                      {serviceReq.student.student_fname +
+                      {serviceReq.user.user_fname +
                         " " +
-                        serviceReq.student.student_lname}
+                        serviceReq.user.user_lname}
                     </TableCell>
                     <TableCell className="text-gray-600">
-                      {serviceReq.student.student_cne}
+                      {serviceReq.user.roles
+                        .map((role) => role.role_name)
+                        .join(", ")}
                     </TableCell>
                     <TableCell className="text-gray-600">
                       {serviceReq.service.name}

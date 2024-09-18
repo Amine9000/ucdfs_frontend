@@ -1084,8 +1084,8 @@ body {
   width: 50%;
 }
 
-.w-8 {
-  width: 2rem;
+.w-\[100px\] {
+  width: 100px;
 }
 
 .w-\[150px\] {

@@ -3,13 +3,13 @@ import { ls } from "../../LocalStorage";
 import { handleUnauthorized } from "../../utils";
 import { HOST_LINK } from "@/constants/host";
 
-export async function deleteStudent(cne: string) {
-  if (cne.length > 0) {
+export async function deleteStudent(id: string) {
+  if (id.length > 0) {
     const access_token = ls.getAccessToken();
     if (access_token.length == 0) handleUnauthorized();
     try {
       const response: AxiosResponse = await axios.delete(
-        `${HOST_LINK}students/${cne}`,
+        `${HOST_LINK}students/${id}`,
         {
           headers: {
             Authorization: `Bearer ${access_token}`,

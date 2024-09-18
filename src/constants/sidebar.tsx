@@ -65,7 +65,7 @@ export const topList: SidebarItemType[] = [
     label: "demandes",
     icon: MailCheck,
     element: <StdDemandes />,
-    roles: [Roles.Student],
+    roles: [Roles.Student, Roles.Professor],
     hidden: false,
   },
   {

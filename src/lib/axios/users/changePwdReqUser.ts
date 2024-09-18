@@ -6,7 +6,6 @@ import { ToastError } from "@/lib/ToastError";
 import { UserInfoType } from "@/types/UserInfo";
 
 export async function changePwdReqUser(password: string) {
-  console.log(password);
   const userInfo: UserInfoType = ls.userInfo();
   const access_token = ls.getAccessToken();
   if (
@@ -27,7 +26,6 @@ export async function changePwdReqUser(password: string) {
         },
       }
     );
-    console.log(response.data);
     if (response.data) return response.data;
   } catch (error) {
     const err = error as AxiosError;

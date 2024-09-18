@@ -62,11 +62,14 @@ export function StudentsListNavbar() {
     getStudentsByEtape(setData, pageLength, pageNum, semester.code);
     setSemester({
       name:
-        (tabsSharedData as { etapeName: string; etapeCode: string })
+        (tabsSharedData as { etapeName: string; etapeCode: string; id: string })
           .etapeName ?? "",
       code:
-        (tabsSharedData as { etapeCode: string; etapeName: string })
+        (tabsSharedData as { etapeCode: string; id: string; etapeName: string })
           .etapeCode ?? "",
+      id:
+        (tabsSharedData as { etapeCode: string; id: string; etapeName: string })
+          .id ?? "",
     });
   }, []);
 

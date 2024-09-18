@@ -3,13 +3,13 @@ import { ls } from "../../LocalStorage";
 import { handleUnauthorized } from "../../utils";
 import { HOST_LINK } from "@/constants/host";
 
-export async function regeneratePassword(code: string) {
-  if (code.length > 0) {
+export async function regeneratePassword(id: string) {
+  if (id.length > 0) {
     const access_token = ls.getAccessToken();
     if (access_token.length == 0) handleUnauthorized();
     try {
       const response: AxiosResponse = await axios.patch(
-        `${HOST_LINK}students/${code}/regenpwd`,
+        `${HOST_LINK}students/${id}/regenpwd`,
         {},
         {
           headers: {

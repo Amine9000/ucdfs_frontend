@@ -34,16 +34,14 @@ export function EtapesTable() {
       label: "Update",
       value: "update",
       callback: async (
-        etape_code: string,
+        etape_id: string,
         etape?: EtapeDataType | DataRecord
       ) => {
         toast.promise(
           (async () => {
-            const res = await updateEtape(etape_code, etape as EtapeDataType);
+            const res = await updateEtape(etape_id, etape as EtapeDataType);
             if (res.status == 201) {
-              const index = etapes.findIndex(
-                (item) => item.code === etape_code
-              );
+              const index = etapes.findIndex((item) => item.id === etape_id);
               const ndata = [
                 ...etapes.slice(0, index),
                 etape,
@@ -66,10 +64,10 @@ export function EtapesTable() {
     {
       label: "Delete",
       value: "delete",
-      callback: (etape_code: string) => {
-        deleteEtape(etape_code);
+      callback: (etape_id: string) => {
+        deleteEtape(etape_id);
         const ndata = etapes.filter((d) => {
-          return d.code !== etape_code;
+          return d.id !== etape_id;
         });
         setEtapes(ndata);
       },
@@ -82,6 +80,7 @@ export function EtapesTable() {
         setShareTabsdata({
           etapeCode,
           etapeName: (data?.nom ?? "None") as string,
+          id: (data?.id ?? "None") as string,
         });
         navigateTo(Screen.StudentsData);
       },
@@ -100,11 +99,14 @@ export function EtapesTable() {
         <TableCaption>Liste d'étapes.</TableCaption>
         <TableHeader>
           <TableRow className="hover:bg-transparent">
-            {columns.map((column, index) => (
-              <TableHead className="text-slate-900" key={index}>
-                {column}
-              </TableHead>
-            ))}
+            {columns.map(
+              (column, index) =>
+                column != "id" && (
+                  <TableHead className="text-slate-900" key={index}>
+                    {column}
+                  </TableHead>
+                )
+            )}
             <TableHead className="text-slate-900">Actions</TableHead>
           </TableRow>
         </TableHeader>
@@ -126,11 +128,15 @@ function MapFileData({
   return data.map((etape, index) => {
     return (
       <TableRow className="cursor-pointer" key={index}>
-        {Object.values(etape).map((value, index) => (
-          <TableCell className="text-sm text-slate-700" key={index}>
-            {value}
-          </TableCell>
-        ))}
+        {Object.entries(etape).map(([key, value], index) => {
+          return (
+            key != "id" && (
+              <TableCell className="text-sm text-slate-700" key={index}>
+                {value}
+              </TableCell>
+            )
+          );
+        })}
         <TableCell>
           <OptionsSheet options={options} data={etape}>
             <EllipsisVertical className="text-slate-600" />

@@ -1,4 +1,5 @@
 export type EtapeDataType = {
+  id: string;
   code: string;
   nom: string;
   semester: string;

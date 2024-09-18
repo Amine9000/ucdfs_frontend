@@ -86,8 +86,8 @@ export function OptionsSheet({ children, options, data }: UCDSheetProps) {
                         toast.promise(
                           (async () => {
                             option.callback(
-                              ((data as DataRecord)["CNE"] as string) ||
-                                ((data as DataRecord)["code"] as string)
+                              ((data as DataRecord)["id"] as string) ||
+                                ((data as DataRecord)["id"] as string)
                             );
                             setOpen(false);
                           })(),
@@ -121,7 +121,7 @@ export function OptionsSheet({ children, options, data }: UCDSheetProps) {
                     <div
                       key={option.label}
                       onClick={() => {
-                        option.callback((data as DataRecord)["Code"] as string);
+                        option.callback((data as DataRecord)["id"] as string);
                       }}
                       className="flex gap-4 text-slate-700 bg-slate-100 w-full rounded-sm py-2 px-4 cursor-pointer items-center justify-start"
                     >

@@ -11,7 +11,7 @@ export async function addStdServicerequest(demandeData: ServiceRequestType) {
   if (access_token.length == 0 || userInfo.user_id.length == 0)
     handleUnauthorized();
   try {
-    demandeData.student_id = userInfo.user_id;
+    demandeData.user_id = userInfo.user_id;
     const response: AxiosResponse = await axios.post(
       `${HOST_LINK}demandes`,
       {

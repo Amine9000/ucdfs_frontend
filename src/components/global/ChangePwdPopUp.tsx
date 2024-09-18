@@ -53,7 +53,6 @@ export function ChangePwdPopUp({ children }: ChangePwdPopUpProps) {
     if (validatePassword()) {
       const roles: string[] = ls.roles();
       let data;
-      console.log(roles);
       if (roles.includes("student")) {
         data = await changePwdReq(password);
       } else data = await changePwdReqUser(password);

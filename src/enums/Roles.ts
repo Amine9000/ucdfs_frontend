@@ -4,4 +4,5 @@ export enum Roles {
   USERS_MANAGER = "users-manager",
   Admin = "admin",
   Student = "student",
+  Professor = "professor",
 }

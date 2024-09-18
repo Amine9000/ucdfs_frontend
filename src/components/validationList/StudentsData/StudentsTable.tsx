@@ -24,10 +24,10 @@ export function StudentsTable() {
   const { data: studentsList, setData, SVOption } = useStudentsData();
   const [columns, setColumns] = useState<string[]>([]);
 
-  async function handleDeleteAction(cne: string) {
+  async function handleDeleteAction(id: string) {
     try {
-      const res: { message: string } = await deleteStudent(cne);
-      const nData = studentsList.filter((std) => std["CNE"] != cne);
+      const res: { message: string } = await deleteStudent(id);
+      const nData = studentsList.filter((std) => std["id"] != id);
       setData(nData);
       toast.promise(Promise.resolve(res.message), {
         loading: "Deleting...",
@@ -68,10 +68,10 @@ export function StudentsTable() {
     }
   }
 
-  async function handleRegeneratePassword(code: string) {
+  async function handleRegeneratePassword(id: string) {
     try {
       const data: { password: string; message: string } =
-        await regeneratePassword(code);
+        await regeneratePassword(id);
 
       toast.promise(Promise.resolve(data.message), {
         loading: "Regenerating password...",

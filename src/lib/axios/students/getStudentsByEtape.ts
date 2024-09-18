@@ -26,8 +26,9 @@ export function getStudentsByEtape(
         }
       )
       .then((res: AxiosResponse) => {
-        if (res.data) setData(res.data);
-        else setData([]);
+        if (res.data) {
+          setData(res.data);
+        } else setData([]);
       })
       .catch((err: AxiosError) => {
         console.error("axios error", err.message);

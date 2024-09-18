@@ -86,7 +86,7 @@ export function UCDSheet({ children, data, callback }: UCDSheetProps) {
               onClick={() => {
                 callback(
                   ((data as DataRecord)["id"] as string) ||
-                    ((data as DataRecord)["code"] as string),
+                    ((data as DataRecord)["id"] as string),
                   dataState,
                   setError as setStateType<string>
                 );

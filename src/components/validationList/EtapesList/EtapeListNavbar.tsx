@@ -33,7 +33,6 @@ export function EtapeListNavbar() {
 
   async function dialogOpenChangeHandler(pageNum: number, pageLength: number) {
     const newData = await getEtapes(pageNum, pageLength);
-
     setFileUploadedDialog(false);
     setData(newData);
   }
