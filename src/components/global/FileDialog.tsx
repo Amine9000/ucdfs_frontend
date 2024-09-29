@@ -51,9 +51,10 @@ export function FileDialog({
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Edit profile</DialogTitle>
+          <DialogTitle>Charger un fichier</DialogTitle>
           <DialogDescription>
-            Make changes to your profile here. Click save when you're done.
+            choisissez un fichier excel qui ne dépasse pas la taille indiquée
+            ci-dessous
           </DialogDescription>
         </DialogHeader>
         <FileDropArea
